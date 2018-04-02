@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Liyanjie.Content</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <style type="text/css">
+        .head { }
+        .foot { padding: 20px 0; }
+    </style>
+    @RenderSection("style", required: false)
+</head>
+<body>
+    <header class="head">
+        <div class="navbar navbar-dark bg-dark text-light">
+            <div class="container">
+                <a class="navbar-brand">Liyanjie.Content</a>
+                <nav class="nav">
+                    <a class="nav-item nav-link active" href="~/View">Apis</a>
+                    <a class="nav-item nav-link" href="~/View/Explorer">Explorer</a>
+                    <a class="nav-item nav-link" href="~/View/Tools">Tools</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            @RenderBody()
+        </div>
+    </main>
+    <footer class="foot">
+        <div class="container">
+            &copy; 2018 <a target="_blank" href="http://liyanjie.me">Liyanjie.me</a>
+        </div>
+    </footer>
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"></script>
+    <script src="//cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    @RenderSection("script", required: false)
+</body>
+</html>

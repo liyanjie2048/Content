@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net462</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Liyanjie.Contents.AspNetCore\Liyanjie.Contents.AspNetCore.csproj" />
+        <ProjectReference Include="..\..\src\Liyanjie.Contents.Sdk\Liyanjie.Contents.Sdk.csproj" />
+        <ProjectReference Include="..\..\src\Liyanjie.Contents.View.RazorPages\Liyanjie.Contents.View.RazorPages.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+    </ItemGroup>
+
+</Project>

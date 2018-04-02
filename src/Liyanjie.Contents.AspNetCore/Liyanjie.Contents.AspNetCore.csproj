@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net451;</TargetFrameworks>
+        <Description>Liyanjie.Contents.AspNetCore</Description>
+        <Copyright>© Liyanjie.me</Copyright>
+        <Authors>liyanjie8712@outlook.com</Authors>
+        <Company>Liyanjie.me</Company>
+        <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
+        <RepositoryType>Git</RepositoryType>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+        <Version>1.0.0-beta</Version>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
+      <DocumentationFile>bin\Release\net451\Liyanjie.Contents.AspNetCore.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
+      <DocumentationFile>bin\Debug\net451\Liyanjie.Contents.AspNetCore.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <Target Name="MovePackage" AfterTargets="Pack">
+        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\Users\Administrator\Documents\Packages\" />
+    </Target>
+
+    <ItemGroup>
+        <PackageReference Include="Liyanjie.AspNetCore.Http.Extensions" Version="1.0.0" />
+        <PackageReference Include="Liyanjie.Utility" Version="1.0.0-beta" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.0.0" />
+        <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
+        <PackageReference Include="System.Net.Http" Version="4.3.0" />
+        <PackageReference Include="ZXing.Net" Version="0.16.2" />
+    </ItemGroup>
+</Project>
