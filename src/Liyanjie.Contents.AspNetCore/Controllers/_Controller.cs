@@ -10,7 +10,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [ApiExplorerSettings(GroupName = "Content")]
+    [ApiExplorerSettings(GroupName = "Contents")]
     public abstract class _Controller : ControllerBase
     {
         readonly IServiceProvider serviceProvider;
