@@ -1,6 +1,6 @@
 ﻿using System;
-using Numbers.Content.Sdk;
-using Numbers.Content.Sdk.Helpers;
+using Liyanjie.Content.Sdk;
+using Liyanjie.Content.Sdk.Helpers;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace Numbers.Content.Sdk.Helpers
+namespace Liyanjie.Content.Sdk.Helpers
 {
     /// <summary>
     /// 
