@@ -7,7 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 
     /// </summary>
-    public static class ContentsServiceCollectionExtensions
+    public static class ContentsSdkServiceCollectionExtensions
     {
         /// <summary>
         /// 
@@ -17,12 +17,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddContentsSdk(this IServiceCollection services, Action<ContentsOptions> optionsConfigure)
         {
-            if (optionsConfigure == null)
-                throw new ArgumentNullException(nameof(optionsConfigure));
-
             return services
-                .Configure(optionsConfigure)
-                .AddTransient<ContentsHelper>()
+                .Configure(optionsConfigure ?? throw new ArgumentNullException(nameof(optionsConfigure)))
+                .AddTransient<ContentHelper>()
                 .AddTransient<ImageHelper>();
         }
     }

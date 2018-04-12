@@ -16,20 +16,20 @@ namespace Liyanjie.Content.Sdk.Helpers
     /// <summary>
     /// 
     /// </summary>
-    public class ContentsHelper
+    public class ContentHelper
     {
         readonly ContentsOptions options;
-        readonly ILogger<ContentsHelper> logger;
+        readonly ILogger<ContentHelper> logger;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="options"></param>
         /// <param name="loggerFactory"></param>
-        public ContentsHelper(IOptions<ContentsOptions> options, ILoggerFactory loggerFactory)
+        public ContentHelper(IOptions<ContentsOptions> options, ILoggerFactory loggerFactory)
         {
             this.options = options.Value;
-            this.logger = loggerFactory?.CreateLogger<ContentsHelper>();
+            this.logger = loggerFactory?.CreateLogger<ContentHelper>();
         }
 
         /// <summary>
