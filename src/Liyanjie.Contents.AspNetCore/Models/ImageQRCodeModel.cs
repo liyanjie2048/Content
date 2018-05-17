@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing.Imaging;
 using System.IO;
 using Liyanjie.Contents.AspNetCore.Extensions;
+using Liyanjie.Utility;
 using ZXing;
 
 namespace Liyanjie.Contents.AspNetCore.Models

@@ -34,6 +34,8 @@ namespace Liyanjie.Contents.Sample.AspNetCore
                 .ConfigureLogging((builder, logging) =>
                 {
                     logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
+                    logging.AddDebug();
                 })
                 .UseIISIntegration()
                 .UseDefaultServiceProvider((builder, options) =>

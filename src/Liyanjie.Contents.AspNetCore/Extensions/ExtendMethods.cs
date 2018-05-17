@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using Liyanjie.Contents.AspNetCore.Models;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +12,15 @@ namespace Liyanjie.Contents.AspNetCore.Extensions
 {
     internal static class ExtendMethods
     {
+        public static string MD5Encode(this string input)
+        {
+            using(var md5 = MD5.Create())
+            {
+                return BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(input))).Replace("-", string.Empty);
+            }
+        }
+
+
         public static int ToInt(this string input)
         {
             return int.TryParse(input, out int result)
