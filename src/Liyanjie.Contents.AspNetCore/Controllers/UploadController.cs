@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Liyanjie.Contents.AspNetCore.Controllers
 {
@@ -12,25 +14,37 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
     [Route("")]
     public class UploadController : _Controller
     {
+        readonly string webRootPath;
+        readonly Settings.Settings settings;
         readonly ILogger<UploadController> logger;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="serviceProvider"></param>
-        public UploadController(IServiceProvider serviceProvider) : base(serviceProvider)
+        /// <param name="hostingEnvironment"></param>
+        /// <param name="options"></param>
+        /// <param name="logger"></param>
+        public UploadController(
+            IHostingEnvironment hostingEnvironment,
+            IOptions<Settings.Settings> options,
+            ILogger<UploadController> logger)
         {
-            this.logger = GetLogger<UploadController>();
+            this.webRootPath = hostingEnvironment?.WebRootPath;
+            this.settings = options?.Value ?? new Settings.Settings
+            {
+                Image = new Settings.ImageSetting()
+            };
+            this.logger = logger;
         }
+
 
         /// <summary>
         /// 上传
         /// </summary>
         /// <param name="dir"></param>
-        /// <param name="returnAbsolutePath"></param>
         /// <returns></returns>
         [HttpPost()]
-        public IActionResult Post(string dir = "temps", bool returnAbsolutePath = true)
+        public IActionResult Post(string dir = "temps")
         {
             logger?.LogDebug($"[FileUpload]files:{Request.Form.Files.Count}");
 
@@ -41,11 +55,11 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
             {
                 var fileName = $"{Guid.NewGuid().ToString("N")}{Path.GetExtension(file.FileName).ToLower()}";
                 var filePath = Path.Combine(dir, fileName).Replace(Path.DirectorySeparatorChar, '/');
-                paths.Add(returnAbsolutePath ? $"{Request.Scheme}://{Request.Host}/{filePath}" : filePath);
+                paths.Add(this.settings.ReturnAbsolutePath ? $"{Request.Scheme}://{Request.Host}/{filePath}" : filePath);
 
                 logger?.LogDebug($"[FileUpload]filePath:{filePath}");
 
-                var fileDirectory = Path.Combine(WebRootPath, dir);
+                var fileDirectory = Path.Combine(this.webRootPath, dir);
                 CreateDirectory(fileDirectory);
                 var filePhysical = Path.Combine(fileDirectory, fileName);
 

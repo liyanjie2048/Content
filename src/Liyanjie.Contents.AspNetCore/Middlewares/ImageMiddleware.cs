@@ -124,7 +124,8 @@ namespace Liyanjie.Contents.AspNetCore.Middlewares
 
                 using (image)
                 {
-                    image.CompressSave(Path.Combine(env.WebRootPath, path.Substring(1).Replace('/', Path.DirectorySeparatorChar)), (long)(setting.CompressFlag * 100));
+                    var fileAbsolutePath = Path.Combine(env.WebRootPath, path.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+                    image.CompressSave(fileAbsolutePath, setting.CompressFlag);
                 }
 
                 response.Redirect(path);

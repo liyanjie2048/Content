@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFrameworks>net451;</TargetFrameworks>
@@ -20,11 +20,7 @@
       <DocumentationFile>bin\Release\net451\Liyanjie.Contents.AspNetCore.xml</DocumentationFile>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
-      <DocumentationFile>bin\Debug\net451\Liyanjie.Contents.AspNetCore.xml</DocumentationFile>
-    </PropertyGroup>
-
-    <Target Name="MovePackage" AfterTargets="Pack">
+    <Target Name="MovePackage" AfterTargets="Pack" Condition="'$(Configuration)'=='Release'">
         <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\Users\Administrator\Documents\Packages\" />
     </Target>
 

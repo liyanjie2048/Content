@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,17 +38,19 @@ namespace Liyanjie.Contents.AspNetCore.Models
         /// <returns></returns>
         public async Task<string> Combine(string webRootPath, Settings.Settings settings)
         {
-            var fileName = Path.Combine(settings.Image.CombineDir, $"{JsonConvert.SerializeObject(this).MD5Encode()}.{this.Width}x{this.Height}.combine.jpg").Replace(Path.DirectorySeparatorChar, '/');
+            var fileName = $"{JsonConvert.SerializeObject(this).MD5Encode()}.{this.Width}x{this.Height}.combine.jpg";
+            var filePath = Path.Combine(settings.Image.CombineDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
+            var fileAbsolutePath = Path.Combine(webRootPath, filePath).Replace('/', Path.DirectorySeparatorChar);
 
-            if (!File.Exists(fileName))
+            if (!File.Exists(fileAbsolutePath))
             {
-                var imagePaths = this.Items.Select(_ => _.Path).Process(webRootPath, settings).ToList();
+                var imageAbsolutePaths = this.Items.Select(_ => _.Path).Process(webRootPath, settings).ToList();
                 var imagePoints = this.Items.Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0)).ToList();
                 var imageSizes = this.Items.Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0)).ToList();
                 var images = new List<(Point, Size, Image, bool)>();
-                for (int i = 0; i < imagePaths.Count; i++)
+                for (int i = 0; i < imageAbsolutePaths.Count; i++)
                 {
-                    var path = imagePaths[i];
+                    var path = imageAbsolutePaths[i];
                     if (string.IsNullOrWhiteSpace(path))
                         continue;
 
@@ -64,16 +67,15 @@ namespace Liyanjie.Contents.AspNetCore.Models
                 var fileImage = new Bitmap(this.Width, this.Height);
                 fileImage.Combine(images.ToArray());
 
-                var filePhysical = Path.Combine(webRootPath, fileName).Replace('/', Path.DirectorySeparatorChar);
-                Path.GetDirectoryName(filePhysical).CreateDirectory();
+                Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
 
                 using (fileImage)
                 {
-                    fileImage.Save(filePhysical);
+                    fileImage.CompressSave(fileAbsolutePath, settings.Image.CompressFlag);
                 }
             }
 
-            return fileName;
+            return filePath;
         }
     }
     /// <summary>

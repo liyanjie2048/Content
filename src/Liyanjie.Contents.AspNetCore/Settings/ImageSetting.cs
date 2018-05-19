@@ -26,8 +26,8 @@
         public string EmptyPath { get; set; } = @"images/empty.jpg";
 
         /// <summary>
-        /// 0.01~1.00
+        /// 1~100
         /// </summary>
-        public double CompressFlag { get; set; } = 0.5;
+        public long CompressFlag { get; set; } = 50;
     }
 }

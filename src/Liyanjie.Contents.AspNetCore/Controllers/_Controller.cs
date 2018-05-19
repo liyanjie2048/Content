@@ -13,48 +13,6 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
     [ApiExplorerSettings(GroupName = "Contents")]
     public abstract class _Controller : ControllerBase
     {
-        readonly IServiceProvider serviceProvider;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        public _Controller(IServiceProvider serviceProvider)
-        {
-            this.serviceProvider = serviceProvider;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        protected TService GetService<TService>() => serviceProvider.GetService<TService>();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        protected TService GetRequiredService<TService>() => serviceProvider.GetRequiredService<TService>();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected IHostingEnvironment HostingEnvironment => GetRequiredService<IHostingEnvironment>();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected string WebRootPath => HostingEnvironment?.WebRootPath;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TScope"></typeparam>
-        /// <returns></returns>
-        protected ILogger<TScope> GetLogger<TScope>() => GetService<ILoggerFactory>()?.CreateLogger<TScope>();
-
         /// <summary>
         /// 
         /// </summary>

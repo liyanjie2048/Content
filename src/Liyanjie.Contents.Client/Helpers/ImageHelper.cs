@@ -8,14 +8,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace Liyanjie.Content.Sdk.Helpers
+namespace Liyanjie.Content.Client.Helpers
 {
     /// <summary>
     /// 
     /// </summary>
     public class ImageHelper
     {
-        readonly ContentsOptions options;
+        readonly ContentsClientOptions options;
         readonly ILogger<ImageHelper> logger;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Liyanjie.Content.Sdk.Helpers
         /// </summary>
         /// <param name="options"></param>
         /// <param name="loggerFactory"></param>
-        public ImageHelper(IOptions<ContentsOptions> options, ILoggerFactory loggerFactory)
+        public ImageHelper(IOptions<ContentsClientOptions> options, ILoggerFactory loggerFactory)
         {
             this.options = options.Value;
             this.logger = loggerFactory.CreateLogger<ImageHelper>();
@@ -51,12 +51,7 @@ namespace Liyanjie.Content.Sdk.Helpers
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     var response = await httpClient.PostAsync($"{options.ServerUrlBase}/image/concat", content);
                     if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        var path = await response.Content.ReadAsStringAsync();
-                        return options.ReturnAbsolutePath
-                            ? $"{options.ServerUrlBase}/{path}"
-                            : path;
-                    }
+                        return await response.Content.ReadAsStringAsync();
                     else
                         logger?.LogWarning($"Response error with status code:{response.StatusCode}");
                 }
@@ -105,12 +100,7 @@ namespace Liyanjie.Content.Sdk.Helpers
                     var response = await httpClient.PostAsync($"{options.ServerUrlBase}/image/combine", content);
                     logger?.LogDebug($"【ImageHelper.Combine】send end:{response.StatusCode}");
                     if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        var path = await response.Content.ReadAsStringAsync();
-                        return options.ReturnAbsolutePath
-                            ? $"{options.ServerUrlBase}/{path}"
-                            : path;
-                    }
+                        return await response.Content.ReadAsStringAsync();
                     else
                         logger?.LogWarning($"Response error with status code:{response.StatusCode}");
                 }

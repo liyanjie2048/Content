@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFrameworks>net451;netstandard1.3;</TargetFrameworks>
-        <Description>Liyanjie.Contents.Sdk</Description>
+        <Description>Liyanjie.Contents.Client</Description>
         <Copyright>© Liyanjie.me</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
         <Company>Liyanjie.me</Company>
@@ -17,10 +17,14 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
-      <DocumentationFile>bin\Release\net451\Liyanjie.Contents.Sdk.xml</DocumentationFile>
+      <DocumentationFile>bin\Release\net451\Liyanjie.Contents.Client.xml</DocumentationFile>
     </PropertyGroup>
 
-    <Target Name="MovePackage" AfterTargets="Pack">
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
+        <DocumentationFile>bin\Release\netstandard1.3\Liyanjie.Contents.Client.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <Target Name="MovePackage" AfterTargets="Pack" Condition="'$(Configuration)'=='Release'">
         <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\Users\Administrator\Documents\Packages\" />
     </Target>
 

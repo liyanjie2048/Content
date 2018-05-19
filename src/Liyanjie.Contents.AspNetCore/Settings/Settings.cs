@@ -13,6 +13,11 @@
         /// <summary>
         /// 
         /// </summary>
+        public bool ReturnAbsolutePath = true;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public ImageSetting Image { get; set; } = new ImageSetting();
     }
 }

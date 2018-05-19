@@ -15,7 +15,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Liyanjie.Contents.AspNetCore\Liyanjie.Contents.AspNetCore.csproj" />
-        <ProjectReference Include="..\..\src\Liyanjie.Contents.Sdk\Liyanjie.Contents.Sdk.csproj" />
         <ProjectReference Include="..\..\src\Liyanjie.Contents.View.RazorPages\Liyanjie.Contents.View.RazorPages.csproj" />
     </ItemGroup>
 

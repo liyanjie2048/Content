@@ -6,19 +6,21 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
 
-namespace Liyanjie.Content.Sdk.Helpers
+namespace Liyanjie.Content.Client.Helpers
 {
     /// <summary>
     /// 
     /// </summary>
     public class ContentHelper
     {
-        readonly ContentsOptions options;
+        readonly ContentsClientOptions options;
         readonly ILogger<ContentHelper> logger;
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace Liyanjie.Content.Sdk.Helpers
         /// </summary>
         /// <param name="options"></param>
         /// <param name="loggerFactory"></param>
-        public ContentHelper(IOptions<ContentsOptions> options, ILoggerFactory loggerFactory)
+        public ContentHelper(IOptions<ContentsClientOptions> options, ILoggerFactory loggerFactory)
         {
             this.options = options.Value;
             this.logger = loggerFactory?.CreateLogger<ContentHelper>();
@@ -76,7 +78,7 @@ namespace Liyanjie.Content.Sdk.Helpers
                         content.Add(streamContent);
                     }
 
-                    var response = await httpClient.PostAsync($"{options.ServerUrlBase}/upload?dir={WebUtility.UrlEncode(targetDirectory)}&returnAbsolutePath={options.ReturnAbsolutePath}", content);
+                    var response = await httpClient.PostAsync($"{options.ServerUrlBase}/upload?dir={WebUtility.UrlEncode(targetDirectory)}", content);
                     if (response.IsSuccessStatusCode)
                     {
                         var @string = await response.Content.ReadAsStringAsync();

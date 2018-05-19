@@ -1,13 +1,13 @@
 ﻿using System;
-using Liyanjie.Content.Sdk;
-using Liyanjie.Content.Sdk.Helpers;
+using Liyanjie.Content.Client;
+using Liyanjie.Content.Client.Helpers;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class ContentsSdkServiceCollectionExtensions
+    public static class ContentsClientServiceCollectionExtensions
     {
         /// <summary>
         /// 
@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services"></param>
         /// <param name="optionsConfigure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddContentsSdk(this IServiceCollection services, Action<ContentsOptions> optionsConfigure)
+        public static IServiceCollection AddContentsSdk(this IServiceCollection services, Action<ContentsClientOptions> optionsConfigure)
         {
             return services
                 .Configure(optionsConfigure ?? throw new ArgumentNullException(nameof(optionsConfigure)))

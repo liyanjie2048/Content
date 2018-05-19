@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using Liyanjie.Contents.AspNetCore.Extensions;
@@ -42,9 +43,10 @@ namespace Liyanjie.Contents.AspNetCore.Models
         /// <returns></returns>
         public string CreateQRCode(string webRootPath, Settings.Settings settings)
         {
-            var fileName = Path.Combine(settings.Image.QRCodesDir, $"{this.Content.MD5Encode()}.{this.Width}x{this.Height}-{this.Margin}.jpg").Replace(Path.DirectorySeparatorChar, '/');
-            var filePhysical = Path.Combine(webRootPath, fileName).Replace('/', Path.DirectorySeparatorChar);
-            if (!File.Exists(filePhysical))
+            var fileName = $"{this.Content.MD5Encode()}.{this.Width}x{this.Height}-{this.Margin}.jpg";
+            var filePath = Path.Combine(settings.Image.QRCodesDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
+            var fileAbsolutePath = Path.Combine(webRootPath, filePath).Replace('/', Path.DirectorySeparatorChar);
+            if (!File.Exists(fileAbsolutePath))
             {
                 var writer = new BarcodeWriter
                 {
@@ -60,13 +62,13 @@ namespace Liyanjie.Contents.AspNetCore.Models
                 {
                     if (image != null)
                     {
-                        Path.GetDirectoryName(filePhysical).CreateDirectory();
-                        image.Save(filePhysical, ImageFormat.Jpeg);
+                        Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
+                        image.CompressSave(fileAbsolutePath, settings.Image.CompressFlag);
                     }
                 }
             }
 
-            return fileName;
+            return filePath;
         }
     }
 }

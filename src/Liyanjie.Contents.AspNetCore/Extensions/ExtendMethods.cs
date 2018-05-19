@@ -55,13 +55,6 @@ namespace Liyanjie.Contents.AspNetCore.Extensions
                 .Select(_ =>
                 {
                     var uri = new Uri(_, UriKind.RelativeOrAbsolute);
-                    return uri.IsAbsoluteUri && settings.ThisHosts.Any(__ => __.Equals(uri.Host, StringComparison.OrdinalIgnoreCase))
-                        ? uri.PathAndQuery.TrimStart('/')
-                        : _;
-                })
-                .Select(_ =>
-                {
-                    var uri = new Uri(_, UriKind.RelativeOrAbsolute);
                     if (uri.IsAbsoluteUri)
                         return _;
                     else if (Regex.IsMatch(_, @"^(\/)?image\/qrcode", RegexOptions.IgnoreCase))
