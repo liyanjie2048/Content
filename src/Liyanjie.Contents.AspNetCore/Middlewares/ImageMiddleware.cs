@@ -3,11 +3,12 @@ using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using Liyanjie.Contents.AspNetCore.Extensions;
 using Liyanjie.Contents.AspNetCore.Settings;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Liyanjie.Contents.AspNetCore.Middlewares
@@ -47,7 +48,7 @@ namespace Liyanjie.Contents.AspNetCore.Middlewares
         {
             if (MatchRequesting(httpContext.Request))
             {
-                await HandleResposing(httpContext.Response, httpContext.Request.Path.Value);
+                HandleResposing(httpContext.Response, httpContext.Request.Path.Value);
                 return;
             }
 
@@ -71,7 +72,7 @@ namespace Liyanjie.Contents.AspNetCore.Middlewares
             return false;
         }
 
-        async Task HandleResposing(HttpResponse response, string path)
+        void HandleResposing(HttpResponse response, string path)
         {
             var match = Regex.Match(path, $@"^{_pattern_path}{_pattern_parameters}\.{_pattern_extension}$", RegexOptions.IgnoreCase);
             if (!match.Success)
@@ -123,7 +124,7 @@ namespace Liyanjie.Contents.AspNetCore.Middlewares
 
                 using (image)
                 {
-                    image.CompressSave(Path.Combine(env.WebRootPath, path.Substring(1).Replace('/', '\\')), (long)(setting.CompressFlag * 100));
+                    image.CompressSave(Path.Combine(env.WebRootPath, path.Substring(1).Replace('/', Path.DirectorySeparatorChar)), (long)(setting.CompressFlag * 100));
                 }
 
                 response.Redirect(path);
