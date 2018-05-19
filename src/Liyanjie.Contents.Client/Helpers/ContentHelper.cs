@@ -27,11 +27,13 @@ namespace Liyanjie.Content.Client.Helpers
         /// 
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="loggerFactory"></param>
-        public ContentHelper(IOptions<ContentsClientOptions> options, ILoggerFactory loggerFactory)
+        /// <param name="logger"></param>
+        public ContentHelper(
+            IOptions<ContentsClientOptions> options,
+            ILogger<ContentHelper> logger)
         {
             this.options = options.Value;
-            this.logger = loggerFactory?.CreateLogger<ContentHelper>();
+            this.logger = logger;
         }
 
         /// <summary>

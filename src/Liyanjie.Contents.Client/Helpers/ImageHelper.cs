@@ -4,8 +4,10 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
 
 namespace Liyanjie.Content.Client.Helpers
@@ -22,11 +24,13 @@ namespace Liyanjie.Content.Client.Helpers
         /// 
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="loggerFactory"></param>
-        public ImageHelper(IOptions<ContentsClientOptions> options, ILoggerFactory loggerFactory)
+        /// <param name="logger"></param>
+        public ImageHelper(
+            IOptions<ContentsClientOptions> options,
+            ILogger<ImageHelper> logger)
         {
             this.options = options.Value;
-            this.logger = loggerFactory.CreateLogger<ImageHelper>();
+            this.logger = logger;
         }
 
         /// <summary>
