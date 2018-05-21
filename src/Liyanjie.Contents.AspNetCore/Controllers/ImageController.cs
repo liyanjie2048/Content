@@ -11,7 +11,6 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [Route("Image")]
     public class ImageController : _Controller
     {
         readonly string webRootPath;
@@ -42,7 +41,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("$Concat")]
+        [HttpPost]
         public async Task<IActionResult> Concat([FromBody]ImageConcatModel model)
         {
             if (model.Paths == null || model.Paths.Length == 0)
@@ -58,7 +57,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost("$Combine")]
+        [HttpPost]
         public async Task<IActionResult> Combine([FromBody]ImageCombineModel model)
         {
             if (model.Items == null || model.Items.Length == 0)
@@ -74,7 +73,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpGet("$QRCode")]
+        [HttpGet]
         public IActionResult QRCode([FromQuery]ImageQRCodeModel model)
         {
             var fileName = model.CreateQRCode(this.webRootPath, this.settings);

@@ -42,27 +42,20 @@ namespace Liyanjie.Content.Client.Helpers
         /// <returns>图片链接地址</returns>
         public async Task<string> ConcatAsync(int? width = null, int? height = null, params string[] paths)
         {
-            try
+            using (var httpClient = new HttpClient())
             {
-                using (var httpClient = new HttpClient())
+                var content = new StringContent(JsonConvert.SerializeObject(new
                 {
-                    var content = new StringContent(JsonConvert.SerializeObject(new
-                    {
-                        paths,
-                        width,
-                        height,
-                    }));
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    var response = await httpClient.PostAsync($"{options.ServerUrlBase}/image/concat", content);
-                    if (response.StatusCode == HttpStatusCode.OK)
-                        return await response.Content.ReadAsStringAsync();
-                    else
-                        logger?.LogWarning($"Response error with status code:{response.StatusCode}");
-                }
-            }
-            catch (Exception e)
-            {
-                logger?.LogError(e.Message);
+                    paths,
+                    width,
+                    height,
+                }));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = await httpClient.PostAsync($"{options.ServerUrlBase}/image/concat", content);
+                if (response.StatusCode == HttpStatusCode.OK)
+                    return await response.Content.ReadAsStringAsync();
+                else
+                    logger?.LogWarning($"Response error with status code:{response.StatusCode}");
             }
 
             return null;
@@ -77,41 +70,34 @@ namespace Liyanjie.Content.Client.Helpers
         /// <returns>图片链接地址</returns>
         public async Task<string> CombineAsync(int width, int height, params (string Path, int? X, int? Y, int? Width, int? Height)[] items)
         {
-            try
+            using (var httpClient = new HttpClient
             {
-                using (var httpClient = new HttpClient
-                {
-                    Timeout = TimeSpan.FromSeconds(60)
-                })
-                using (var content = new StringContent(JsonConvert.SerializeObject(new
-                {
-                    items = items
-                        .Select(_ => new
-                        {
-                            _.Path,
-                            _.X,
-                            _.Y,
-                            _.Width,
-                            _.Height,
-                        })
-                        .ToArray(),
-                    width,
-                    height,
-                })))
-                {
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    logger?.LogDebug($"【ImageHelper.Combine】send start:{options.ServerUrlBase}/image/combine");
-                    var response = await httpClient.PostAsync($"{options.ServerUrlBase}/image/combine", content);
-                    logger?.LogDebug($"【ImageHelper.Combine】send end:{response.StatusCode}");
-                    if (response.StatusCode == HttpStatusCode.OK)
-                        return await response.Content.ReadAsStringAsync();
-                    else
-                        logger?.LogWarning($"Response error with status code:{response.StatusCode}");
-                }
-            }
-            catch (Exception e)
+                Timeout = TimeSpan.FromSeconds(60)
+            })
+            using (var content = new StringContent(JsonConvert.SerializeObject(new
             {
-                logger?.LogError(default(EventId), e, e.Message);
+                items = items
+                    .Select(_ => new
+                    {
+                        _.Path,
+                        _.X,
+                        _.Y,
+                        _.Width,
+                        _.Height,
+                    })
+                    .ToArray(),
+                width,
+                height,
+            })))
+            {
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                logger?.LogDebug($"【ImageHelper.Combine】send start:{options.ServerUrlBase}/image/combine");
+                var response = await httpClient.PostAsync($"{options.ServerUrlBase}/image/combine", content);
+                logger?.LogDebug($"【ImageHelper.Combine】send end:{response.StatusCode}");
+                if (response.StatusCode == HttpStatusCode.OK)
+                    return await response.Content.ReadAsStringAsync();
+                else
+                    logger?.LogWarning($"Response error with status code:{response.StatusCode}");
             }
 
             return null;

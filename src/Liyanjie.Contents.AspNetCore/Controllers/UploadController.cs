@@ -11,7 +11,6 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [Route("")]
     public class UploadController : _Controller
     {
         readonly string webRootPath;

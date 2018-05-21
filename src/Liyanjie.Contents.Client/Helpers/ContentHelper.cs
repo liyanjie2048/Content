@@ -63,38 +63,30 @@ namespace Liyanjie.Content.Client.Helpers
 
             logger?.LogDebug($"[TransmitAsync]files:{files.Length}");
 
-            try
+            using (var httpClient = new HttpClient())
+            using (var content = new MultipartFormDataContent())
             {
-                using (var httpClient = new HttpClient())
-                using (var content = new MultipartFormDataContent())
+                foreach (var file in files)
                 {
-                    foreach (var file in files)
+                    var streamContent = new StreamContent(file.Stream);
+                    streamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        var streamContent = new StreamContent(file.Stream);
-                        streamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-                        {
-                            Name = "\"files\"",
-                            FileName = $"\"{file.FileName}\""
-                        };
-                        streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                        content.Add(streamContent);
-                    }
-
-                    var response = await httpClient.PostAsync($"{options.ServerUrlBase}/upload?dir={WebUtility.UrlEncode(targetDirectory)}", content);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var @string = await response.Content.ReadAsStringAsync();
-                        return JsonConvert.DeserializeObject<string[]>(@string);
-                    }
-                    else
-                        logger?.LogError($"Response error with status code:{response.StatusCode}");
+                        Name = "\"files\"",
+                        FileName = $"\"{file.FileName}\""
+                    };
+                    streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                    content.Add(streamContent);
                 }
-            }
-            catch (Exception e)
-            {
-                logger?.LogError(default(EventId), e, e.Message);
-            }
 
+                var response = await httpClient.PostAsync($"{options.ServerUrlBase}/?dir={WebUtility.UrlEncode(targetDirectory)}", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var @string = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<string[]>(@string);
+                }
+                else
+                    logger?.LogError($"Response error with status code:{response.StatusCode}");
+            }
             return null;
         }
 
