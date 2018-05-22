@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Liyanjie.Contents.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
     public class UploadController : _Controller
     {
         readonly string webRootPath;
-        readonly Settings.Settings settings;
+        readonly ContentsOptions options;
         readonly ILogger<UploadController> logger;
 
         /// <summary>
@@ -25,13 +26,13 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
         /// <param name="logger"></param>
         public UploadController(
             IHostingEnvironment hostingEnvironment,
-            IOptions<Settings.Settings> options,
+            IOptions<ContentsOptions> options,
             ILogger<UploadController> logger)
         {
             this.webRootPath = hostingEnvironment?.WebRootPath;
-            this.settings = options?.Value ?? new Settings.Settings
+            this.options = options?.Value ?? new ContentsOptions
             {
-                Image = new Settings.ImageSetting()
+                ImageSetting = new ImageSetting()
             };
             this.logger = logger;
         }
@@ -54,7 +55,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
             {
                 var fileName = $"{Guid.NewGuid().ToString("N")}{Path.GetExtension(file.FileName).ToLower()}";
                 var filePath = Path.Combine(dir, fileName).Replace(Path.DirectorySeparatorChar, '/');
-                paths.Add(this.settings.ReturnAbsolutePath ? $"{Request.Scheme}://{Request.Host}/{filePath}" : filePath);
+                paths.Add(this.options.ReturnAbsolutePath ? $"{Request.Scheme}://{Request.Host}/{filePath}" : filePath);
 
                 logger?.LogDebug($"[FileUpload]filePath:{filePath}");
 

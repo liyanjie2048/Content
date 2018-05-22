@@ -1,5 +1,6 @@
-﻿using Liyanjie.Contents.AspNetCore.Settings;
-using Microsoft.Extensions.Configuration;
+﻿using System;
+
+using Liyanjie.Contents.AspNetCore;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -12,13 +13,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="settingsConfiguration"></param>
+        /// <param name="configureOptions"></param>
         /// <returns></returns>
-        public static IServiceCollection AddContents(this IServiceCollection services, IConfiguration settingsConfiguration)
+        public static IServiceCollection AddContents(this IServiceCollection services, Action<ContentsOptions> configureOptions)
         {
             services
-                .AddLogging()
-                .Configure<Settings>(settingsConfiguration)
+                .Configure(configureOptions)
                 .AddMvcCore();
 
             return services;

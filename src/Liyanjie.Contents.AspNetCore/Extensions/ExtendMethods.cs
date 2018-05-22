@@ -49,7 +49,7 @@ namespace Liyanjie.Contents.AspNetCore.Extensions
                 Directory.CreateDirectory(path);
         }
 
-        public static IEnumerable<string> Process(this IEnumerable<string> paths, string webRootPath, Settings.Settings settings)
+        public static IEnumerable<string> Process(this IEnumerable<string> paths, string webRootPath, ImageSetting imageSetting)
         {
             return paths
                 .Select(_ =>
@@ -61,7 +61,7 @@ namespace Liyanjie.Contents.AspNetCore.Extensions
                     {
                         var index = _.IndexOf('?');
                         var queryString = index > 0 ? _.Substring(index) : "?content=ERROR";
-                        var fileName = new QueryString(queryString).GetModel<ImageQRCodeModel>().CreateQRCode(webRootPath, settings);
+                        var fileName = new QueryString(queryString).GetModel<ImageQRCodeModel>().CreateQRCode(webRootPath, imageSetting);
                         return Path.Combine(webRootPath, fileName).Replace('/', Path.DirectorySeparatorChar);
                     }
                     else

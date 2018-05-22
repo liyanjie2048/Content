@@ -34,17 +34,17 @@ namespace Liyanjie.Contents.AspNetCore.Models
         /// 
         /// </summary>
         /// <param name="webRootPath"></param>
-        /// <param name="settings"></param>
+        /// <param name="imageSetting"></param>
         /// <returns></returns>
-        public async Task<string> Combine(string webRootPath, Settings.Settings settings)
+        public async Task<string> Combine(string webRootPath, ImageSetting imageSetting)
         {
             var fileName = $"{JsonConvert.SerializeObject(this).MD5Encode()}.{this.Width}x{this.Height}.combine.jpg";
-            var filePath = Path.Combine(settings.Image.CombineDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
+            var filePath = Path.Combine(imageSetting.CombineDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
             var fileAbsolutePath = Path.Combine(webRootPath, filePath).Replace('/', Path.DirectorySeparatorChar);
 
             if (!File.Exists(fileAbsolutePath))
             {
-                var imageAbsolutePaths = this.Items.Select(_ => _.Path).Process(webRootPath, settings).ToList();
+                var imageAbsolutePaths = this.Items.Select(_ => _.Path).Process(webRootPath, imageSetting).ToList();
                 var imagePoints = this.Items.Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0)).ToList();
                 var imageSizes = this.Items.Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0)).ToList();
                 var images = new List<(Point, Size, Image, bool)>();
@@ -71,7 +71,7 @@ namespace Liyanjie.Contents.AspNetCore.Models
 
                 using (fileImage)
                 {
-                    fileImage.CompressSave(fileAbsolutePath, settings.Image.CompressFlag);
+                    fileImage.CompressSave(fileAbsolutePath, imageSetting.CompressFlag);
                 }
             }
 

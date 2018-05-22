@@ -39,12 +39,12 @@ namespace Liyanjie.Contents.AspNetCore.Models
         /// 
         /// </summary>
         /// <param name="webRootPath"></param>
-        /// <param name="settings"></param>
+        /// <param name="imageSetting"></param>
         /// <returns></returns>
-        public string CreateQRCode(string webRootPath, Settings.Settings settings)
+        public string CreateQRCode(string webRootPath, ImageSetting imageSetting)
         {
             var fileName = $"{this.Content.MD5Encode()}.{this.Width}x{this.Height}-{this.Margin}.jpg";
-            var filePath = Path.Combine(settings.Image.QRCodesDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
+            var filePath = Path.Combine(imageSetting.QRCodesDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
             var fileAbsolutePath = Path.Combine(webRootPath, filePath).Replace('/', Path.DirectorySeparatorChar);
             if (!File.Exists(fileAbsolutePath))
             {
@@ -63,7 +63,7 @@ namespace Liyanjie.Contents.AspNetCore.Models
                     if (image != null)
                     {
                         Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
-                        image.CompressSave(fileAbsolutePath, settings.Image.CompressFlag);
+                        image.CompressSave(fileAbsolutePath, imageSetting.CompressFlag);
                     }
                 }
             }

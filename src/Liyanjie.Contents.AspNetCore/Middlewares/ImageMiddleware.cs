@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Liyanjie.Contents.AspNetCore.Extensions;
-using Liyanjie.Contents.AspNetCore.Settings;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,7 @@ namespace Liyanjie.Contents.AspNetCore.Middlewares
     {
         readonly RequestDelegate next;
         readonly IHostingEnvironment env;
-        readonly ImageSetting setting;
+        readonly ImageSetting imageSetting;
 
         /// <summary>
         /// 
@@ -31,12 +30,12 @@ namespace Liyanjie.Contents.AspNetCore.Middlewares
         public ImageMiddleware(
             RequestDelegate next,
             IHostingEnvironment env,
-            IOptions<Settings.Settings> options)
+            IOptions<ContentsOptions> options)
         {
             this.next = next ?? throw new ArgumentNullException(nameof(next));
             this.env = env ?? throw new ArgumentNullException(nameof(env));
 
-            this.setting = options.Value.Image;
+            this.imageSetting = options.Value.ImageSetting;
         }
 
         /// <summary>
@@ -125,7 +124,7 @@ namespace Liyanjie.Contents.AspNetCore.Middlewares
                 using (image)
                 {
                     var fileAbsolutePath = Path.Combine(env.WebRootPath, path.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
-                    image.CompressSave(fileAbsolutePath, setting.CompressFlag);
+                    image.CompressSave(fileAbsolutePath, imageSetting.CompressFlag);
                 }
 
                 response.Redirect(path);
@@ -134,14 +133,14 @@ namespace Liyanjie.Contents.AspNetCore.Middlewares
 
         void RedirectToEmpty(HttpResponse response, string parameters = null)
         {
-            if (File.Exists(Path.Combine(env.WebRootPath, setting.EmptyPath)))
+            if (File.Exists(Path.Combine(env.WebRootPath, imageSetting.EmptyPath)))
             {
                 if (string.IsNullOrEmpty(parameters))
-                    response.Redirect(setting.EmptyPath);
+                    response.Redirect(imageSetting.EmptyPath);
                 else
                 {
-                    var dotIndex = setting.EmptyPath.LastIndexOf(".");
-                    response.Redirect($"{setting.EmptyPath.Substring(0, dotIndex)}{parameters}{setting.EmptyPath.Substring(dotIndex)}");
+                    var dotIndex = imageSetting.EmptyPath.LastIndexOf(".");
+                    response.Redirect($"{imageSetting.EmptyPath.Substring(0, dotIndex)}{parameters}{imageSetting.EmptyPath.Substring(dotIndex)}");
                 }
             }
         }

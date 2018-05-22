@@ -1,9 +1,11 @@
-﻿namespace Liyanjie.Contents.AspNetCore.Settings
+﻿using Liyanjie.Contents.AspNetCore.Extensions;
+
+namespace Liyanjie.Contents.AspNetCore
 {
     /// <summary>
     /// 
     /// </summary>
-    public class Settings
+    public class ContentsOptions
     {
         /// <summary>
         /// 
@@ -18,6 +20,6 @@
         /// <summary>
         /// 
         /// </summary>
-        public ImageSetting Image { get; set; } = new ImageSetting();
+        public ImageSetting ImageSetting { get; set; }
     }
 }

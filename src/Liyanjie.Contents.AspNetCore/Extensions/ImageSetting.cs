@@ -1,4 +1,4 @@
-﻿namespace Liyanjie.Contents.AspNetCore.Settings
+﻿namespace Liyanjie.Contents.AspNetCore.Extensions
 {
     /// <summary>
     /// 

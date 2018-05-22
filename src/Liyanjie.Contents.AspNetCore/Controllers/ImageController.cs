@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Liyanjie.Contents.AspNetCore.Extensions;
 using Liyanjie.Contents.AspNetCore.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
     public class ImageController : _Controller
     {
         readonly string webRootPath;
-        readonly Settings.Settings settings;
+        readonly ContentsOptions options;
         readonly ILogger<UploadController> logger;
 
         /// <summary>
@@ -25,13 +26,13 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
         /// <param name="logger"></param>
         public ImageController(
             IHostingEnvironment hostingEnvironment,
-            IOptions<Settings.Settings> options,
+            IOptions<ContentsOptions> options,
             ILogger<UploadController> logger)
         {
             this.webRootPath = hostingEnvironment?.WebRootPath;
-            this.settings = options?.Value ?? new Settings.Settings
+            this.options = options?.Value ?? new ContentsOptions
             {
-                Image = new Settings.ImageSetting()
+                ImageSetting = new ImageSetting()
             };
             this.logger = logger;
         }
@@ -47,7 +48,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
             if (model.Paths == null || model.Paths.Length == 0)
                 return BadRequest();
 
-            var filePath = Process(await model.Concat(this.webRootPath, this.settings));
+            var filePath = Process(await model.Concat(this.webRootPath, this.options.ImageSetting));
 
             return base.Ok(filePath);
         }
@@ -63,7 +64,7 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
             if (model.Items == null || model.Items.Length == 0)
                 return BadRequest();
 
-            var filePath = Process(await model.Combine(this.webRootPath, this.settings));
+            var filePath = Process(await model.Combine(this.webRootPath, this.options.ImageSetting));
 
             return Ok(filePath);
         }
@@ -76,13 +77,13 @@ namespace Liyanjie.Contents.AspNetCore.Controllers
         [HttpGet]
         public IActionResult QRCode([FromQuery]ImageQRCodeModel model)
         {
-            var fileName = model.CreateQRCode(this.webRootPath, this.settings);
+            var fileName = model.CreateQRCode(this.webRootPath, this.options.ImageSetting);
 
             return File(fileName, "Image/JPEG");
         }
 
         string Process(string filePath)
-            => this.settings.ReturnAbsolutePath
+            => this.options.ReturnAbsolutePath
             ? $"{Request.Scheme}://{Request.Host}/{filePath}"
             : filePath;
     }

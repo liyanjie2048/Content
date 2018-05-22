@@ -34,17 +34,17 @@ namespace Liyanjie.Contents.AspNetCore.Models
         /// 
         /// </summary>
         /// <param name="webRootPath"></param>
-        /// <param name="settings"></param>
+        /// <param name="imageSetting"></param>
         /// <returns></returns>
-        public async Task<string> Concat(string webRootPath, Settings.Settings settings)
+        public async Task<string> Concat(string webRootPath, ImageSetting imageSetting)
         {
             var fileName = $"{JsonConvert.SerializeObject(this).MD5Encode()}.{this.Width}x{this.Height}.concat.jpg";
-            var filePath = Path.Combine(settings.Image.ConcatsDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
+            var filePath = Path.Combine(imageSetting.ConcatsDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
             var fileAbsolutePath = Path.Combine(webRootPath, filePath).Replace('/', Path.DirectorySeparatorChar);
 
             if (!File.Exists(fileAbsolutePath))
             {
-                var fileAbsolutePaths = this.Paths.Process(webRootPath, settings).ToList();
+                var fileAbsolutePaths = this.Paths.Process(webRootPath, imageSetting).ToList();
                 var fileImage = (await ImageHelper.FromFileOrNetworkAsync(fileAbsolutePaths[0]))?.Resize(this.Width, this.Height);
                 foreach (var path in fileAbsolutePaths.Skip(1))
                 {
@@ -62,7 +62,7 @@ namespace Liyanjie.Contents.AspNetCore.Models
 
                 using (fileImage)
                 {
-                    fileImage.CompressSave(fileAbsolutePath, settings.Image.CompressFlag);
+                    fileImage.CompressSave(fileAbsolutePath, imageSetting.CompressFlag);
                 }
             }
 
