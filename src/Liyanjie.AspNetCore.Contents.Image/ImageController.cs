@@ -1,0 +1,87 @@
+﻿using System.Threading.Tasks;
+
+using Liyanjie.AspNetCore.Contents.Image.Models;
+
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
+namespace Liyanjie.AspNetCore.Contents.Image
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ImageController : ControllerBase
+    {
+        readonly string webRootPath;
+        readonly ImageOptions options;
+        readonly ILogger<ImageController> logger;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hostingEnvironment"></param>
+        /// <param name="options"></param>
+        /// <param name="logger"></param>
+        public ImageController(
+            IHostingEnvironment hostingEnvironment,
+            IOptions<ImageOptions> options,
+            ILogger<ImageController> logger)
+        {
+            this.webRootPath = hostingEnvironment?.WebRootPath;
+            this.options = options?.Value ?? new ImageOptions();
+            this.logger = logger;
+        }
+
+        /// <summary>
+        /// 拼接图片
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Concat([FromBody]ImageConcatModel model)
+        {
+            if (model.Paths == null || model.Paths.Length == 0)
+                return BadRequest();
+
+            var filePath = Process(await model.Concat(this.webRootPath, this.options));
+
+            return base.Ok(filePath);
+        }
+
+        /// <summary>
+        /// 合并图片
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Combine([FromBody]ImageCombineModel model)
+        {
+            if (model.Items == null || model.Items.Length == 0)
+                return BadRequest();
+
+            var filePath = Process(await model.Combine(this.webRootPath, this.options));
+
+            return Ok(filePath);
+        }
+
+        /// <summary>
+        /// 生成二维码
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult QRCode([FromQuery]ImageQRCodeModel model)
+        {
+            var fileName = model.CreateQRCode(this.webRootPath, this.options);
+
+            return File(fileName, "Image/JPEG");
+        }
+
+        string Process(string filePath)
+            => this.options.ReturnAbsolutePath
+            ? $"{Request.Scheme}://{Request.Host}/{filePath}"
+            : filePath;
+    }
+}

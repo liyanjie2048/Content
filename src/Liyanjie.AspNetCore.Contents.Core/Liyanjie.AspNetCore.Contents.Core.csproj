@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net451;netstandard1.3;</TargetFrameworks>
+        <Description>Liyanjie.AspNetCore.Contents.Core</Description>
+        <Copyright>© Liyanjie.me</Copyright>
+        <Authors>liyanjie8712@outlook.com</Authors>
+        <Company>Liyanjie.me</Company>
+        <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
+        <RepositoryType>Git</RepositoryType>
+        <Version>1.0.0-beta</Version>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="1.0.0" />
+    </ItemGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
+        <DocumentationFile>bin\Release\net451\Liyanjie.AspNetCore.Contents.Core.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
+        <DocumentationFile>bin\Release\netstandard1.3\Liyanjie.AspNetCore.Contents.Core.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <Target Name="MovePackage" AfterTargets="Pack">
+        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_Packages\" />
+    </Target>
+
+</Project>

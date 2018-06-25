@@ -1,0 +1,30 @@
+﻿@page
+@model Liyanjie.Contents.Sample.AspNetCore.Pages.View.IndexModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@functions{
+    string getId(params string[] input)
+    {
+        return input.ToString(",").MD5Encode_16bit();
+    }
+}
+<style type="text/css" scoped>
+    ul { margin: 20px 0; list-style: none; }
+        ul li { margin: 5px 0; }
+            ul li > header { position: relative; height: 30px; line-height: 30px; }
+                ul li > header > b { display: inline-block; width: 60px; height: 100%; text-align: center; color: #fff; text-transform: uppercase; }
+                ul li > header > span { position: absolute; right: 0; display: inline-block; }
+            ul li > section { border-top: 1px solid; }
+            ul li.GET { background-color: #e7f0f7; }
+                ul li.GET > header > b { background-color: #0f6ab4; }
+                ul li.GET > header > span { color: #0f6ab4; }
+                ul li.GET > section { border-color: #c3d9ec; }
+            ul li.POST { background-color: #e7f6ec; }
+                ul li.POST > header > b { background-color: #10a54a; }
+                ul li.POST > header > span { color: #10a54a; }
+                ul li.POST > section { border-color: #c3e8d1; }
+</style>
+<ul>
+    
+</ul>
