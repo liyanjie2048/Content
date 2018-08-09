@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -40,32 +42,31 @@ namespace Liyanjie.AspNetCore.Contents.Upload
         /// <param name="dir"></param>
         /// <returns></returns>
         [HttpPost()]
-        public IActionResult Post(string dir = "temps")
+        public async Task<IActionResult> Post(string dir = "temps")
         {
-            logger?.LogDebug($"[FileUpload]files:{Request.Form.Files.Count}");
+            logger?.LogInformation($"[FileUpload]files:{Request.Form.Files.Count}");
 
-            dir = dir.TrimStart('/');
+            dir = dir.TrimStart(new[] { '/', '\\' }).Replace(Path.DirectorySeparatorChar, '/');
+            dir = Regex.Replace(dir, $@"\:|\*|\?|{'"'}|\<|\>|\||\s", string.Empty);
             var paths = new List<string>();
 
             foreach (var file in Request.Form.Files)
             {
-                var fileName = $"{Guid.NewGuid().ToString("N")}{Path.GetExtension(file.FileName).ToLower()}";
-                var filePath = Path.Combine(dir, fileName).Replace(Path.DirectorySeparatorChar, '/');
-                paths.Add(this.options.ReturnAbsolutePath ? $"{Request.Scheme}://{Request.Host}/{filePath}" : filePath);
+                var filePath = Path.Combine(dir, $"{Guid.NewGuid().ToString("N")}{Path.GetExtension(file.FileName).ToLower()}").Replace(Path.DirectorySeparatorChar, '/');
+                logger?.LogInformation($"[FileUpload]filePath:{filePath}");
 
-                logger?.LogDebug($"[FileUpload]filePath:{filePath}");
+                var fileAbsolutePath = Path.Combine(webrootPath, filePath.Replace('/', Path.DirectorySeparatorChar));
+                logger?.LogInformation($"[FileUpload]fileAbsolutePath:{fileAbsolutePath}");
 
-                var fileDirectory = Path.Combine(this.webrootPath, dir);
-                CreateDirectory(fileDirectory);
-                var filePhysical = Path.Combine(fileDirectory, fileName);
+                CreateDirectory(Path.GetDirectoryName(fileAbsolutePath));
 
-                logger?.LogDebug($"[FileUpload]filePhysical:{filePhysical}");
-
-                using (var fs = System.IO.File.Create(filePhysical))
+                using (var fs = System.IO.File.Create(fileAbsolutePath))
                 {
-                    file.CopyTo(fs);
-                    fs.Flush();
+                    await file.CopyToAsync(fs);
+                    await fs.FlushAsync();
                 }
+
+                paths.Add(options.ReturnAbsolutePath ? $"{Request.Scheme}://{Request.Host}/{filePath}" : filePath);
             }
 
             return Ok(paths);

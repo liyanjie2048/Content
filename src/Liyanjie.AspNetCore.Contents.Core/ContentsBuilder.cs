@@ -33,7 +33,8 @@ namespace Liyanjie.AspNetCore.Contents.Core
             where TModule : class, IContentsModule
             where TModuleOptions : class
         {
-            services.Configure(configureOptions);
+            if (configureOptions != null)
+                services.Configure(configureOptions);
             ModuleTypes.Add(typeof(TModule));
             return this;
         }

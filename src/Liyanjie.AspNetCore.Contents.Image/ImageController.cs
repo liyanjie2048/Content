@@ -45,7 +45,7 @@ namespace Liyanjie.AspNetCore.Contents.Image
             if (model.Paths == null || model.Paths.Length == 0)
                 return BadRequest();
 
-            var filePath = Process(await model.Concat(this.webRootPath, this.options));
+            var filePath = Process(await model.Concat(webRootPath, options));
 
             return base.Ok(filePath);
         }
@@ -61,7 +61,7 @@ namespace Liyanjie.AspNetCore.Contents.Image
             if (model.Items == null || model.Items.Length == 0)
                 return BadRequest();
 
-            var filePath = Process(await model.Combine(this.webRootPath, this.options));
+            var filePath = Process(await model.Combine(webRootPath, options));
 
             return Ok(filePath);
         }
@@ -74,7 +74,7 @@ namespace Liyanjie.AspNetCore.Contents.Image
         [HttpGet]
         public IActionResult QRCode([FromQuery]ImageQRCodeModel model)
         {
-            var fileName = model.CreateQRCode(this.webRootPath, this.options);
+            var fileName = model.CreateQRCode(webRootPath, options);
 
             return File(fileName, "Image/JPEG");
         }
