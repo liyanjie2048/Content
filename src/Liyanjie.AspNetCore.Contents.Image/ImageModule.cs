@@ -3,13 +3,11 @@ using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 
-using Liyanjie.AspNetCore.Contents.Core;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace Liyanjie.AspNetCore.Contents.Image
+namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

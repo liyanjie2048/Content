@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Liyanjie.AspNetCore.Contents.Image.Models
+namespace Liyanjie.AspNetCore.Contents.Models
 {
     /// <summary>
     /// 

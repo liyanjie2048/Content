@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Liyanjie.AspNetCore.Contents.Core
+namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

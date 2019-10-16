@@ -1,4 +1,4 @@
-﻿using Liyanjie.AspNetCore.Contents.Core;
+﻿using Liyanjie.AspNetCore.Contents;
 
 namespace Microsoft.AspNetCore.Builder
 {

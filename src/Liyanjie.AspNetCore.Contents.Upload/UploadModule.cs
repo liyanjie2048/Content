@@ -1,8 +1,6 @@
-﻿using Liyanjie.AspNetCore.Contents.Core;
+﻿using Microsoft.AspNetCore.Http;
 
-using Microsoft.AspNetCore.Http;
-
-namespace Liyanjie.AspNetCore.Contents.Upload
+namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

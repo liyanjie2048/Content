@@ -1,4 +1,4 @@
-﻿namespace Liyanjie.AspNetCore.Contents.Image
+﻿namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

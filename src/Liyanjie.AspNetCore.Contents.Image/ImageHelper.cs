@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Liyanjie.AspNetCore.Contents.Image
+namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

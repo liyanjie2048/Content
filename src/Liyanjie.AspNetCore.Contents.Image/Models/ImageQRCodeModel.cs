@@ -6,7 +6,7 @@ using System.IO;
 using ZXing;
 using ZXing.Rendering;
 
-namespace Liyanjie.AspNetCore.Contents.Image.Models
+namespace Liyanjie.AspNetCore.Contents.Models
 {
     /// <summary>
     /// 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Liyanjie.AspNetCore.Contents.Core
+namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

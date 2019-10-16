@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace Liyanjie.AspNetCore.Contents.Image
+namespace Liyanjie.AspNetCore.Contents
 {
     internal static class ExtendMethods
     {

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Liyanjie.AspNetCore.Contents.Upload
+namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

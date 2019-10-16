@@ -9,6 +9,7 @@
         <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
         <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
         <RepositoryType>Git</RepositoryType>
+        <RootNamespace>Liyanjie.AspNetCore.Contents</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

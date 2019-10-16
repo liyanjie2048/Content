@@ -1,4 +1,4 @@
-﻿namespace Liyanjie.AspNetCore.Contents.Upload
+﻿namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

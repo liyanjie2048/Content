@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Liyanjie.AspNetCore.Contents.Image.Models;
+using Liyanjie.AspNetCore.Contents.Models;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Liyanjie.AspNetCore.Contents.Image
+namespace Liyanjie.AspNetCore.Contents
 {
     /// <summary>
     /// 

@@ -1,7 +1,6 @@
 ﻿using System;
 
-using Liyanjie.AspNetCore.Contents.Core;
-using Liyanjie.AspNetCore.Contents.Image;
+using Liyanjie.AspNetCore.Contents;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
