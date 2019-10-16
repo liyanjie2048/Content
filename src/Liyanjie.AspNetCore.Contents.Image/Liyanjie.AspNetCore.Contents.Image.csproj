@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net451;</TargetFrameworks>
+        <TargetFrameworks>net451;netstandard2.0;</TargetFrameworks>
         <Description>Liyanjie.AspNetCore.Contents.Image</Description>
         <Copyright>© Liyanjie.me</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -9,25 +9,21 @@
         <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
         <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
         <RepositoryType>Git</RepositoryType>
-        <Version>1.0.0-beta</Version>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Liyanjie.Utility" Version="1.0.0-beta" />
+        <PackageReference Include="Liyanjie.Utility" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
-        <PackageReference Include="ZXing.Net" Version="0.16.2" />
+        <PackageReference Include="ZXing.Net" Version="0.16.5" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Liyanjie.AspNetCore.Contents.Core\Liyanjie.AspNetCore.Contents.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)'=='net451'">
         <Reference Include="System.Net.Http" />
     </ItemGroup>
 
@@ -35,8 +31,12 @@
         <DocumentationFile>bin\Release\net451\Liyanjie.AspNetCore.Contents.Image.xml</DocumentationFile>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+        <DocumentationFile>bin\Release\netstandard2.0\Liyanjie.AspNetCore.Contents.Image.xml</DocumentationFile>
+    </PropertyGroup>
+
     <Target Name="MovePackage" AfterTargets="Pack">
-        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_Packages\" />
+        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
     </Target>
 
 </Project>

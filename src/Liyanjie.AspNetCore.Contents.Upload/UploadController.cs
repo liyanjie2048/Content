@@ -31,7 +31,7 @@ namespace Liyanjie.AspNetCore.Contents.Upload
             IOptions<UploadOptions> options,
             ILogger<UploadController> logger)
         {
-            this.webrootPath = hostingEnvironment?.WebRootPath;
+            this.webrootPath = hostingEnvironment.WebRootPath;
             this.options = options?.Value ?? new UploadOptions();
             this.logger = logger;
         }
@@ -44,44 +44,46 @@ namespace Liyanjie.AspNetCore.Contents.Upload
         [HttpPost()]
         public async Task<IActionResult> Post(string dir = "temps")
         {
-            logger?.LogInformation($"[FileUpload]files:{Request.Form.Files.Count}");
-
-            dir = dir.TrimStart(new[] { '/', '\\' }).Replace(Path.DirectorySeparatorChar, '/');
+            dir = dir.TrimStart(new[] { '/', '\\' }).Replace('/', Path.DirectorySeparatorChar);
             dir = Regex.Replace(dir, $@"\:|\*|\?|{'"'}|\<|\>|\||\s", string.Empty);
-            var paths = new List<string>();
 
+            var directory = Path.Combine(webrootPath, dir);
+
+            logger?.LogInformation($"[FileUpload]=>Count:{Request.Form.Files.Count},Directory:{directory}");
+
+            Directory.CreateDirectory(directory);
+
+            var paths = new List<string>();
             foreach (var file in Request.Form.Files)
             {
-                var filePath = Path.Combine(dir, $"{Guid.NewGuid().ToString("N")}{Path.GetExtension(file.FileName).ToLower()}").Replace(Path.DirectorySeparatorChar, '/');
-                logger?.LogInformation($"[FileUpload]filePath:{filePath}");
-
-                var fileAbsolutePath = Path.Combine(webrootPath, filePath.Replace('/', Path.DirectorySeparatorChar));
-                logger?.LogInformation($"[FileUpload]fileAbsolutePath:{fileAbsolutePath}");
-
-                CreateDirectory(Path.GetDirectoryName(fileAbsolutePath));
-
-                using (var fs = System.IO.File.Create(fileAbsolutePath))
+                if (file.Length > options.AllowedMaximumSize)
                 {
-                    await file.CopyToAsync(fs);
-                    await fs.FlushAsync();
+                    paths.Add($"File \"{file.FileName}\" is too large.");
+                    continue;
                 }
 
-                paths.Add(options.ReturnAbsolutePath ? $"{Request.Scheme}://{Request.Host}/{filePath}" : filePath);
+                var fileExtension = Path.GetExtension(file.FileName).ToLower();
+                if (options.AllowedExtensions.IndexOf(fileExtension) < 0)
+                {
+                    paths.Add($"File \"{file.FileName}\" is not allowed.");
+                    continue;
+                }
+
+                var fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+
+                var filePhysicalPath = Path.Combine(directory, fileName);
+                using var fs = System.IO.File.Create(filePhysicalPath);
+                await file.CopyToAsync(fs);
+                await fs.FlushAsync();
+
+                var filePath = Path.Combine(dir, fileName).Replace(Path.DirectorySeparatorChar, '/');
+                if (options.ReturnAbsolutePath)
+                    filePath = $"{Request.Scheme}://{Request.Host}/{filePath}";
+
+                paths.Add(filePath);
             }
 
             return Ok(paths);
-        }
-
-        void CreateDirectory(params string[] paths)
-        {
-            if (paths == null || paths.Length == 0)
-                return;
-
-            foreach (var path in paths)
-            {
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-            }
         }
     }
 }

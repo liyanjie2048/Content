@@ -9,9 +9,6 @@
         <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
         <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
         <RepositoryType>Git</RepositoryType>
-        <Version>1.0.0-beta</Version>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -34,7 +31,7 @@
     </PropertyGroup>
 
     <Target Name="MovePackage" AfterTargets="Pack">
-        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_Packages\" />
+        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
     </Target>
 
 </Project>

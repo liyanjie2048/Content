@@ -11,11 +11,19 @@ using Microsoft.Extensions.Options;
 
 namespace Liyanjie.AspNetCore.Contents.Image
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ImageModule : IContentsModule
     {
         readonly IHostingEnvironment env;
         readonly ImageOptions options;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
+        /// <param name="options"></param>
         public ImageModule(
             IHostingEnvironment env,
             IOptions<ImageOptions> options)
@@ -24,6 +32,9 @@ namespace Liyanjie.AspNetCore.Contents.Image
             this.options = options.Value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name => nameof(ImageModule);
 
         static readonly string pattern_path = @"\S+";
@@ -34,6 +45,11 @@ namespace Liyanjie.AspNetCore.Contents.Image
 
         string path;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public bool MatchRequesting(HttpRequest request)
         {
             if (true
@@ -48,6 +64,10 @@ namespace Liyanjie.AspNetCore.Contents.Image
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
         public void HandleResponsing(HttpResponse response)
         {
             var match = Regex.Match(path, $@"^{pattern_path}{pattern_parameters}\.{pattern_extension}$", RegexOptions.IgnoreCase);

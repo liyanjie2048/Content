@@ -1,5 +1,8 @@
 ﻿namespace Liyanjie.AspNetCore.Contents.Image
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ImageOptions
     {
         /// <summary>
@@ -10,12 +13,12 @@
         /// <summary>
         /// 拼接目录
         /// </summary>
-        public string ConcatsDir { get; set; } = @"images\concats";
+        public string ConcatsDir { get; set; } = @"images\concatenated";
 
         /// <summary>
         /// 合并目录
         /// </summary>
-        public string CombineDir { get; set; } = @"images\combines";
+        public string CombineDir { get; set; } = @"images\combined";
 
         /// <summary>
         /// 二维码目录

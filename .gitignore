@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/sample/Liyanjie.AspNetCore.Contents.Sample/wwwroot/images/combined
+/sample/Liyanjie.AspNetCore.Contents.Sample/wwwroot/images/concatenated
+/sample/Liyanjie.AspNetCore.Contents.Sample/wwwroot/images/qrcodes

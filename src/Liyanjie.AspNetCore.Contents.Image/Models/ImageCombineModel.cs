@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
-
 namespace Liyanjie.AspNetCore.Contents.Image.Models
 {
     /// <summary>
@@ -36,15 +34,15 @@ namespace Liyanjie.AspNetCore.Contents.Image.Models
         /// <returns></returns>
         public async Task<string> Combine(string webRootPath, ImageOptions imageOptions)
         {
-            var fileName = $"{JsonConvert.SerializeObject(this).MD5Encode()}.{this.Width}x{this.Height}.combine.jpg";
+            var fileName = $"{Items.ToString(",").MD5Encoded()}.combined.{Width}x{Height}.jpg";
             var filePath = Path.Combine(imageOptions.CombineDir, fileName).Replace(Path.DirectorySeparatorChar, '/');
             var fileAbsolutePath = Path.Combine(webRootPath, filePath).Replace('/', Path.DirectorySeparatorChar);
 
             if (!File.Exists(fileAbsolutePath))
             {
-                var imageAbsolutePaths = this.Items.Select(_ => _.Path).Process(webRootPath, imageOptions).ToList();
-                var imagePoints = this.Items.Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0)).ToList();
-                var imageSizes = this.Items.Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0)).ToList();
+                var imageAbsolutePaths = Items.Select(_ => _.Path).Process(webRootPath).ToList();
+                var imagePoints = Items.Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0)).ToList();
+                var imageSizes = Items.Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0)).ToList();
                 var images = new List<(Point, Size, System.Drawing.Image, bool)>();
                 for (int i = 0; i < imageAbsolutePaths.Count; i++)
                 {
@@ -62,7 +60,7 @@ namespace Liyanjie.AspNetCore.Contents.Image.Models
                     images.Add((new Point(point.X, point.Y), new Size(size.Width, size.Height), image, true));
                 }
 
-                var fileImage = new Bitmap(this.Width, this.Height);
+                var fileImage = new Bitmap(Width, Height);
                 fileImage.Combine(images.ToArray());
 
                 Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
@@ -105,5 +103,7 @@ namespace Liyanjie.AspNetCore.Contents.Image.Models
         /// 
         /// </summary>
         public int? Height { get; set; }
+
+        public override string ToString() => $"{Path}|{X},{Y}|{Width}x{Height}";
     }
 }

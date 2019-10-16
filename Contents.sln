@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{88C738CC-6EE9-4405-AD29-5288AEB50F3D}"
 EndProject
@@ -12,15 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.AspNetCore.Contents.Core", "src\Liyanjie.AspNetCore.Contents.Core\Liyanjie.AspNetCore.Contents.Core.csproj", "{03B62740-865E-47C6-9193-501FDAAE85A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.AspNetCore.Contents.Core", "src\Liyanjie.AspNetCore.Contents.Core\Liyanjie.AspNetCore.Contents.Core.csproj", "{03B62740-865E-47C6-9193-501FDAAE85A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.AspNetCore.Contents.Upload", "src\Liyanjie.AspNetCore.Contents.Upload\Liyanjie.AspNetCore.Contents.Upload.csproj", "{6A9C8358-9839-4B3C-88A0-AA22F6C4BE0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.AspNetCore.Contents.Upload", "src\Liyanjie.AspNetCore.Contents.Upload\Liyanjie.AspNetCore.Contents.Upload.csproj", "{6A9C8358-9839-4B3C-88A0-AA22F6C4BE0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.AspNetCore.Contents.Image", "src\Liyanjie.AspNetCore.Contents.Image\Liyanjie.AspNetCore.Contents.Image.csproj", "{ED0E5008-6673-41AF-AD2A-1D3CC6659E3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.AspNetCore.Contents.Image", "src\Liyanjie.AspNetCore.Contents.Image\Liyanjie.AspNetCore.Contents.Image.csproj", "{ED0E5008-6673-41AF-AD2A-1D3CC6659E3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.AspNetCore.Contents.Sample.AspNetCore", "sample\Liyanjie.AspNetCore.Contents.Sample.AspNetCore\Liyanjie.AspNetCore.Contents.Sample.AspNetCore.csproj", "{1642DB7B-DB6B-4893-9A70-96FCA4FEE410}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.AspNetCore.Contents.View.RazorPages", "src\Liyanjie.AspNetCore.Contents.View.RazorPages\Liyanjie.AspNetCore.Contents.View.RazorPages.csproj", "{9B6AA6DE-566B-4EC6-83E7-BB949AE5FE08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.AspNetCore.Contents.Sample", "sample\Liyanjie.AspNetCore.Contents.Sample\Liyanjie.AspNetCore.Contents.Sample.csproj", "{FB858698-4EE2-4CA4-9578-26B9BFC3DBAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,14 +38,10 @@ Global
 		{ED0E5008-6673-41AF-AD2A-1D3CC6659E3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED0E5008-6673-41AF-AD2A-1D3CC6659E3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED0E5008-6673-41AF-AD2A-1D3CC6659E3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1642DB7B-DB6B-4893-9A70-96FCA4FEE410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1642DB7B-DB6B-4893-9A70-96FCA4FEE410}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1642DB7B-DB6B-4893-9A70-96FCA4FEE410}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1642DB7B-DB6B-4893-9A70-96FCA4FEE410}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B6AA6DE-566B-4EC6-83E7-BB949AE5FE08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B6AA6DE-566B-4EC6-83E7-BB949AE5FE08}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B6AA6DE-566B-4EC6-83E7-BB949AE5FE08}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B6AA6DE-566B-4EC6-83E7-BB949AE5FE08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB858698-4EE2-4CA4-9578-26B9BFC3DBAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB858698-4EE2-4CA4-9578-26B9BFC3DBAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB858698-4EE2-4CA4-9578-26B9BFC3DBAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB858698-4EE2-4CA4-9578-26B9BFC3DBAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,8 +50,7 @@ Global
 		{03B62740-865E-47C6-9193-501FDAAE85A3} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
 		{6A9C8358-9839-4B3C-88A0-AA22F6C4BE0C} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
 		{ED0E5008-6673-41AF-AD2A-1D3CC6659E3A} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
-		{1642DB7B-DB6B-4893-9A70-96FCA4FEE410} = {B938768B-24F1-4A2C-9A18-EAE0E0584E8D}
-		{9B6AA6DE-566B-4EC6-83E7-BB949AE5FE08} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
+		{FB858698-4EE2-4CA4-9578-26B9BFC3DBAA} = {B938768B-24F1-4A2C-9A18-EAE0E0584E8D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {390CDAB2-13FE-4A94-A33C-9F319A3E6B22}

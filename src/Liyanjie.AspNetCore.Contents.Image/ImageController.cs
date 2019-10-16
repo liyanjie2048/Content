@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Liyanjie.AspNetCore.Contents.Image.Models;
 
@@ -39,13 +40,13 @@ namespace Liyanjie.AspNetCore.Contents.Image
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> Concat([FromBody]ImageConcatModel model)
+        [HttpPost()]
+        public async Task<IActionResult> Concatenate([FromBody]ImageConcatenateModel model)
         {
-            if (model.Paths == null || model.Paths.Length == 0)
+            if (model.Paths.IsNullOrEmpty())
                 return BadRequest();
 
-            var filePath = Process(await model.Concat(webRootPath, options));
+            var filePath = Process(await model.Concatenate(webRootPath, options));
 
             return base.Ok(filePath);
         }
@@ -55,7 +56,7 @@ namespace Liyanjie.AspNetCore.Contents.Image
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost()]
         public async Task<IActionResult> Combine([FromBody]ImageCombineModel model)
         {
             if (model.Items == null || model.Items.Length == 0)
@@ -71,7 +72,7 @@ namespace Liyanjie.AspNetCore.Contents.Image
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet()]
         public IActionResult QRCode([FromQuery]ImageQRCodeModel model)
         {
             var fileName = model.CreateQRCode(webRootPath, options);

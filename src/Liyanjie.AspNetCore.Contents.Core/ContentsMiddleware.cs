@@ -6,12 +6,20 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Liyanjie.AspNetCore.Contents.Core
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ContentsMiddleware
     {
         readonly RequestDelegate next;
         readonly IServiceProvider serviceProvider;
         readonly ContentsBuilder contentsBuilder;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="next"></param>
+        /// <param name="serviceProvider"></param>
         public ContentsMiddleware(
             RequestDelegate next,
             IServiceProvider serviceProvider)
@@ -22,6 +30,11 @@ namespace Liyanjie.AspNetCore.Contents.Core
             this.contentsBuilder = serviceProvider.GetRequiredService<ContentsBuilder>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
             foreach (var moduleType in contentsBuilder.ModuleTypes)
