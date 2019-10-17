@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;</TargetFrameworks>
+    <RootNamespace>Liyanjie.Contents.AspNet</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liyanjie.Contents.AspNet\Liyanjie.Contents.AspNet.csproj" />
+    <ProjectReference Include="..\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj" />
+  </ItemGroup>
+
+</Project>

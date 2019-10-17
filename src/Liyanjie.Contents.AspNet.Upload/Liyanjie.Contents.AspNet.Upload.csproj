@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45</TargetFrameworks>
+    <RootNamespace>Liyanjie.Contents.AspNet</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liyanjie.Contents.AspNet\Liyanjie.Contents.AspNet.csproj" />
+    <ProjectReference Include="..\Liyanjie.Contents.Upload\Liyanjie.Contents.Upload.csproj" />
+  </ItemGroup>
+
+</Project>

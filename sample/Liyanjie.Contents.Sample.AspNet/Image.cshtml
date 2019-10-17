@@ -1,0 +1,186 @@
+﻿@{
+    Layout = "~/Shared/_Layout.cshtml";
+    PageData["Title"] = "图片测试";
+
+    var images = Directory
+        .GetFiles(Path.Combine(Server.MapPath("~/Images")), "*.jpg")
+        .Select(_ => $"images/{Path.GetFileName(_).ToLower()}")
+        .ToList();
+}
+
+<h2>@PageData["Title"]</h2>
+
+<section class="row">
+    <section class="col-6 py-4" id="Concatenate">
+        <h4>拼接图片</h4>
+        <div class="py-1">
+            <label>图片：</label>
+            <input type="text" id="inputConcatenate0" placeholder="图片路径" />
+            <br />
+            <label>图片：</label>
+            <input type="text" id="inputConcatenate1" placeholder="图片路径" />
+            <br />
+            <label>图片：</label>
+            <input type="text" id="inputConcatenate2" placeholder="图片路径" />
+        </div>
+        <div class="py-3">
+            <label>尺寸：</label>
+            <input type="text" id="widthConcatenate" placeholder="宽" value="200" style="width:60px" />
+            <span>×</span>
+            <input type="text" id="heightConcatenate" placeholder="高" style="width:60px" />
+        </div>
+        <div class="py-2">
+            <button id="confirmConcatenate">确定</button>
+        </div>
+        <div class="py-2" id="messageConcatenate" style="word-break:break-all"></div>
+    </section>
+
+    <section class="col-6 py-4" id="Combine">
+        <h4>组合图片</h4>
+        <div class="py-1">
+            <label>图片：</label>
+            <input type="text" id="inputCombine0" placeholder="图片路径" />
+            <br />
+            <label>位置：</label>
+            <input type="text" id="xCombine0" placeholder="X" value="0" style="width:40px" />
+            <span>,</span>
+            <input type="text" id="yCombine0" placeholder="Y" value="0" style="width:40px" />
+            <br />
+            <label>大小：</label>
+            <input type="text" id="widthCombine0" placeholder="宽" value="300" style="width:60px" />
+            <span>×</span>
+            <input type="text" id="heightCombine0" placeholder="高" value="300" style="width:60px" />
+        </div>
+        <div class="py-1">
+            <label>图片：</label>
+            <input type="text" id="inputCombine1" placeholder="图片路径" />
+            <br />
+            <label>位置：</label>
+            <input type="text" id="xCombine1" placeholder="X" value="100" style="width:40px" />
+            <span>,</span>
+            <input type="text" id="yCombine1" placeholder="Y" value="100" style="width:40px" />
+            <br />
+            <label>大小：</label>
+            <input type="text" id="widthCombine1" placeholder="宽" value="100" style="width:60px" />
+            <span>×</span>
+            <input type="text" id="heightCombine1" placeholder="高" value="100" style="width:60px" />
+        </div>
+        <div class="py-3">
+            <label>尺寸：</label>
+            <input type="text" id="widthCombine" placeholder="宽" value="300" style="width:60px" />
+            <span>×</span>
+            <input type="text" id="heightCombine" placeholder="高" value="300" style="width:60px" />
+        </div>
+        <div class="py-2">
+            <button id="confirmCombine">确定</button>
+        </div>
+        <div class="py-2" id="messageCombine" style="word-break:break-all"></div>
+    </section>
+
+    <section class="col-6 py-4" id="QRCode">
+        <h4>生成二维码</h4>
+        <div class="py-2">
+            <label>内容：</label>
+            <input type="text" id="inputQRCode" placeholder="二维码内容" />
+        </div>
+        <div class="py-3">
+            <label>边距：</label>
+            <input type="number" id="marginQRCode" placeholder="边距" value="0" style="width:60px" />
+        </div>
+        <div class="py-3">
+            <label>尺寸：</label>
+            <input type="number" id="widthQRCode" placeholder="宽" value="100" style="width:60px" />
+            <span>×</span>
+            <input type="number" id="heightQRCode" placeholder="高" value="100" style="width:60px" />
+        </div>
+        <div class="py-2">
+            <button id="confirmQRCode">确定</button>
+        </div>
+        <div class="py-2" id="messageQRCode" style="word-break:break-all"></div>
+    </section>
+</section>
+
+<section class="py-4">
+    <h4>预览图片</h4>
+    <ul class="py-2">
+        @foreach (var item in images)
+        {
+            <li class="m-1">
+                <img src="@item" width="60" height="60" />
+                <span>@item</span>
+            </li>
+        }
+    </ul>
+</section>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        window.onload = function () {
+            $('#confirmConcatenate').click(function () {
+                let data = {
+                    imagePaths: [$('#inputConcatenate0').val(), $('#inputConcatenate1').val(), $('#inputConcatenate2').val()],
+                    width: $('#widthConcatenate').val(),
+                    height: $('#heightConcatenate').val()
+                };
+                var dat = JSON.stringify(data);
+                console.log(dat);
+                $.ajax('/Image/Concatenate', {
+                    method: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    accepts: 'application/json',
+                    success: (response) => {
+                        $('#messageConcatenate').text(`拼接成功！`);
+                        $('#messageConcatenate').append($(`<a target="_blank" href="${response}">${response}</a>`));
+                    },
+                    error: () => {
+                        $('#messageConcatenate').text(`操作异常！`);
+                    },
+                });
+            });
+            $('#confirmCombine').click(function () {
+                let data = {
+                    items: [{
+                        imagePath: $('#inputCombine0').val(),
+                        x: $('#xCombine0').val(),
+                        y: $('#yCombine0').val(),
+                        width: $('#widthCombine0').val(),
+                        height: $('#heightCombine0').val(),
+                    },
+                    {
+                        imagePath: $('#inputCombine1').val(),
+                        x: $('#xCombine1').val(),
+                        y: $('#yCombine1').val(),
+                        width: $('#widthCombine1').val(),
+                        height: $('#heightCombine1').val(),
+                    }],
+                    width: $('#widthCombine').val(),
+                    height: $('#heightCombine').val()
+                };
+                var dat = JSON.stringify(data);
+                console.log(dat);
+                $.ajax('/Image/Combine', {
+                    method: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    accepts: 'application/json',
+                    success: (response) => {
+                        $('#messageCombine').text(`组合成功！`);
+                        $('#messageCombine').append($(`<a target="_blank" href="${response}">${response}</a>`));
+                    },
+                    error: () => {
+                        $('#messageCombine').text(`操作异常！`);
+                    },
+                });
+            });
+            $('#confirmQRCode').click(function () {
+                let content = encodeURI($('#inputQRCode').val());
+                let margin = $('#marginQRCode').val();
+                let width = $('#widthQRCode').val();
+                let height = $('#heightQRCode').val();
+                $('#messageQRCode').html($(`<img src="/Image/QRCode?content=${content}&margin=${margin}&width=${width}&height=${height}" style="box-shadow:rgba(0,0,0,.5) 0 0 5px" />`));
+            });
+        };
+    </script>
+}

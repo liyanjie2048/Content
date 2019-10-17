@@ -41,7 +41,7 @@ namespace Liyanjie.AspNetCore.Contents
             {
                 if (ActivatorUtilities.CreateInstance(serviceProvider, moduleType) is IContentsModule module)
                 {
-                    if (module.MatchRequesting(httpContext.Request))
+                    if (module.TryMatchRequesting(httpContext.Request))
                     {
                         module.HandleResponsing(httpContext.Response);
                         return;

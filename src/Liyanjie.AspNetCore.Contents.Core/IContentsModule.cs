@@ -17,7 +17,7 @@ namespace Liyanjie.AspNetCore.Contents
         /// </summary>
         /// <param name="httpRequest"></param>
         /// <returns></returns>
-        bool MatchRequesting(HttpRequest httpRequest);
+        bool TryMatchRequesting(HttpRequest httpRequest);
 
         /// <summary>
         /// 
