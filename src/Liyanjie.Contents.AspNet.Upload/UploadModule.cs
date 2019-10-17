@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -48,32 +49,33 @@ namespace Liyanjie.Contents.AspNet
 
             var dir = request.QueryString["dir"];
             dir = dir.IsNullOrEmpty() ? "temps" : dir;
-            var models = request.Files.AllKeys
-                .Select(_ => new UploadModel
+            var model = new UploadModel
+            {
+                Files = request.Files.AllKeys
+                .Select(_ => new UploadFileModel
                 {
                     FileName = request.Files[_].FileName,
                     FileStream = request.Files[_].InputStream,
                     FileLength = request.Files[_].ContentLength,
-                });
-            var filePaths = new List<string>();
-            foreach (var model in models)
-            {
-                var task = model.SaveAsync(options, dir);
-                task.Wait();
-                var filePath = task.Result;
+                })
+                .ToArray(),
+            };
 
-                if (options.ReturnAbsolutePath)
+            model.SaveAsync(options, dir)
+                .ContinueWith(task =>
                 {
-                    var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
-                    filePath = $"//{request.Url.Host}{port}/{filePath}";
-                }
+                    var filePaths = task.Result.Select(_ => (_.Success, FilePath: _.Success ? _.FilePath.Replace(Path.DirectorySeparatorChar, '/') : _.FilePath));
+                    if (options.ReturnAbsolutePath)
+                    {
+                        var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
+                        filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"//{request.Url.Host}{port}/{_.FilePath}" : _.FilePath));
+                    }
 
-                filePaths.Add(filePath);
-            }
-
-            response.StatusCode = 200;
-            response.ContentType = "application/json";
-            response.Write(ContentsDefaults.JsonSerialize(filePaths));
+                    response.StatusCode = 200;
+                    response.ContentType = "application/json";
+                    response.Write(ContentsDefaults.JsonSerialize(filePaths.Select(_ => _.FilePath)));
+                })
+                .Wait();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -52,27 +53,25 @@ namespace Liyanjie.Contents.AspNetCore
 
             var dir = StringValues.IsNullOrEmpty(request.Query["dir"]) ? "temps" : request.Query["dir"][0];
             var form = await request.ReadFormAsync();
-            var models = form.Files
-                .Select(_ => new UploadModel
-                {
-                    FileName = _.FileName,
-                    FileStream = _.OpenReadStream(),
-                    FileLength = _.Length,
-                });
-            var filePaths = new List<string>();
-            foreach (var model in models)
+            var model = new UploadModel
             {
-                var filePath = await model.SaveAsync(options, dir);
+                Files = form.Files
+                    .Select(_ => new UploadFileModel
+                    {
+                        FileName = _.FileName,
+                        FileStream = _.OpenReadStream(),
+                        FileLength = _.Length,
+                    })
+                    .ToArray(),
+            };
 
-                if (options.ReturnAbsolutePath)
-                    filePath = $"//{request.Host}/{filePath}";
-
-                filePaths.Add(filePath);
-            }
+            var filePaths = (await model.SaveAsync(options, dir)).Select(_ => (_.Success, FilePath: _.Success ? _.FilePath.Replace(Path.DirectorySeparatorChar, '/') : _.FilePath));
+            if (options.ReturnAbsolutePath)
+                filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"//{request.Host}/{_.FilePath}" : _.FilePath));
 
             response.StatusCode = 200;
             response.ContentType = "application/json";
-            await response.WriteAsync(ContentsDefaults.JsonSerialize(filePaths));
+            await response.WriteAsync(ContentsDefaults.JsonSerialize(filePaths.Select(_ => _.FilePath)));
         }
     }
 }
