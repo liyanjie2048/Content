@@ -1,17 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net45;</TargetFrameworks>
-    <RootNamespace>Liyanjie.Contents.AspNet</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net45;</TargetFrameworks>
+        <Description>Liyanjie.Contents.AspNet.Image</Description>
+        <Copyright>© Liyanjie.me</Copyright>
+        <Authors>liyanjie8712@outlook.com</Authors>
+        <Company>Liyanjie.me</Company>
+        <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
+        <RepositoryType>Git</RepositoryType>
+        <RootNamespace>Liyanjie.Contents.AspNet</RootNamespace>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Liyanjie.Contents.AspNet\Liyanjie.Contents.AspNet.csproj" />
-    <ProjectReference Include="..\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Liyanjie.Contents.AspNet\Liyanjie.Contents.AspNet.csproj" />
+        <ProjectReference Include="..\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+        <DocumentationFile>bin\Release\net45\Liyanjie.Contents.AspNet.Image.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <Target Name="MovePackage" AfterTargets="Pack">
+        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
+    </Target>
 
 </Project>
