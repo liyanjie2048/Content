@@ -68,8 +68,8 @@ namespace Liyanjie.Modularization.AspNet
             {
                 "Combine" => CombineImagesAsync(httpContext),
                 "Concatenate" => ConcatenateImagesAsync(httpContext),
-                "QRCode" => GenerateQRCode(httpContext),
-                "Resize" => ResizeImage(httpContext),
+                "QRCode" => GenerateQRCodeAsync(httpContext),
+                "Resize" => ResizeImageAsync(httpContext),
                 _ => Task.FromResult(0),
             });
 
@@ -102,7 +102,7 @@ namespace Liyanjie.Modularization.AspNet
             await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
         }
 
-        async Task GenerateQRCode(HttpContext httpContext)
+        async Task GenerateQRCodeAsync(HttpContext httpContext)
         {
             var query = httpContext.Request.QueryString;
             var model = query.AllKeys
@@ -120,7 +120,7 @@ namespace Liyanjie.Modularization.AspNet
             await Task.FromResult(0);
         }
 
-        async Task ResizeImage(HttpContext httpContext)
+        async Task ResizeImageAsync(HttpContext httpContext)
         {
             var model = new ImageResizeModel { ImagePath = httpContext.Request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');

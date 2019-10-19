@@ -66,58 +66,40 @@ namespace Liyanjie.Modularization.AspNetCore
         /// </summary>
         /// <param name="response"></param>
         public async Task HandleResponsingAsync(HttpContext httpContext)
-        {
-            var _ = requestMatch switch
+            => await (requestMatch switch
             {
-                "Combine" => await CombineImagesAsync(httpContext),
-                "Concatenate" => await ConcatenateImagesAsync(httpContext),
-                "QRCode" => await GenerateQRCodeAsync(httpContext),
-                "Resize" => await ResizeImageAsync(httpContext),
-                _ => false,
-            };
+                "Combine" => CombineImagesAsync(httpContext),
+                "Concatenate" => ConcatenateImagesAsync(httpContext),
+                "QRCode" => GenerateQRCodeAsync(httpContext),
+                "Resize" => ResizeImageAsync(httpContext),
+                _ => Task.FromResult(0),
+            });
+
+        async Task CombineImagesAsync(HttpContext httpContext)
+        {
+            var request = httpContext.Request;
+            var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
+            var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+
+            if (options.ReturnAbsolutePath)
+                imagePath = $"//{request.Host}/{imagePath}";
+
+            await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
         }
 
-        async Task<bool> CombineImagesAsync(HttpContext httpContext)
+        async Task ConcatenateImagesAsync(HttpContext httpContext)
         {
-            try
-            {
-                var request = httpContext.Request;
-                var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
-                var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+            var request = httpContext.Request;
+            var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageConcatenateModel))) as ImageConcatenateModel;
+            var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 
-                if (options.ReturnAbsolutePath)
-                    imagePath = $"//{request.Host}/{imagePath}";
+            if (options.ReturnAbsolutePath)
+                imagePath = $"//{request.Host}/{imagePath}";
 
-                await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
-
-                return true;
-            }
-            catch { }
-
-            return false;
+            await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
         }
 
-        async Task<bool> ConcatenateImagesAsync(HttpContext httpContext)
-        {
-            try
-            {
-                var request = httpContext.Request;
-                var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageConcatenateModel))) as ImageConcatenateModel;
-                var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
-
-                if (options.ReturnAbsolutePath)
-                    imagePath = $"//{request.Host}/{imagePath}";
-
-                await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
-
-                return true;
-            }
-            catch { }
-
-            return false;
-        }
-
-        async Task<bool> GenerateQRCodeAsync(HttpContext httpContext)
+        async Task GenerateQRCodeAsync(HttpContext httpContext)
         {
             var model = httpContext.Request.Query
                 .ToDictionary(_ => _.Key, _ => (object)_.Value.FirstOrDefault())
@@ -130,21 +112,17 @@ namespace Liyanjie.Modularization.AspNetCore
                 response.ContentType = "image/jpg";
                 using var stream = File.OpenRead(Path.Combine(options.RootPath, imagePath));
                 await stream.CopyToAsync(response.Body);
-
-                return true;
             }
-
-            return false;
         }
 
-        async Task<bool> ResizeImageAsync(HttpContext httpContext)
+        async Task ResizeImageAsync(HttpContext httpContext)
         {
             var model = new ImageResizeModel { ImagePath = httpContext.Request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
             if (!imagePath.IsNullOrEmpty())
                 httpContext.Response.Redirect(imagePath);
 
-            return await Task.FromResult(true);
+            await Task.FromResult(0);
         }
     }
 }
