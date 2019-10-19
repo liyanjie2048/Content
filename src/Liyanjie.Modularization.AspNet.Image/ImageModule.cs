@@ -64,63 +64,45 @@ namespace Liyanjie.Modularization.AspNet
         /// </summary>
         /// <param name="response"></param>
         public async Task HandleResponsingAsync(HttpContext httpContext)
-        {
-            var _ = requestMatch switch
+            => await (requestMatch switch
             {
-                "Combine" => await CombineImagesAsync(httpContext),
-                "Concatenate" => await ConcatenateImagesAsync(httpContext),
+                "Combine" => CombineImagesAsync(httpContext),
+                "Concatenate" => ConcatenateImagesAsync(httpContext),
                 "QRCode" => GenerateQRCode(httpContext),
                 "Resize" => ResizeImage(httpContext),
-                _ => false,
-            };
-        }
+                _ => Task.FromResult(0),
+            });
 
-        async Task<bool> CombineImagesAsync(HttpContext httpContext)
+        async Task CombineImagesAsync(HttpContext httpContext)
         {
-            try
+            var request = httpContext.Request;
+            var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
+            var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+            if (options.ReturnAbsolutePath)
             {
-                var request = httpContext.Request;
-                var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
-                var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
-                if (options.ReturnAbsolutePath)
-                {
-                    var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
-                    imagePath = $"//{request.Url.Host}{port}/{imagePath}";
-                }
-
-                await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
-
-                return true;
+                var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
+                imagePath = $"//{request.Url.Host}{port}/{imagePath}";
             }
-            catch { }
 
-            return false;
+            await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
         }
 
-        async Task<bool> ConcatenateImagesAsync(HttpContext httpContext)
+        async Task ConcatenateImagesAsync(HttpContext httpContext)
         {
-            try
+            var request = httpContext.Request;
+            var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageConcatenateModel))) as ImageConcatenateModel;
+            var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+
+            if (options.ReturnAbsolutePath)
             {
-                var request = httpContext.Request;
-                var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageConcatenateModel))) as ImageConcatenateModel;
-                var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
-
-                if (options.ReturnAbsolutePath)
-                {
-                    var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
-                    imagePath = $"//{request.Url.Host}{port}/{imagePath}";
-                }
-
-                await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
-
-                return true;
+                var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
+                imagePath = $"//{request.Url.Host}{port}/{imagePath}";
             }
-            catch { }
 
-            return false;
+            await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
         }
 
-        bool GenerateQRCode(HttpContext httpContext)
+        async Task GenerateQRCode(HttpContext httpContext)
         {
             var query = httpContext.Request.QueryString;
             var model = query.AllKeys
@@ -133,21 +115,19 @@ namespace Liyanjie.Modularization.AspNet
                 response.StatusCode = 200;
                 response.ContentType = "image/jpg";
                 response.WriteFile(Path.Combine(options.RootPath, imagePath));
-
-                return true;
             }
 
-            return false;
+            await Task.FromResult(0);
         }
 
-        bool ResizeImage(HttpContext httpContext)
+        async Task ResizeImage(HttpContext httpContext)
         {
             var model = new ImageResizeModel { ImagePath = httpContext.Request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
             if (!imagePath.IsNullOrEmpty())
                 httpContext.Response.Redirect(imagePath);
 
-            return true;
+            await Task.FromResult(0);
         }
     }
 }
