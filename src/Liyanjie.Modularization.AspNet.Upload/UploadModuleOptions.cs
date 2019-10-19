@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Web;
 
-namespace Liyanjie.Contents.AspNet
+using Liyanjie.Contents;
+
+namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
     /// 
@@ -11,7 +13,7 @@ namespace Liyanjie.Contents.AspNet
         public Func<HttpRequest, bool> TryMatchUpload { get; set; }
             = request => true
                 && "POST".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase)//POST请求
-                && ContentsDefaults.TryMatchTemplate(request.Path, "Upload");
+                && ModularizationDefaults.TryMatchTemplate(request.Path, "Upload");
 
         /// <summary>
         /// 返回文件绝对路径，默认：true

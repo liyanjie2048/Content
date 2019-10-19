@@ -37,9 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Liyanjie.Contents.AspNetCore.Image\Liyanjie.Contents.AspNetCore.Image.csproj" />
-    <ProjectReference Include="..\..\src\Liyanjie.Contents.AspNetCore.Upload\Liyanjie.Contents.AspNetCore.Upload.csproj" />
-    <ProjectReference Include="..\..\src\Liyanjie.Contents.AspNetCore\Liyanjie.Contents.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Image\Liyanjie.Modularization.AspNetCore.Image.csproj" />
+    <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Upload\Liyanjie.Modularization.AspNetCore.Upload.csproj" />
   </ItemGroup>
 
 </Project>

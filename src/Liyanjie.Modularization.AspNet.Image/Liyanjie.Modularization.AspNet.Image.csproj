@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFrameworks>net45;</TargetFrameworks>
-        <Description>Liyanjie.Contents.AspNet.Image</Description>
+        <Description>Liyanjie.Modularization.AspNet.Image</Description>
         <Copyright>© Liyanjie.me</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
         <Company>Liyanjie.me</Company>
@@ -13,16 +13,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Liyanjie.Modularization.AspNet" Version="1.0.0" />
         <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Liyanjie.Contents.AspNet\Liyanjie.Contents.AspNet.csproj" />
         <ProjectReference Include="..\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
-        <DocumentationFile>bin\Release\net45\Liyanjie.Contents.AspNet.Image.xml</DocumentationFile>
+        <DocumentationFile>bin\Release\net45\Liyanjie.Modularization.AspNet.Image.xml</DocumentationFile>
     </PropertyGroup>
 
     <Target Name="MovePackage" AfterTargets="Pack">

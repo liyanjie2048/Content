@@ -1,13 +1,13 @@
 ﻿using System;
 
-using Liyanjie.Contents.AspNetCore;
+using Liyanjie.Modularization.AspNet;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace System.Web
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class ContentsBuilderExtensions
+    public static class UploadModuleTableExtensions
     {
         /// <summary>
         /// 
@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder"></param>
         /// <param name="configureOptions"></param>
         /// <returns></returns>
-        public static ContentsBuilder AddUpload(this ContentsBuilder builder,
+        public static ModularizationModuleTable AddUpload(this ModularizationModuleTable builder,
             Action<UploadModuleOptions> configureOptions = null)
         {
             builder.AddModule<UploadModule, UploadModuleOptions>(configureOptions);

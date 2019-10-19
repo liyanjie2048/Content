@@ -3,7 +3,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace Liyanjie.Contents.AspNet
+using Liyanjie.Contents;
+
+namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
     /// 
@@ -13,15 +15,15 @@ namespace Liyanjie.Contents.AspNet
         public Func<HttpRequest, bool> TryMatchImageCombine { get; set; }
             = request => true
                 && "POST".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase)//POST请求
-                && ContentsDefaults.TryMatchTemplate(request.Path, "Image/Combine");
+                && ModularizationDefaults.TryMatchTemplate(request.Path, "Image/Combine");
         public Func<HttpRequest, bool> TryMatchImageConcatenate { get; set; }
             = request => true
                 && "POST".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase)//POST请求
-                && ContentsDefaults.TryMatchTemplate(request.Path, "Image/Concatenate");
+                && ModularizationDefaults.TryMatchTemplate(request.Path, "Image/Concatenate");
         public Func<HttpRequest, bool> TryMatchImageQRCode { get; set; }
             = request => true
                 && "GET".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase)//GET请求
-                && ContentsDefaults.TryMatchTemplate(request.Path, "Image/QRCode");
+                && ModularizationDefaults.TryMatchTemplate(request.Path, "Image/QRCode");
         public Func<HttpRequest, string, bool> TryMatchImageResize { get; set; }
             = (request, rootPath) => true
                 && "GET".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase)//GET请求

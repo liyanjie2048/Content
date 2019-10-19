@@ -9,12 +9,12 @@ using Liyanjie.Contents.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace Liyanjie.Contents.AspNetCore
+namespace Liyanjie.Modularization.AspNetCore
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ImageModule : IContentsModule
+    public class ImageModule : IModularizationModule
     {
         readonly ImageModuleOptions options;
 
@@ -79,22 +79,16 @@ namespace Liyanjie.Contents.AspNetCore
 
         async Task<bool> CombineImagesAsync(HttpContext httpContext)
         {
-            var request = httpContext.Request;
-            var response = httpContext.Response;
-
             try
             {
-                using var streamReader = new StreamReader(request.Body);
-                var json = await streamReader.ReadToEndAsync();
-                var model = ContentsDefaults.JsonDeserialize(json, typeof(ImageCombineModel)) as ImageCombineModel;
+                var request = httpContext.Request;
+                var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
                 var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 
                 if (options.ReturnAbsolutePath)
                     imagePath = $"//{request.Host}/{imagePath}";
 
-                response.StatusCode = 200;
-                response.ContentType = "application/json";
-                await response.WriteAsync(ContentsDefaults.JsonSerialize(imagePath));
+                await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
 
                 return true;
             }
@@ -105,22 +99,16 @@ namespace Liyanjie.Contents.AspNetCore
 
         async Task<bool> ConcatenateImagesAsync(HttpContext httpContext)
         {
-            var request = httpContext.Request;
-            var response = httpContext.Response;
-
             try
             {
-                using var streamReader = new StreamReader(httpContext.Request.Body);
-                var json = await streamReader.ReadToEndAsync();
-                var model = ContentsDefaults.JsonDeserialize(json, typeof(ImageConcatenateModel)) as ImageConcatenateModel;
+                var request = httpContext.Request;
+                var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageConcatenateModel))) as ImageConcatenateModel;
                 var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 
                 if (options.ReturnAbsolutePath)
                     imagePath = $"//{request.Host}/{imagePath}";
 
-                response.StatusCode = 200;
-                response.ContentType = "application/json";
-                await response.WriteAsync(ContentsDefaults.JsonSerialize(imagePath));
+                await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
 
                 return true;
             }
@@ -132,7 +120,7 @@ namespace Liyanjie.Contents.AspNetCore
         async Task<bool> GenerateQRCodeAsync(HttpContext httpContext)
         {
             var model = httpContext.Request.Query
-                .ToDictionary(_ => _.Key, _ => (object)_.Value)
+                .ToDictionary(_ => _.Key, _ => (object)_.Value.FirstOrDefault())
                 .BuildModel<ImageQRCodeModel>();
             var imagePath = model?.GenerateQRCode(options);
             if (!imagePath.IsNullOrEmpty())

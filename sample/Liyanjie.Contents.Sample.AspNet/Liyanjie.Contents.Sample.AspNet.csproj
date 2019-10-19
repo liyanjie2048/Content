@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Liyanjie.Modularization.AspNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Liyanjie.Modularization.AspNet.1.0.0\lib\net45\Liyanjie.Modularization.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Liyanjie.TemplateMatching, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Liyanjie.TemplateMatching.1.0.0\lib\net45\Liyanjie.TemplateMatching.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -180,18 +186,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Liyanjie.Contents.AspNet.Image\Liyanjie.Contents.AspNet.Image.csproj">
-      <Project>{99ac2d09-b2a3-4f57-93e4-8e37adebd17f}</Project>
-      <Name>Liyanjie.Contents.AspNet.Image</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Liyanjie.Contents.AspNet.Upload\Liyanjie.Contents.AspNet.Upload.csproj">
-      <Project>{35087795-2ef4-4493-80b3-b3658f65725c}</Project>
-      <Name>Liyanjie.Contents.AspNet.Upload</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Liyanjie.Contents.AspNet\Liyanjie.Contents.AspNet.csproj">
-      <Project>{3f033d7a-0b47-4752-b398-90004a21259a}</Project>
-      <Name>Liyanjie.Contents.AspNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj">
       <Project>{de5da372-ef06-4135-9086-2a611e241bc9}</Project>
       <Name>Liyanjie.Contents.Image</Name>
@@ -199,6 +193,14 @@
     <ProjectReference Include="..\..\src\Liyanjie.Contents.Upload\Liyanjie.Contents.Upload.csproj">
       <Project>{8c378e87-b43e-4e88-8615-e9fd44ffa052}</Project>
       <Name>Liyanjie.Contents.Upload</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.Image\Liyanjie.Modularization.AspNet.Image.csproj">
+      <Project>{26be441b-aeaf-4b4b-a655-e69d7f640ff8}</Project>
+      <Name>Liyanjie.Modularization.AspNet.Image</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.Upload\Liyanjie.Modularization.AspNet.Upload.csproj">
+      <Project>{7d24d838-e313-4f04-934a-3ef903cb4652}</Project>
+      <Name>Liyanjie.Modularization.AspNet.Upload</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

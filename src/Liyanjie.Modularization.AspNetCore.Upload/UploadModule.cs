@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,12 +8,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 
-namespace Liyanjie.Contents.AspNetCore
+namespace Liyanjie.Modularization.AspNetCore
 {
     /// <summary>
     /// 
     /// </summary>
-    public class UploadModule : IContentsModule
+    public class UploadModule : IModularizationModule
     {
         readonly UploadModuleOptions options;
 
@@ -49,7 +48,6 @@ namespace Liyanjie.Contents.AspNetCore
         public async Task HandleResponsingAsync(HttpContext httpContext)
         {
             var request = httpContext.Request;
-            var response = httpContext.Response;
 
             var dir = StringValues.IsNullOrEmpty(request.Query["dir"]) ? "temps" : request.Query["dir"][0];
             var form = await request.ReadFormAsync();
@@ -69,9 +67,7 @@ namespace Liyanjie.Contents.AspNetCore
             if (options.ReturnAbsolutePath)
                 filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"//{request.Host}/{_.FilePath}" : _.FilePath));
 
-            response.StatusCode = 200;
-            response.ContentType = "application/json";
-            await response.WriteAsync(ContentsDefaults.JsonSerialize(filePaths.Select(_ => _.FilePath)));
+            await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, filePaths.Select(_ => _.FilePath));
         }
     }
 }

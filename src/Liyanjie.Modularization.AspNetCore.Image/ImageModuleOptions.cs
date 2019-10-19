@@ -2,11 +2,11 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Template;
+using Liyanjie.Contents;
 
-namespace Liyanjie.Contents.AspNetCore
+using Microsoft.AspNetCore.Http;
+
+namespace Liyanjie.Modularization.AspNetCore
 {
     /// <summary>
     /// 
@@ -16,15 +16,15 @@ namespace Liyanjie.Contents.AspNetCore
         public Func<HttpRequest, bool> TryMatchImageCombine { get; set; }
             = request => true
                 && "POST".Equals(request.Method, StringComparison.OrdinalIgnoreCase)//POST请求
-                && ContentsDefaults.TryMatchTemplate(request.Path, "Image/Combine");
+                && ModularizationDefaults.TryMatchTemplate(request.Path, "Image/Combine");
         public Func<HttpRequest, bool> TryMatchImageConcatenate { get; set; }
             = request => true
                 && "POST".Equals(request.Method, StringComparison.OrdinalIgnoreCase)//POST请求
-                && ContentsDefaults.TryMatchTemplate(request.Path, "Image/Concatenate");
+                && ModularizationDefaults.TryMatchTemplate(request.Path, "Image/Concatenate");
         public Func<HttpRequest, bool> TryMatchImageQRCode { get; set; }
             = request => true
                 && "GET".Equals(request.Method, StringComparison.OrdinalIgnoreCase)//GET请求
-                && ContentsDefaults.TryMatchTemplate(request.Path, "Image/QRCode");
+                && ModularizationDefaults.TryMatchTemplate(request.Path, "Image/QRCode");
         public Func<HttpRequest, string, bool> TryMatchImageResize { get; set; }
             = (request, rootPath) => true
                 && "GET".Equals(request.Method, StringComparison.OrdinalIgnoreCase)//GET请求

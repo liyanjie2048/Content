@@ -267,3 +267,6 @@ __pycache__/
 /sample/Liyanjie.Contents.Sample.AspNetCore/wwwroot/images/combined
 /sample/Liyanjie.Contents.Sample.AspNetCore/wwwroot/images/concatenated
 /sample/Liyanjie.Contents.Sample.AspNetCore/wwwroot/images/qrcodes
+/sample/Liyanjie.Contents.Sample.AspNet/Images/combined
+/sample/Liyanjie.Contents.Sample.AspNet/Images/concatenated
+/sample/Liyanjie.Contents.Sample.AspNet/Images/qrcodes

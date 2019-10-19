@@ -2,31 +2,31 @@
 
     <PropertyGroup>
         <TargetFrameworks>net451;netstandard1.6;</TargetFrameworks>
-        <Description>Liyanjie.Contents.AspNetCore.Upload</Description>
+        <Description>Liyanjie.Modularization.AspNetCore.Upload</Description>
         <Copyright>© Liyanjie.me</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
         <Company>Liyanjie.me</Company>
         <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
         <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
         <RepositoryType>Git</RepositoryType>
-        <RootNamespace>Liyanjie.Contents.AspNetCore</RootNamespace>
+        <RootNamespace>Liyanjie.Modularization.AspNetCore</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Liyanjie.Modularization.AspNetCore" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Liyanjie.Contents.AspNetCore\Liyanjie.Contents.AspNetCore.csproj" />
         <ProjectReference Include="..\Liyanjie.Contents.Upload\Liyanjie.Contents.Upload.csproj" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
-        <DocumentationFile>bin\Release\net451\Liyanjie.Contents.AspNetCore.Upload.xml</DocumentationFile>
+        <DocumentationFile>bin\Release\net451\Liyanjie.Modularization.AspNetCore.Upload.xml</DocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.6|AnyCPU'">
-        <DocumentationFile>bin\Release\netstandard1.6\Liyanjie.Contents.AspNetCore.Upload.xml</DocumentationFile>
+        <DocumentationFile>bin\Release\netstandard1.6\Liyanjie.Modularization.AspNetCore.Upload.xml</DocumentationFile>
     </PropertyGroup>
 
     <Target Name="MovePackage" AfterTargets="Pack">

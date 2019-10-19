@@ -1,13 +1,13 @@
 ﻿using System;
 
-using Liyanjie.Contents.AspNetCore;
+using Liyanjie.Modularization.AspNetCore;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class ContentsBuilderExtensions
+    public static class ImageModuleTableExtensions
     {
         /// <summary>
         /// 
@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="builder"></param>
         /// <param name="configureOptions"></param>
         /// <returns></returns>
-        public static ContentsBuilder AddImage(this ContentsBuilder builder,
+        public static ModularizationModuleTable AddImage(this ModularizationModuleTable builder,
             Action<ImageModuleOptions> configureOptions = null)
         {
             builder.AddModule<ImageModule, ImageModuleOptions>(configureOptions);

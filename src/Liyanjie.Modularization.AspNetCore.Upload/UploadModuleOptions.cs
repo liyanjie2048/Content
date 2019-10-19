@@ -1,8 +1,10 @@
 ﻿using System;
 
+using Liyanjie.Contents;
+
 using Microsoft.AspNetCore.Http;
 
-namespace Liyanjie.Contents.AspNetCore
+namespace Liyanjie.Modularization.AspNetCore
 {
     /// <summary>
     /// 
@@ -12,7 +14,7 @@ namespace Liyanjie.Contents.AspNetCore
         public Func<HttpRequest, bool> TryMatchUpload { get; set; }
             = request => true
                 && "POST".Equals(request.Method, StringComparison.OrdinalIgnoreCase)//POST请求
-                && ContentsDefaults.TryMatchTemplate(request.Path, "Upload");
+                && ModularizationDefaults.TryMatchTemplate(request.Path, "Upload");
 
         /// <summary>
         /// 返回文件绝对路径，默认：true

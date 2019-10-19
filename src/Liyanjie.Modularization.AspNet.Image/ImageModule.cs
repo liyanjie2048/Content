@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using Liyanjie.Contents.Models;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Liyanjie.Contents.AspNet
+using Liyanjie.Contents.Models;
+
+namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ImageModule : IContentsModule
+    public class ImageModule : IModularizationModule
     {
         readonly ImageModuleOptions options;
 
@@ -31,7 +32,7 @@ namespace Liyanjie.Contents.AspNet
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public bool TryMatchRequesting(HttpContext httpContext)
+        public async Task<bool> TryMatchRequestingAsync(HttpContext httpContext)
         {
             var request = httpContext.Request;
             if (options.TryMatchImageCombine(request))
@@ -55,48 +56,39 @@ namespace Liyanjie.Contents.AspNet
                 return true;
             }
 
-            return false;
+            return await Task.FromResult(false);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="response"></param>
-        public void HandleResponsing(HttpContext httpContext)
+        public async Task HandleResponsingAsync(HttpContext httpContext)
         {
             var _ = requestMatch switch
             {
-                "Combine" => CombineImages(httpContext),
-                "Concatenate" => ConcatenateImages(httpContext),
+                "Combine" => await CombineImagesAsync(httpContext),
+                "Concatenate" => await ConcatenateImagesAsync(httpContext),
                 "QRCode" => GenerateQRCode(httpContext),
                 "Resize" => ResizeImage(httpContext),
                 _ => false,
             };
         }
 
-        bool CombineImages(HttpContext httpContext)
+        async Task<bool> CombineImagesAsync(HttpContext httpContext)
         {
-            var request = httpContext.Request;
-            var response = httpContext.Response;
-
             try
             {
-                using var streamReader = new StreamReader(request.InputStream);
-                var json = streamReader.ReadToEnd();
-                var model = ContentsDefaults.JsonDeserialize(json, typeof(ImageCombineModel)) as ImageCombineModel;
-                var task = model?.CombineAsync(options);
-                task?.Wait();
-                var imagePath = task?.Result?.Replace(Path.DirectorySeparatorChar, '/');
-
+                var request = httpContext.Request;
+                var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
+                var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
                 if (options.ReturnAbsolutePath)
                 {
                     var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
                     imagePath = $"//{request.Url.Host}{port}/{imagePath}";
                 }
 
-                response.StatusCode = 200;
-                response.ContentType = "application/json";
-                response.Write(ContentsDefaults.JsonSerialize(imagePath));
+                await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
 
                 return true;
             }
@@ -105,19 +97,13 @@ namespace Liyanjie.Contents.AspNet
             return false;
         }
 
-        bool ConcatenateImages(HttpContext httpContext)
+        async Task<bool> ConcatenateImagesAsync(HttpContext httpContext)
         {
-            var request = httpContext.Request;
-            var response = httpContext.Response;
-
             try
             {
-                using var streamReader = new StreamReader(request.InputStream);
-                var json = streamReader.ReadToEnd();
-                var model = ContentsDefaults.JsonDeserialize(json, typeof(ImageConcatenateModel)) as ImageConcatenateModel;
-                var task = model?.ConcatenateAsync(options);
-                task?.Wait();
-                var imagePath = task?.Result?.Replace(Path.DirectorySeparatorChar, '/');
+                var request = httpContext.Request;
+                var model = (await ModularizationDefaults.DeserializeFromRequestAsync(request, typeof(ImageConcatenateModel))) as ImageConcatenateModel;
+                var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 
                 if (options.ReturnAbsolutePath)
                 {
@@ -125,9 +111,7 @@ namespace Liyanjie.Contents.AspNet
                     imagePath = $"//{request.Url.Host}{port}/{imagePath}";
                 }
 
-                response.StatusCode = 200;
-                response.ContentType = "application/json";
-                response.Write(ContentsDefaults.JsonSerialize(imagePath));
+                await ModularizationDefaults.SerializeToResponseAsync(httpContext.Response, imagePath);
 
                 return true;
             }
