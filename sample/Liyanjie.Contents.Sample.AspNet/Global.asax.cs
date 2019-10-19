@@ -2,12 +2,15 @@
 using System.Threading.Tasks;
 using System.Web;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Newtonsoft.Json;
 
 namespace Liyanjie.Contents.Sample.AspNet
 {
     public class Global : System.Web.HttpApplication
     {
+        static IServiceCollection services = new ServiceCollection();
 
         protected void Application_Start(object sender, EventArgs e)
         {
@@ -25,14 +28,24 @@ namespace Liyanjie.Contents.Sample.AspNet
                 response.ContentType = "application/json";
                 response.Write(JsonConvert.SerializeObject(content));
             }
-            this.AddModularization(deserializeFromRequest, serializeToResponse)
+            void serviceRegister(object instance, string lifeTime)
+                => _ = lifeTime.ToLower() switch
+                {
+                    "singleton" => services.AddSingleton(instance.GetType(), sp => instance),
+                    "scoped" => services.AddScoped(instance.GetType(), sp => instance),
+                    "transient" => services.AddTransient(instance.GetType(), sp => instance),
+                    _ => services,
+                };
+            this.AddModularization(serviceRegister, deserializeFromRequest, serializeToResponse)
+            //this.AddModularization(deserializeFromRequest, serializeToResponse)
                 .AddImage(options => options.RootPath = Server.MapPath("~/"))
                 .AddUpload(options => options.RootPath = Server.MapPath("~/"));
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            this.UseModularization();
+            this.UseModularization(services.BuildServiceProvider());
+            //this.UseModularization(services.BuildServiceProvider());
         }
     }
 }
