@@ -207,11 +207,11 @@
       <Name>Liyanjie.Contents.Upload</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.Image\Liyanjie.Modularization.AspNet.Image.csproj">
-      <Project>{26be441b-aeaf-4b4b-a655-e69d7f640ff8}</Project>
+      <Project>{02d55d37-59e5-4689-8a03-34480ee9cd61}</Project>
       <Name>Liyanjie.Modularization.AspNet.Image</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.Upload\Liyanjie.Modularization.AspNet.Upload.csproj">
-      <Project>{7d24d838-e313-4f04-934a-3ef903cb4652}</Project>
+      <Project>{1cb4f82f-d2e1-4cb1-8638-eb84264164ce}</Project>
       <Name>Liyanjie.Modularization.AspNet.Upload</Name>
     </ProjectReference>
   </ItemGroup>

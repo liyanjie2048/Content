@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net45</TargetFrameworks>
+        <TargetFrameworks>net45;</TargetFrameworks>
         <Description>Liyanjie.Modularization.AspNet.Upload</Description>
         <Copyright>© Liyanjie.me</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -12,14 +12,6 @@
         <RootNamespace>Liyanjie.Modularization.AspNet</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Liyanjie.Modularization.AspNet" Version="1.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\Liyanjie.Contents.Upload\Liyanjie.Contents.Upload.csproj" />
-    </ItemGroup>
-
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
         <DocumentationFile>bin\Release\net45\Liyanjie.Modularization.AspNet.Upload.xml</DocumentationFile>
     </PropertyGroup>
@@ -27,5 +19,10 @@
     <Target Name="MovePackage" AfterTargets="Pack">
         <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
     </Target>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+        <PackageReference Include="Liyanjie.Modularization.AspNet" Version="1.0.0" />
+        <ProjectReference Include="..\Liyanjie.Contents.Upload\Liyanjie.Contents.Upload.csproj" />
+    </ItemGroup>
 
 </Project>

@@ -16,7 +16,7 @@ namespace Liyanjie.Contents.Models
             dir = dir.TrimStart(new[] { '/', '\\' })
                 .Replace($@"\:|\*|\?|{'"'}|\<|\>|\||\s", string.Empty, RegexOptions.None);
 
-            var directory = Path.Combine(options.RootPath, dir).Replace('/', Path.DirectorySeparatorChar);
+            var directory = Path.Combine(options.RootDirectory, dir).Replace('/', Path.DirectorySeparatorChar);
 
             Directory.CreateDirectory(directory);
 

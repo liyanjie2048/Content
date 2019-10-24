@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Liyanjie.Contents
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static async Task<System.Drawing.Image> FromFileOrNetworkAsync(string path)
+        public static async Task<Image> FromFileOrNetworkAsync(string path)
         {
             try
             {
@@ -23,11 +24,11 @@ namespace Liyanjie.Contents
                 {
                     using var client = new HttpClient();
                     var stream = await client.GetStreamAsync(path);
-                    return System.Drawing.Image.FromStream(stream);
+                    return Image.FromStream(stream);
                 }
                 else
                     return File.Exists(path)
-                        ? System.Drawing.Image.FromFile(path)
+                        ? Image.FromFile(path)
                         : null;
             }
             catch (Exception)

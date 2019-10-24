@@ -12,21 +12,6 @@
     <RootNamespace>Liyanjie.Contents</RootNamespace>
   </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.0.0" />
-        <PackageReference Include="ZXing.Net" Version="0.16.5" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
-        <Reference Include="System.Net.Http" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-        <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
-        <PackageReference Include="System.Net.Http" Version="4.3.0" />
-    </ItemGroup>
-
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
         <DocumentationFile>bin\Release\net45\Liyanjie.Contents.Image.xml</DocumentationFile>
     </PropertyGroup>
@@ -38,5 +23,19 @@
     <Target Name="MovePackage" AfterTargets="Pack">
         <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
     </Target>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
+        <PackageReference Include="Liyanjie.Drawing.Extensions" Version="1.0.0" />
+        <PackageReference Include="ZXing.Net" Version="0.16.5" />
+        <Reference Include="System.Net.Http" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
+        <PackageReference Include="Liyanjie.Drawing.Extensions" Version="1.0.0" />
+        <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+        <PackageReference Include="ZXing.Net" Version="0.16.5" />
+    </ItemGroup>
 
 </Project>

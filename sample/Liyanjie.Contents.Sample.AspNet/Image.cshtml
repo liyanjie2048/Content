@@ -120,8 +120,8 @@
             $('#confirmConcatenate').click(function () {
                 let data = {
                     imagePaths: [$('#inputConcatenate0').val(), $('#inputConcatenate1').val(), $('#inputConcatenate2').val()],
-                    width: $('#widthConcatenate').val(),
-                    height: $('#heightConcatenate').val()
+                    width: parseInt($('#widthConcatenate').val()),
+                    height: parseInt($('#heightConcatenate').val())
                 };
                 var dat = JSON.stringify(data);
                 console.log(dat);
@@ -143,20 +143,20 @@
                 let data = {
                     items: [{
                         imagePath: $('#inputCombine0').val(),
-                        x: $('#xCombine0').val(),
-                        y: $('#yCombine0').val(),
-                        width: $('#widthCombine0').val(),
-                        height: $('#heightCombine0').val(),
+                        x: parseInt($('#xCombine0').val()),
+                        y: parseInt($('#yCombine0').val()),
+                        width: parseInt($('#widthCombine0').val()),
+                        height: parseInt($('#heightCombine0').val()),
                     },
                     {
                         imagePath: $('#inputCombine1').val(),
-                        x: $('#xCombine1').val(),
-                        y: $('#yCombine1').val(),
-                        width: $('#widthCombine1').val(),
-                        height: $('#heightCombine1').val(),
+                        x: parseInt($('#xCombine1').val()),
+                        y: parseInt($('#yCombine1').val()),
+                        width: parseInt($('#widthCombine1').val()),
+                        height: parseInt($('#heightCombine1').val()),
                     }],
-                    width: $('#widthCombine').val(),
-                    height: $('#heightCombine').val()
+                    width: parseInt($('#widthCombine').val()),
+                    height: parseInt($('#heightCombine').val())
                 };
                 var dat = JSON.stringify(data);
                 console.log(dat);
@@ -176,9 +176,9 @@
             });
             $('#confirmQRCode').click(function () {
                 let content = encodeURI($('#inputQRCode').val());
-                let margin = $('#marginQRCode').val();
-                let width = $('#widthQRCode').val();
-                let height = $('#heightQRCode').val();
+                let margin = parseInt($('#marginQRCode').val());
+                let width = parseInt($('#widthQRCode').val());
+                let height = parseInt($('#heightQRCode').val());
                 $('#messageQRCode').html($(`<img src="/Image/QRCode?content=${content}&margin=${margin}&width=${width}&height=${height}" style="box-shadow:rgba(0,0,0,.5) 0 0 5px" />`));
             });
         };

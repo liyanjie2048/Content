@@ -34,12 +34,12 @@ namespace Liyanjie.Contents.Models
         public async Task<string> ConcatenateAsync(ImageOptions imageOptions)
         {
             var fileName = $"{ImagePaths.ToString(",").MD5Encoded()}.concatenated.{Width}x{Height}.jpg";
-            var filePath = Path.Combine(imageOptions.ConcatsDir, fileName);
-            var fileAbsolutePath = Path.Combine(imageOptions.RootPath, filePath).Replace('/', Path.DirectorySeparatorChar);
+            var filePath = Path.Combine(imageOptions.ConcatenatedDirectory, fileName);
+            var fileAbsolutePath = Path.Combine(imageOptions.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
 
             if (!File.Exists(fileAbsolutePath))
             {
-                var fileAbsolutePaths = ImagePaths.Process(imageOptions.RootPath).ToList();
+                var fileAbsolutePaths = ImagePaths.Process(imageOptions.RootDirectory).ToList();
                 var fileImage = (await ImageHelper.FromFileOrNetworkAsync(fileAbsolutePaths[0]))?.Resize(Width, Height);
                 foreach (var path in fileAbsolutePaths.Skip(1))
                 {

@@ -40,8 +40,8 @@ namespace Liyanjie.Contents.Models
         public string GenerateQRCode(ImageOptions imageOptions)
         {
             var fileName = $"{Content.MD5Encoded()}-{Margin}.{Width}x{Height}.jpg";
-            var filePath = Path.Combine(imageOptions.QRCodesDir, fileName);
-            var filePhysicalPath = Path.Combine(imageOptions.RootPath, filePath).Replace('/', Path.DirectorySeparatorChar);
+            var filePath = Path.Combine(imageOptions.QRCodesDirectory, fileName);
+            var filePhysicalPath = Path.Combine(imageOptions.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
             if (!File.Exists(filePhysicalPath))
             {
                 var writer = new BarcodeWriter

@@ -45,7 +45,7 @@
                         $('#message').text(`上传取消！`);
                         showInput();
                     }, false);
-                    xhr.open('POST', '/Upload');
+                    xhr.open('POST', '/fileupload');
                     xhr.send(fd);
                 }
             });

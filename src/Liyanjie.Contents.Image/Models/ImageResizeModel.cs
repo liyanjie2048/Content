@@ -17,7 +17,7 @@ namespace Liyanjie.Contents.Models
         public string Resize(ImageOptions imageOptions)
         {
             var path = ImagePath.TrimStart(new[] { '/', '\\' });
-            var match = path.Match($@"^\S+(?<parameters>(-(?<color>[0-9a-fA-F]{6}))\.(?<size>\d*x\d*)?)\.(jpg|jpeg|png|gif|bmp)$", RegexOptions.IgnoreCase);
+            var match = path.Match(imageOptions.ResizePathPattern, RegexOptions.IgnoreCase);
             if (!match.Success)
             {
                 return imageOptions.EmptyPath;
@@ -28,7 +28,7 @@ namespace Liyanjie.Contents.Models
             var str_size = matchGroups["size"].Value;
             var str_color = matchGroups["color"].Value;
 
-            var imageSourcePath = Path.Combine(imageOptions.RootPath, path.Replace(str_parameters, string.Empty));
+            var imageSourcePath = Path.Combine(imageOptions.RootDirectory, path.Replace(str_parameters, string.Empty));
             if (!File.Exists(imageSourcePath))
             {
                 var dotIndex = imageOptions.EmptyPath.LastIndexOf(".");
@@ -43,7 +43,7 @@ namespace Liyanjie.Contents.Models
                 return null;
             }
 
-            var image = System.Drawing.Image.FromFile(imageSourcePath);
+            var image = Image.FromFile(imageSourcePath);
             if (width > 0 && height > 0)
             {
                 image = image.Resize(width, height);
@@ -54,7 +54,7 @@ namespace Liyanjie.Contents.Models
                     var b = str_color.Substring(4, 2).FromRadix16();
                     var tmp = new Bitmap(width, height);
                     tmp.Clear(Color.FromArgb(r, g, b));
-                    tmp.Combine((new Point((width - image.Width) / 2, (height - image.Height) / 2), new Size(width, height), image, true));
+                    tmp.Combine((new Point((width - image.Width) / 2, (height - image.Height) / 2), new Size(width, height), image));
                     image = tmp;
                 }
             }
@@ -65,7 +65,7 @@ namespace Liyanjie.Contents.Models
 
             using (image)
             {
-                var imageDestinationPath = Path.Combine(imageOptions.RootPath, path).Replace('/', Path.DirectorySeparatorChar);
+                var imageDestinationPath = Path.Combine(imageOptions.RootDirectory, path).Replace('/', Path.DirectorySeparatorChar);
                 image.CompressSave(imageDestinationPath, imageOptions.CompressFlag);
             }
 

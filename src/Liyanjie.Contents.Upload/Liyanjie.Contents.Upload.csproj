@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net45;netstandard1.3;</TargetFrameworks>
+        <TargetFrameworks>net45;netstandard2.0;</TargetFrameworks>
         <Description>Liyanjie.Contents.Upload</Description>
         <Copyright>© Liyanjie.me</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -12,21 +12,25 @@
         <RootNamespace>Liyanjie.Contents</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.0.0" />
-    </ItemGroup>
-
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
         <DocumentationFile>bin\Release\net45\Liyanjie.Contents.Upload.xml</DocumentationFile>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
-        <DocumentationFile>bin\Release\netstandard1.3\Liyanjie.Contents.Upload.xml</DocumentationFile>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+        <DocumentationFile>bin\Release\netstandard2.0\Liyanjie.Contents.Upload.xml</DocumentationFile>
     </PropertyGroup>
 
     <Target Name="MovePackage" AfterTargets="Pack">
         <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
     </Target>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
+    </ItemGroup>
 
 </Project>

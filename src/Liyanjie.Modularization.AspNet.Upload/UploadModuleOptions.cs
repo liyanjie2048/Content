@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web;
 
 using Liyanjie.Contents;
@@ -10,10 +11,10 @@ namespace Liyanjie.Modularization.AspNet
     /// </summary>
     public class UploadModuleOptions : UploadOptions
     {
-        public Func<HttpRequest, bool> TryMatchUpload { get; set; }
-            = request => true
-                && "POST".Equals(request.HttpMethod, StringComparison.OrdinalIgnoreCase)//POST请求
-                && ModularizationDefaults.TryMatchTemplate(request.Path, "Upload");
+        /// <summary>
+        /// 
+        /// </summary>
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync;
 
         /// <summary>
         /// 返回文件绝对路径，默认：true

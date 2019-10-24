@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Liyanjie.Modularization.AspNetCore;
 
@@ -12,15 +13,27 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="moduleTable"></param>
+        /// <param name="routeTemplate"></param>
         /// <param name="configureOptions"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddUpload(this ModularizationModuleTable builder,
+        public static ModularizationModuleTable AddUpload(this ModularizationModuleTable moduleTable,
+            string routeTemplate = "upload",
             Action<UploadModuleOptions> configureOptions = null)
         {
-            builder.AddModule<UploadModule, UploadModuleOptions>(configureOptions);
+            moduleTable.Services.AddSingleton<UploadMiddleware>();
 
-            return builder;
+            moduleTable.AddModule("UploadModule", new[]
+            {
+               new ModularizationModuleMiddleware
+               {
+                   HttpMethods = new[]{ "POST" },
+                   RouteTemplate = routeTemplate,
+                   Type = typeof(UploadMiddleware),
+               },
+            }, configureOptions);
+
+            return moduleTable;
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using System.Web;
 
+using Liyanjie.Modularization.AspNet;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
@@ -10,7 +12,7 @@ namespace Liyanjie.Contents.Sample.AspNet
 {
     public class Global : System.Web.HttpApplication
     {
-        static IServiceCollection services = new ServiceCollection();
+        readonly static IServiceCollection services = new ServiceCollection();
 
         protected void Application_Start(object sender, EventArgs e)
         {
@@ -28,7 +30,15 @@ namespace Liyanjie.Contents.Sample.AspNet
                 response.ContentType = "application/json";
                 response.Write(JsonConvert.SerializeObject(content));
             }
-            void serviceRegister(object instance, string lifeTime)
+            void registerServiceType(Type type, string lifeTime)
+                => _ = lifeTime.ToLower() switch
+                {
+                    "singleton" => services.AddSingleton(type),
+                    "scoped" => services.AddScoped(type),
+                    "transient" => services.AddTransient(type),
+                    _ => services,
+                };
+            void registerServiceInstance(object instance, string lifeTime)
                 => _ = lifeTime.ToLower() switch
                 {
                     "singleton" => services.AddSingleton(instance.GetType(), sp => instance),
@@ -36,10 +46,19 @@ namespace Liyanjie.Contents.Sample.AspNet
                     "transient" => services.AddTransient(instance.GetType(), sp => instance),
                     _ => services,
                 };
-            this.AddModularization(serviceRegister, deserializeFromRequest, serializeToResponse)
+            this.AddModularization(registerServiceType, registerServiceInstance)
             //this.AddModularization(deserializeFromRequest, serializeToResponse)
-                .AddImage(options => options.RootPath = Server.MapPath("~/"))
-                .AddUpload(options => options.RootPath = Server.MapPath("~/"));
+                .AddUpload("fileupload", configureOptions: options =>
+                {
+                    options.RootDirectory = Server.MapPath("~/");
+                    options.SerializeToResponseAsync = serializeToResponse;
+                })
+                .AddImage(configureOptions: options =>
+                {
+                    options.RootDirectory = Server.MapPath("~/");
+                    options.DeserializeFromRequestAsync = deserializeFromRequest;
+                    options.SerializeToResponseAsync = serializeToResponse;
+                });
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)

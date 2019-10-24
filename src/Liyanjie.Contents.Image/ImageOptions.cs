@@ -8,22 +8,27 @@
         /// <summary>
         /// 
         /// </summary>
-        public string RootPath { get; set; }
+        public string RootDirectory { get; set; }
 
         /// <summary>
         /// 拼接目录
         /// </summary>
-        public string ConcatsDir { get; set; } = @"images\concatenated";
+        public string ConcatenatedDirectory { get; set; } = @"images\concatenated";
 
         /// <summary>
         /// 合并目录
         /// </summary>
-        public string CombineDir { get; set; } = @"images\combined";
+        public string CombinedDirectory { get; set; } = @"images\combined";
 
         /// <summary>
         /// 二维码目录
         /// </summary>
-        public string QRCodesDir { get; set; } = @"images\qrcodes";
+        public string QRCodesDirectory { get; set; } = @"images\qrcodes";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ResizePathPattern { get; set; } = $@"^\S+(?<parameters>(-(?<color>[0-9a-fA-F]{6}))\.(?<size>\d*x\d*)?)\.(jpg|jpeg|png|gif|bmp)$";
 
         /// <summary>
         /// 
