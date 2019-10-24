@@ -28,7 +28,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="response"></param>
+        /// <param name="httpContext"></param>
         public async Task HandleAsync(HttpContext httpContext)
         {
             var model = new ImageResizeModel { ImagePath = httpContext.Request.Path };

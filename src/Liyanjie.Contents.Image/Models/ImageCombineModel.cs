@@ -103,6 +103,10 @@ namespace Liyanjie.Contents.Models
         /// </summary>
         public int? Height { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => $"{ImagePath}|{X},{Y}|{Width}x{Height}";
     }
 }

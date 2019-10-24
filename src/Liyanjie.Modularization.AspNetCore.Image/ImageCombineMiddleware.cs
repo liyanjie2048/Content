@@ -25,6 +25,12 @@ namespace Liyanjie.Modularization.AspNetCore
             this.options = options.Value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="next"></param>
+        /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             var request = context.Request;

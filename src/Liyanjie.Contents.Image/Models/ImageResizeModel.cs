@@ -5,8 +5,14 @@ using System.Text.RegularExpressions;
 
 namespace Liyanjie.Contents.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ImageResizeModel
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string ImagePath { private get; set; }
 
         /// <summary>

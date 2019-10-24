@@ -6,10 +6,22 @@ using System.Threading.Tasks;
 
 namespace Liyanjie.Contents.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class UploadModel
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public UploadFileModel[] Files { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="dir"></param>
+        /// <returns></returns>
 #pragma warning disable CS1998 // 异步方法缺少 "await" 运算符，将以同步方式运行
         public async Task<(bool Success, string FilePath)[]> SaveAsync(UploadOptions options, string dir = "temps")
         {
@@ -55,10 +67,25 @@ namespace Liyanjie.Contents.Models
         }
 #pragma warning restore CS1998 // 异步方法缺少 "await" 运算符，将以同步方式运行
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class UploadFileModel
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Stream FileStream { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public long FileLength { get; set; }
     }
 }
