@@ -259,14 +259,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/sample/Liyanjie.Contents.Sample.AspNet/temps
-/sample/Liyanjie.Contents.Sample.AspNetCore/Images/combined
-/sample/Liyanjie.Contents.Sample.AspNetCore/Images/concatenated
-/sample/Liyanjie.Contents.Sample.AspNetCore/Images/qrcodes
-/sample/Liyanjie.Contents.Sample.AspNetCore/wwwroot/temps
-/sample/Liyanjie.Contents.Sample.AspNetCore/wwwroot/images/combined
-/sample/Liyanjie.Contents.Sample.AspNetCore/wwwroot/images/concatenated
-/sample/Liyanjie.Contents.Sample.AspNetCore/wwwroot/images/qrcodes
-/sample/Liyanjie.Contents.Sample.AspNet/Images/combined
-/sample/Liyanjie.Contents.Sample.AspNet/Images/concatenated
-/sample/Liyanjie.Contents.Sample.AspNet/Images/qrcodes
+
+**/temps
+**/images/combined
+**/images/concatenated
+**/images/qrcodes
