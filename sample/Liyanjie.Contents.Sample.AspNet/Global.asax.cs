@@ -31,24 +31,27 @@ namespace Liyanjie.Contents.Sample.AspNet
                 response.Write(JsonConvert.SerializeObject(content));
                 response.End();
             }
-            void registerServiceType(Type type, string lifeTime)
-                => _ = lifeTime.ToLower() switch
+            static void registerServiceType(Type type, string lifeTime)
+            {
+                var _services = lifeTime.ToLower() switch
                 {
                     "singleton" => services.AddSingleton(type),
                     "scoped" => services.AddScoped(type),
                     "transient" => services.AddTransient(type),
                     _ => services,
                 };
-            void registerServiceInstance(object instance, string lifeTime)
-                => _ = lifeTime.ToLower() switch
+            }
+            static void registerServiceFactory(Type type, Func<IServiceProvider, object> implementationFactory, string lifeTime)
+            {
+                var _services = lifeTime.ToLower() switch
                 {
-                    "singleton" => services.AddSingleton(instance.GetType(), sp => instance),
-                    "scoped" => services.AddScoped(instance.GetType(), sp => instance),
-                    "transient" => services.AddTransient(instance.GetType(), sp => instance),
+                    "singleton" => services.AddSingleton(type, implementationFactory),
+                    "scoped" => services.AddScoped(type, implementationFactory),
+                    "transient" => services.AddTransient(type, implementationFactory),
                     _ => services,
                 };
-            this.AddModularization(registerServiceType, registerServiceInstance)
-            //this.AddModularization(deserializeFromRequest, serializeToResponse)
+            }
+            this.AddModularization(registerServiceType, registerServiceFactory)
                 .AddUpload("fileupload", configureOptions: options =>
                 {
                     options.RootDirectory = Server.MapPath("~/");
@@ -64,8 +67,8 @@ namespace Liyanjie.Contents.Sample.AspNet
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            this.UseModularization(services.BuildServiceProvider());
-            //this.UseModularization(services.BuildServiceProvider());
+            var serviceProvider = services.BuildServiceProvider();
+            this.UseModularization(serviceProvider);
         }
     }
 }

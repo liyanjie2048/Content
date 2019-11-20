@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.Asp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Contents.Sample.AspNetCore_2_1", "sample\Liyanjie.Contents.Sample.AspNetCore_2_1\Liyanjie.Contents.Sample.AspNetCore_2_1.csproj", "{3AE63E0D-1599-40ED-B8BD-03BBC59B3B04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.Contents.Sample.AspNetCore_3_0", "sample\Liyanjie.Contents.Sample.AspNetCore_3_0\Liyanjie.Contents.Sample.AspNetCore_3_0.csproj", "{3B71F51C-3BFB-4C26-A4BB-91AA83A4D7F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Contents.Sample.AspNetCore_3_0", "sample\Liyanjie.Contents.Sample.AspNetCore_3_0\Liyanjie.Contents.Sample.AspNetCore_3_0.csproj", "{3B71F51C-3BFB-4C26-A4BB-91AA83A4D7F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

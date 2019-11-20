@@ -56,7 +56,7 @@ namespace Liyanjie.Modularization.AspNetCore
             var paths = await model.SaveAsync(options, dir);
             var filePaths = paths.Select(_ => (_.Success, FilePath: _.Success ? _.FilePath.Replace(Path.DirectorySeparatorChar, '/') : _.FilePath));
             if (options.ReturnAbsolutePath)
-                filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"//{request.Host}/{_.FilePath}" : _.FilePath));
+                filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"{request.Scheme}://{request.Host}/{_.FilePath}" : _.FilePath));
 
             await options.SerializeToResponseAsync(context.Response, filePaths.Select(_ => _.FilePath));
         }

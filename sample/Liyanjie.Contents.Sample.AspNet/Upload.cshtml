@@ -23,9 +23,7 @@
             $('#upload').click(function () {
                 let file = document.getElementById('file').files[0];
                 if (file) {
-                    let fd = new FormData();
                     let xhr = new XMLHttpRequest();
-                    fd.append("File", file);
                     xhr.upload.addEventListener("progress", function (event) {
                         $('#message').text(`正在上传：${event.lengthComputable ? Math.round(event.loaded * 100 / event.total) : 0}%`);
                     }, false);
@@ -46,6 +44,9 @@
                         showInput();
                     }, false);
                     xhr.open('POST', '/fileupload');
+
+                    let fd = new FormData();
+                    fd.append("File", file);
                     xhr.send(fd);
                 }
             });

@@ -38,7 +38,7 @@ namespace Liyanjie.Modularization.AspNetCore
             var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 
             if (options.ReturnAbsolutePath)
-                imagePath = $"//{request.Host}/{imagePath}";
+                imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
 
             await options.SerializeToResponseAsync(context.Response, imagePath);
         }

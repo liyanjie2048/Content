@@ -34,7 +34,7 @@ namespace Liyanjie.Modularization.AspNet
 
             var dir = "temps";
             var _dir = request.QueryString.GetValues("dir");
-            if (_dir.IsNullOrEmpty())
+            if (!_dir.IsNullOrEmpty())
                 dir = _dir.FirstOrDefault();
 
             var model = new UploadModel
@@ -54,12 +54,10 @@ namespace Liyanjie.Modularization.AspNet
             if (options.ReturnAbsolutePath)
             {
                 var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
-                filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"//{request.Url.Host}{port}/{_.FilePath}" : _.FilePath));
+                filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"{request.Url.Scheme}://{request.Url.Host}{port}/{_.FilePath}" : _.FilePath));
             }
 
             await options.SerializeToResponseAsync(httpContext.Response, filePaths.Select(_ => _.FilePath));
-
-            httpContext.Response.End();
         }
     }
 }

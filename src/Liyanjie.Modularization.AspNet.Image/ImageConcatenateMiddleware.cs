@@ -36,7 +36,7 @@ namespace Liyanjie.Modularization.AspNet
             if (options.ReturnAbsolutePath)
             {
                 var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
-                imagePath = $"//{request.Url.Host}{port}/{imagePath}";
+                imagePath = $"{request.Url.Scheme}://{request.Url.Host}{port}/{imagePath}";
             }
 
             await options.SerializeToResponseAsync(httpContext.Response, imagePath);
