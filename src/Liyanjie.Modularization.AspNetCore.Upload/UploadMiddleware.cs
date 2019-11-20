@@ -36,8 +36,11 @@ namespace Liyanjie.Modularization.AspNetCore
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             var request = context.Request;
-            var dir = request.Query["dir"].FirstOrDefault();
-            dir = dir.IsNullOrEmpty() ? "temps" : dir;
+
+            var dir = "temps";
+            if (request.Query.TryGetValue("dir", out var _dir) && !_dir.IsNullOrEmpty())
+                dir = _dir.FirstOrDefault();
+
             var model = new UploadModel
             {
                 Files = request.Form.Files

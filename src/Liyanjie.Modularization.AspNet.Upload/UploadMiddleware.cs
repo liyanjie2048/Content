@@ -31,8 +31,12 @@ namespace Liyanjie.Modularization.AspNet
         public async Task HandleAsync(HttpContext httpContext)
         {
             var request = httpContext.Request;
-            var dir = request.QueryString["dir"];
-            dir = dir.IsNullOrEmpty() ? "temps" : dir;
+
+            var dir = "temps";
+            var _dir = request.QueryString.GetValues("dir");
+            if (_dir.IsNullOrEmpty())
+                dir = _dir.FirstOrDefault();
+
             var model = new UploadModel
             {
                 Files = request.Files.AllKeys
