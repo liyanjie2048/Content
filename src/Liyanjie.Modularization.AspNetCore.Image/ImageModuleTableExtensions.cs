@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
-using Liyanjie.Modularization.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Liyanjie.Modularization.AspNetCore
 {
     /// <summary>
     /// 

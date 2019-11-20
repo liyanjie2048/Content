@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
-using Liyanjie.Modularization.AspNet;
-
-namespace System.Web
+namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
     /// 
