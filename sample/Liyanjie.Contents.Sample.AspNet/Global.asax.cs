@@ -29,6 +29,7 @@ namespace Liyanjie.Contents.Sample.AspNet
                 response.StatusCode = 200;
                 response.ContentType = "application/json";
                 response.Write(JsonConvert.SerializeObject(content));
+                response.End();
             }
             void registerServiceType(Type type, string lifeTime)
                 => _ = lifeTime.ToLower() switch

@@ -38,25 +38,25 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     HttpMethods = new[] { "POST" },
                     RouteTemplate = combineRouteTemplate,
-                    Type = typeof(ImageCombineMiddleware),
+                    HandlerType = typeof(ImageCombineMiddleware),
                 },
                 new ModularizationModuleMiddleware
                 {
                     HttpMethods = new[] { "POST" },
                     RouteTemplate = concatenateRouteTemplate,
-                    Type =  typeof(ImageConcatenateMiddleware),
+                    HandlerType =  typeof(ImageConcatenateMiddleware),
                 },
                 new ModularizationModuleMiddleware
                 {
                     HttpMethods = new[] { "GET" },
                     RouteTemplate = qrCodeRouteTemplate,
-                    Type = typeof(ImageQRCodeMiddleware),
+                    HandlerType = typeof(ImageQRCodeMiddleware),
                 },
                 new ModularizationModuleMiddleware
                 {
                     HttpMethods = new[] { "GET" },
                     RouteTemplate = resizeRouteTemplate,
-                    Type =  typeof(ImageResizeMiddleware),
+                    HandlerType =  typeof(ImageResizeMiddleware),
                 },
             }, configureOptions);
 

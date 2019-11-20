@@ -28,7 +28,7 @@ namespace System.Web
                {
                    HttpMethods = new[]{ "POST" },
                    RouteTemplate = routeTemplate,
-                   Type = typeof(UploadMiddleware),
+                   HandlerType = typeof(UploadMiddleware),
                },
             }, configureOptions);
 

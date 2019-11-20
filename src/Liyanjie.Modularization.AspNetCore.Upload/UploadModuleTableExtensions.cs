@@ -29,7 +29,7 @@ namespace Microsoft.Extensions.DependencyInjection
                {
                    HttpMethods = new[]{ "POST" },
                    RouteTemplate = routeTemplate,
-                   Type = typeof(UploadMiddleware),
+                   HandlerType = typeof(UploadMiddleware),
                },
             }, configureOptions);
 
