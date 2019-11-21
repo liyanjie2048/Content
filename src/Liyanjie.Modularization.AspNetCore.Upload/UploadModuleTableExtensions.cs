@@ -13,12 +13,12 @@ namespace Liyanjie.Modularization.AspNetCore
         /// 
         /// </summary>
         /// <param name="moduleTable"></param>
-        /// <param name="routeTemplate"></param>
         /// <param name="configureOptions"></param>
+        /// <param name="routeTemplate"></param>
         /// <returns></returns>
         public static ModularizationModuleTable AddUpload(this ModularizationModuleTable moduleTable,
-            string routeTemplate = "upload",
-            Action<UploadModuleOptions> configureOptions = null)
+            Action<UploadModuleOptions> configureOptions,
+            string routeTemplate = "upload")
         {
             moduleTable.Services.AddSingleton<UploadMiddleware>();
 

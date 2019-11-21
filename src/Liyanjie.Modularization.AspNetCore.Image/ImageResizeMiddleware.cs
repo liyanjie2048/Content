@@ -37,7 +37,7 @@ namespace Liyanjie.Modularization.AspNetCore
             var model = new ImageResizeModel { ImagePath = context.Request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
             if (!imagePath.IsNullOrEmpty())
-                context.Response.Redirect(imagePath);
+                context.Response.Redirect($"/{imagePath}");
 
             await Task.CompletedTask;
         }

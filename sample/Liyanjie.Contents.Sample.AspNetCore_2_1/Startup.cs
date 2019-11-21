@@ -37,16 +37,20 @@ namespace Liyanjie.Contents.Sample.AspNetCore_2_1
                 await response.WriteAsync(JsonConvert.SerializeObject(content));
             }
             services.AddModularization()
-                .AddUpload("fileupload", configureOptions: options =>
+                .AddUpload(options =>
                 {
                     options.RootDirectory = Env.WebRootPath;
                     options.SerializeToResponseAsync = serializeToResponse;
-                })
-                .AddImage(configureOptions: options =>
+                }, "fileupload")
+                .AddImage(options =>
                 {
                     options.RootDirectory = Env.WebRootPath;
                     options.DeserializeFromRequestAsync = deserializeFromRequest;
                     options.SerializeToResponseAsync = serializeToResponse;
+                }, resizeRouteTemplates: new[]
+                {
+                    "images/{filename}.{size}.{extension}",
+                    "images/{directory}/{filename}.{size}.{extension}"
                 });
 
             services.AddMvc()

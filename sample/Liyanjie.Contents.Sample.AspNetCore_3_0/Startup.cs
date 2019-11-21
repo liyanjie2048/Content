@@ -2,6 +2,8 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using Liyanjie.Modularization.AspNetCore;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,16 +40,20 @@ namespace Liyanjie.Contents.Sample.AspNetCore_3_0
                 await response.WriteAsync(JsonSerializer.Serialize(content));
             }
             services.AddModularization()
-                .AddUpload("fileupload", configureOptions: options =>
+                .AddUpload(options =>
                 {
                     options.RootDirectory = Env.WebRootPath;
                     options.SerializeToResponseAsync = serializeToResponse;
-                })
-                .AddImage(configureOptions: options =>
+                }, "fileupload")
+                .AddImage(options =>
                 {
                     options.RootDirectory = Env.WebRootPath;
                     options.DeserializeFromRequestAsync = deserializeFromRequest;
                     options.SerializeToResponseAsync = serializeToResponse;
+                }, resizeRouteTemplates: new[]
+                {
+                    "images/{filename}.{size}.{extension}",
+                    "images/{folder}/{filename}.{size}.{extension}"
                 });
 
             services.AddRazorPages();

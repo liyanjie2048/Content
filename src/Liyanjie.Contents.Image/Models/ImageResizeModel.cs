@@ -26,7 +26,7 @@ namespace Liyanjie.Contents.Models
             var match = path.Match(imageOptions.ResizePathPattern, RegexOptions.IgnoreCase);
             if (!match.Success)
             {
-                return imageOptions.EmptyPath;
+                return imageOptions.EmptyImagePath;
             }
 
             var matchGroups = match.Groups;
@@ -37,8 +37,8 @@ namespace Liyanjie.Contents.Models
             var imageSourcePath = Path.Combine(imageOptions.RootDirectory, path.Replace(str_parameters, string.Empty));
             if (!File.Exists(imageSourcePath))
             {
-                var dotIndex = imageOptions.EmptyPath.LastIndexOf(".");
-                return $"{imageOptions.EmptyPath.Substring(0, dotIndex)}{str_parameters}{imageOptions.EmptyPath.Substring(dotIndex)}";
+                var dotIndex = imageOptions.EmptyImagePath.LastIndexOf(".");
+                return $"{imageOptions.EmptyImagePath.Substring(0, dotIndex)}{str_parameters}{imageOptions.EmptyImagePath.Substring(dotIndex)}";
             }
 
             var size = str_size.Split('x');

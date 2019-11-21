@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Liyanjie.Modularization.AspNet
 {
@@ -11,25 +12,25 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="moduleTable"></param>
+        /// <param name="configureOptions"></param>
         /// <param name="combineRouteTemplate"></param>
         /// <param name="concatenateRouteTemplate"></param>
         /// <param name="qrCodeRouteTemplate"></param>
-        /// <param name="resizeRouteTemplate"></param>
-        /// <param name="configureOptions"></param>
+        /// <param name="resizeRouteTemplates"></param>
         /// <returns></returns>
         public static ModularizationModuleTable AddImage(this ModularizationModuleTable moduleTable,
+            Action<ImageModuleOptions> configureOptions,
             string combineRouteTemplate="image/combine",
             string concatenateRouteTemplate = "image/concatenate",
             string qrCodeRouteTemplate = "image/qrCode",
-            string resizeRouteTemplate = "images/{filename}.{size}.{extension}",
-            Action<ImageModuleOptions> configureOptions = null)
+            params string[] resizeRouteTemplates)
         {
             moduleTable.RegisterServiceType?.Invoke(typeof(ImageCombineMiddleware), "Singleton");
             moduleTable.RegisterServiceType?.Invoke(typeof(ImageConcatenateMiddleware), "Singleton");
             moduleTable.RegisterServiceType?.Invoke(typeof(ImageQRCodeMiddleware), "Singleton");
             moduleTable.RegisterServiceType?.Invoke(typeof(ImageResizeMiddleware), "Singleton");
-
-            moduleTable.AddModule("ImageModule", new[]
+            
+            var middlewares = new List<ModularizationModuleMiddleware>
             {
                 new ModularizationModuleMiddleware
                 {
@@ -49,13 +50,19 @@ namespace Liyanjie.Modularization.AspNet
                     RouteTemplate = qrCodeRouteTemplate,
                     HandlerType = typeof(ImageQRCodeMiddleware),
                 },
-                new ModularizationModuleMiddleware
+            };
+            if (!resizeRouteTemplates.IsNullOrEmpty())
+                foreach (var routeTemplate in resizeRouteTemplates)
                 {
-                    HttpMethods = new[] { "GET" },
-                    RouteTemplate = resizeRouteTemplate,
-                    HandlerType =  typeof(ImageResizeMiddleware),
-                },
-            }, configureOptions);
+                    middlewares.Add(new ModularizationModuleMiddleware
+                    {
+                        HttpMethods = new[] { "GET" },
+                        RouteTemplate = routeTemplate,
+                        HandlerType = typeof(ImageResizeMiddleware),
+                    });
+                }
+
+            moduleTable.AddModule("ImageModule", middlewares.ToArray(), configureOptions);
 
             return moduleTable;
         }
