@@ -28,7 +28,7 @@
         /// <summary>
         /// 
         /// </summary>
-        public string ResizePathPattern { get; set; } = $@"^\S+(?<parameters>(-(?<color>[0-9a-fA-F]{6}))?\.(?<size>\d*x\d*)?)\.(jpg|jpeg|png|gif|bmp)$";
+        public string ResizePathPattern { get; set; } = @"(?<parameters>(-(?<color>[0-9a-fA-F]{6}))?\.(?<size>\d*x\d*)?)\.(jpg|jpeg|png|gif|bmp)(\?.*)?$";
 
         /// <summary>
         /// 

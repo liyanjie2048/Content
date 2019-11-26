@@ -60,7 +60,7 @@ namespace Liyanjie.Contents.Models
                     var b = str_color.Substring(4, 2).FromRadix16();
                     var tmp = new Bitmap(width, height);
                     tmp.Clear(Color.FromArgb(r, g, b));
-                    tmp.Combine((new Point((width - image.Width) / 2, (height - image.Height) / 2), new Size(width, height), image));
+                    tmp.Combine((new Point((width - image.Width) / 2, (height - image.Height) / 2), new Size(image.Width, image.Height), image));
                     image = tmp;
                 }
             }
