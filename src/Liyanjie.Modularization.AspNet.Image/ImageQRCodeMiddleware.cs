@@ -33,7 +33,7 @@ namespace Liyanjie.Modularization.AspNet
         {
             var query = httpContext.Request.QueryString;
             var model = query.AllKeys
-                .ToDictionary(_ => _, _ => (object)query[_])
+                .ToDictionary(_ => _.ToLower(), _ => query[_] as object)
                 .BuildModel<ImageQRCodeModel>();
             var imagePath = model?.GenerateQRCode(options);
             if (!imagePath.IsNullOrEmpty())

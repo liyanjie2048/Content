@@ -36,7 +36,7 @@ namespace Liyanjie.Modularization.AspNetCore
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             var model = context.Request.Query
-                .ToDictionary(_ => _.Key, _ => (object)_.Value)
+                .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
                 .BuildModel<ImageQRCodeModel>();
             var imagePath = model?.GenerateQRCode(options);
             if (!imagePath.IsNullOrEmpty())
