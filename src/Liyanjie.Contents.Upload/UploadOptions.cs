@@ -1,4 +1,6 @@
-﻿namespace Liyanjie.Contents
+﻿using System;
+
+namespace Liyanjie.Contents
 {
     /// <summary>
     /// 
@@ -23,6 +25,6 @@
         /// <summary>
         /// 文件名生成方案。默认：Guid
         /// </summary>
-        public Func<string, string, string> FileNameScheme = (fileName, fileExtension) => Guid.NewGuid().ToString("N");
+        public Func<string, string, string> FileNameScheme { get; set; } = (fileName, fileExtension) => Guid.NewGuid().ToString("N");
     }
 }

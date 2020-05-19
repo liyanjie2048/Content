@@ -30,6 +30,7 @@ namespace Liyanjie.Modularization.AspNet
         public async Task HandleAsync(HttpContext httpContext)
         {
             var request = httpContext.Request;
+            
             var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
             var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
             if (options.ReturnAbsolutePath)

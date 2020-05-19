@@ -14,12 +14,12 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync;
+        public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync;
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; }
 
         /// <summary>
         /// 
