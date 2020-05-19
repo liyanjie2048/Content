@@ -23,6 +23,6 @@
         /// <summary>
         /// 文件名生成方案。默认：Guid
         /// </summary>
-        public Func<string, string> FileNameScheme = origin => Guid.NewGuid().ToString("N");
+        public Func<string, string, string> FileNameScheme = (fileName, fileExtension) => Guid.NewGuid().ToString("N");
     }
 }
