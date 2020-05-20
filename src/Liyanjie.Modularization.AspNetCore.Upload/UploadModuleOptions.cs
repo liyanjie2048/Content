@@ -13,13 +13,18 @@ namespace Liyanjie.Modularization.AspNetCore
     public class UploadModuleOptions : UploadOptions
     {
         /// <summary>
-        /// 
+        /// 上传约束
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync;
+        public Func<HttpContext, Task<bool>> UploadConstrainAsync { get; set; }
 
         /// <summary>
-        /// 返回文件绝对路径，默认：true
+        /// 序列化输出
         /// </summary>
-        public bool ReturnAbsolutePath { get; set; } = true;
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; }
+
+        /// <summary>
+        /// 返回文件绝对路径，默认：false
+        /// </summary>
+        public bool ReturnAbsolutePath { get; set; } = false;
     }
 }

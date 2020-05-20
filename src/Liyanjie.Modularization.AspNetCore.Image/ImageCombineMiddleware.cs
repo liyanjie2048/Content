@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 
 using Liyanjie.Contents.Models;
@@ -33,7 +32,12 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            if (options.CombineConstrainAsync != null)
+                if (!await options.CombineConstrainAsync(context))
+                    return;
+
             var request = context.Request;
+
             var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
             var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 

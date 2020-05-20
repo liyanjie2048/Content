@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Liyanjie.Contents.Sample.AspNetCore_3_0
+namespace Liyanjie.Contents.Sample.AspNetCore_3_1
 {
     public class Startup
     {

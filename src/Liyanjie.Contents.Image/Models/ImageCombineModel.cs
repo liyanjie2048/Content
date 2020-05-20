@@ -33,7 +33,7 @@ namespace Liyanjie.Contents.Models
         /// <returns></returns>
         public async Task<string> CombineAsync(ImageOptions imageOptions)
         {
-            var fileName = $"{Items.ToString(",").MD5Encoded()}.combined.{Width}x{Height}.jpg";
+            var fileName = imageOptions.CombinedFileNameScheme.Invoke(this);
             var filePath = Path.Combine(imageOptions.CombinedDirectory, fileName);
             var fileAbsolutePath = Path.Combine(imageOptions.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
 

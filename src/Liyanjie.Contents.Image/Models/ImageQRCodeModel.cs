@@ -39,7 +39,7 @@ namespace Liyanjie.Contents.Models
         /// <returns></returns>
         public string GenerateQRCode(ImageOptions imageOptions)
         {
-            var fileName = $"{Content.MD5Encoded()}-{Margin}.{Width}x{Height}.jpg";
+            var fileName = imageOptions.QRCodeFileNameScheme.Invoke(this);
             var filePath = Path.Combine(imageOptions.QRCodesDirectory, fileName);
             var filePhysicalPath = Path.Combine(imageOptions.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
             if (!File.Exists(filePhysicalPath))

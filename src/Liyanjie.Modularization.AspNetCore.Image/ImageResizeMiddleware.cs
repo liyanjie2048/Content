@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -34,7 +33,13 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            var model = new ImageResizeModel { ImagePath = context.Request.Path };
+            if (options.ResizeConstrainAsync != null)
+                if (!await options.ResizeConstrainAsync.Invoke(context))
+                    return;
+
+            var request = context.Request;
+
+            var model = new ImageResizeModel { ImagePath = request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
             if (!imagePath.IsNullOrEmpty())
                 context.Response.Redirect($"/{imagePath}");

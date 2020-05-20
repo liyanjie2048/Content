@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -26,10 +25,15 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="httpContext"></param>
-        public async Task HandleAsync(HttpContext httpContext)
+        /// <param name="context"></param>
+        public async Task HandleAsync(HttpContext context)
         {
-            var request = httpContext.Request;
+            if (options.ResizeConstrainAsync != null)
+                if (!await options.ResizeConstrainAsync.Invoke(context))
+                    return;
+
+            var request = context.Request;
+
             var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageConcatenateModel))) as ImageConcatenateModel;
             var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 
@@ -39,9 +43,9 @@ namespace Liyanjie.Modularization.AspNet
                 imagePath = $"{request.Url.Scheme}://{request.Url.Host}{port}/{imagePath}";
             }
 
-            await options.SerializeToResponseAsync(httpContext.Response, imagePath);
+            await options.SerializeToResponseAsync(context.Response, imagePath);
 
-            httpContext.Response.End();
+            context.Response.End();
         }
     }
 }
