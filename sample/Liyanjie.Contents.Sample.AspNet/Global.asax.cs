@@ -52,6 +52,13 @@ namespace Liyanjie.Contents.Sample.AspNet
                 };
             }
             this.AddModularization(registerServiceType, registerServiceFactory)
+                .AddExplore(options =>
+                {
+                    options.RootDirectory = Server.MapPath("~/");
+                    options.Directories = new[] { "images", "temps" };
+                    options.SerializeToResponseAsync = serializeToResponse;
+                    //options.ReturnAbsolutePath = true;
+                })
                 .AddUpload(options =>
                 {
                     options.RootDirectory = Server.MapPath("~/");

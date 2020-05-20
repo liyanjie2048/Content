@@ -29,17 +29,17 @@ namespace Liyanjie.Contents.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="imageOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public async Task<string> ConcatenateAsync(ImageOptions imageOptions)
+        public async Task<string> ConcatenateAsync(ImageOptions options)
         {
-            var fileName = imageOptions.ConcatenatedFileNameScheme.Invoke(this);
-            var filePath = Path.Combine(imageOptions.ConcatenatedDirectory, fileName);
-            var fileAbsolutePath = Path.Combine(imageOptions.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
+            var fileName = options.ConcatenatedFileNameScheme.Invoke(this);
+            var filePath = Path.Combine(options.ConcatenatedDirectory, fileName);
+            var fileAbsolutePath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
 
             if (!File.Exists(fileAbsolutePath))
             {
-                var fileAbsolutePaths = ImagePaths.Process(imageOptions.RootDirectory).ToList();
+                var fileAbsolutePaths = ImagePaths.Process(options.RootDirectory).ToList();
                 var fileImage = (await ImageHelper.FromFileOrNetworkAsync(fileAbsolutePaths[0]))?.Resize(Width, Height);
                 foreach (var path in fileAbsolutePaths.Skip(1))
                 {
@@ -54,7 +54,7 @@ namespace Liyanjie.Contents.Models
 
                 using (fileImage)
                 {
-                    fileImage.CompressSave(fileAbsolutePath, imageOptions.CompressFlag);
+                    fileImage.CompressSave(fileAbsolutePath, options.CompressFlag);
                 }
             }
 

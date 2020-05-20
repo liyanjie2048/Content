@@ -198,6 +198,10 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Liyanjie.Contents.Explore\Liyanjie.Contents.Explore.csproj">
+      <Project>{7e43846c-7483-4884-8aaa-26fd6c4b36d7}</Project>
+      <Name>Liyanjie.Contents.Explore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj">
       <Project>{de5da372-ef06-4135-9086-2a611e241bc9}</Project>
       <Name>Liyanjie.Contents.Image</Name>
@@ -205,6 +209,10 @@
     <ProjectReference Include="..\..\src\Liyanjie.Contents.Upload\Liyanjie.Contents.Upload.csproj">
       <Project>{8c378e87-b43e-4e88-8615-e9fd44ffa052}</Project>
       <Name>Liyanjie.Contents.Upload</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.Explore\Liyanjie.Modularization.AspNet.Explore.csproj">
+      <Project>{18b7fe4a-3673-4b00-8e17-ffb98f22aeed}</Project>
+      <Name>Liyanjie.Modularization.AspNet.Explore</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.Image\Liyanjie.Modularization.AspNet.Image.csproj">
       <Project>{02d55d37-59e5-4689-8a03-34480ee9cd61}</Project>

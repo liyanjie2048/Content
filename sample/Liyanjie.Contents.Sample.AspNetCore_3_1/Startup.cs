@@ -40,6 +40,13 @@ namespace Liyanjie.Contents.Sample.AspNetCore_3_1
                 await response.WriteAsync(JsonSerializer.Serialize(content));
             }
             services.AddModularization()
+                .AddExplore(options =>
+                {
+                    options.RootDirectory = Env.WebRootPath;
+                    options.Directories = new[] { "images", "temps" };
+                    options.SerializeToResponseAsync = serializeToResponse;
+                    //options.ReturnAbsolutePath = true;
+                })
                 .AddUpload(options =>
                 {
                     options.RootDirectory = Env.WebRootPath;

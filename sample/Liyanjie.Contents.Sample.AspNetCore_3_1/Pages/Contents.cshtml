@@ -1,0 +1,30 @@
+﻿@page
+@model ContentModel
+@{
+    ViewData["Title"] = "浏览";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div id="message"></div>
+<section class="py-4">
+    <ul class="py-2">
+        
+    </ul>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.onload = function () {
+            $.ajax('/Explore', {
+                method: 'GET',
+                accepts: 'application/json',
+                success: (response) => {
+                    console.log(response);
+                },
+                error: () => {
+                    $('#message').text(`操作异常！`);
+                },
+            });
+        };
+    </script>
+}
