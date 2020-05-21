@@ -29,7 +29,7 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public async Task HandleAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             if (options.ResizeConstrainAsync != null)
                 if (!await options.ResizeConstrainAsync.Invoke(context))

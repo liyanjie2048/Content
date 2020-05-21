@@ -29,7 +29,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        public async Task HandleAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             if (options.UploadConstrainAsync != null)
                 if (!await options.UploadConstrainAsync(context))

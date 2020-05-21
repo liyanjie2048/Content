@@ -30,11 +30,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Contents.Sample.As
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Contents.Sample.AspNetCore_3_1", "sample\Liyanjie.Contents.Sample.AspNetCore_3_1\Liyanjie.Contents.Sample.AspNetCore_3_1.csproj", "{E7FA38FB-9C95-4A5E-8488-A223A9C95A86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.Contents.Explore", "src\Liyanjie.Contents.Explore\Liyanjie.Contents.Explore.csproj", "{7E43846C-7483-4884-8AAA-26FD6C4B36D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Contents.Explore", "src\Liyanjie.Contents.Explore\Liyanjie.Contents.Explore.csproj", "{7E43846C-7483-4884-8AAA-26FD6C4B36D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.Modularization.AspNetCore.Explore", "src\Liyanjie.Modularization.AspNetCore.Explore\Liyanjie.Modularization.AspNetCore.Explore.csproj", "{FC29CA0B-11DF-4064-A8F2-74786452EC45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore.Explore", "src\Liyanjie.Modularization.AspNetCore.Explore\Liyanjie.Modularization.AspNetCore.Explore.csproj", "{FC29CA0B-11DF-4064-A8F2-74786452EC45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.Modularization.AspNet.Explore", "src\Liyanjie.Modularization.AspNet.Explore\Liyanjie.Modularization.AspNet.Explore.csproj", "{18B7FE4A-3673-4B00-8E17-FFB98F22AEED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNet.Explore", "src\Liyanjie.Modularization.AspNet.Explore\Liyanjie.Modularization.AspNet.Explore.csproj", "{18B7FE4A-3673-4B00-8E17-FFB98F22AEED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

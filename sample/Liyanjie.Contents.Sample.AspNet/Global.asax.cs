@@ -41,7 +41,7 @@ namespace Liyanjie.Contents.Sample.AspNet
                     _ => services,
                 };
             }
-            static void registerServiceFactory(Type type, Func<IServiceProvider, object> implementationFactory, string lifeTime)
+            static void registerServiceImplementationFactory(Type type, Func<IServiceProvider, object> implementationFactory, string lifeTime)
             {
                 var _services = lifeTime.ToLower() switch
                 {
@@ -51,7 +51,7 @@ namespace Liyanjie.Contents.Sample.AspNet
                     _ => services,
                 };
             }
-            this.AddModularization(registerServiceType, registerServiceFactory)
+            this.AddModularization(registerServiceType, registerServiceImplementationFactory)
                 .AddExplore(options =>
                 {
                     options.RootDirectory = Server.MapPath("~/");
