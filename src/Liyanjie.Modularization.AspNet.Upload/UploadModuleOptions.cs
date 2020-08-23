@@ -19,7 +19,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 序列化输出
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync;
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; }
 
         /// <summary>
         /// 返回文件绝对路径，默认：false

@@ -12,7 +12,7 @@ namespace Liyanjie.Modularization.AspNet
     public class ExploreModuleOptions : ExploreOptions
     {
         /// <summary>
-        /// 上传约束
+        /// 浏览约束
         /// </summary>
         public Func<HttpContext, Task<bool>> ExploreConstrainAsync { get; set; }
 

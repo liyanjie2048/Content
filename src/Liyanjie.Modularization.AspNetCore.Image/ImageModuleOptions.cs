@@ -36,7 +36,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 反序列化
         /// </summary>
-        public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync = async (request, type) =>
+        public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync { get; set; } = async (request, type) =>
         {
             using var streamReader = new System.IO.StreamReader(request.Body);
             var _request = await streamReader.ReadToEndAsync();
@@ -51,7 +51,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 序列化
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync = async (response, obj) =>
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; } = async (response, obj) =>
         {
             response.StatusCode = 200;
             response.ContentType = "application/json";

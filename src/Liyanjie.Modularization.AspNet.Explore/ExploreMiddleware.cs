@@ -25,7 +25,6 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="next"></param>
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {

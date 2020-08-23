@@ -21,7 +21,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 序列化输出
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync = async (response, obj) =>
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; } = async (response, obj) =>
         {
             response.StatusCode = 200;
             response.ContentType = "application/json";
