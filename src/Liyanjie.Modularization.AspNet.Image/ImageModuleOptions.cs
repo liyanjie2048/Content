@@ -35,11 +35,26 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync { get; set; }
+            = async (request, type) =>
+            {
+                using var streamReader = new System.IO.StreamReader(request.InputStream);
+                var str = await streamReader.ReadToEndAsync();
+                return Newtonsoft.Json.JsonConvert.DeserializeObject(str, type);
+            };
 
         /// <summary>
         /// 
         /// </summary>
         public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; }
+            = async (response, obj) =>
+            {
+                await Task.FromResult(0);
+
+                response.Clear();
+                response.ContentType = "application/json";
+                response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+                response.End();
+            };
 
         /// <summary>
         /// 

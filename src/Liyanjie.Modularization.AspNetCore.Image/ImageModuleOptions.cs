@@ -36,27 +36,32 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 反序列化
         /// </summary>
-        public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync { get; set; } = async (request, type) =>
-        {
-            using var streamReader = new System.IO.StreamReader(request.Body);
-            var _request = await streamReader.ReadToEndAsync();
-            return JsonSerializer.Deserialize(_request, type, new JsonSerializerOptions
+        public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync { get; set; }
+            = async (request, type) =>
             {
-                IgnoreNullValues = true,
-                IgnoreReadOnlyProperties = true,
-                PropertyNameCaseInsensitive = true,
-            });
-        };
+                using var streamReader = new System.IO.StreamReader(request.Body);
+                var str = await streamReader.ReadToEndAsync();
+                return JsonSerializer.Deserialize(str, type, new JsonSerializerOptions
+                {
+                    IgnoreNullValues = true,
+                    IgnoreReadOnlyProperties = true,
+                    PropertyNameCaseInsensitive = true,
+                });
+            };
 
         /// <summary>
         /// 序列化
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; } = async (response, obj) =>
-        {
-            response.StatusCode = 200;
-            response.ContentType = "application/json";
-            await response.WriteAsync(JsonSerializer.Serialize(obj));
-        };
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; }
+            = async (response, obj) =>
+            {
+                response.StatusCode = 200;
+                response.ContentType = "application/json";
+                await response.WriteAsync(JsonSerializer.Serialize(obj));
+#if NETCOREAPP3_0
+                await response.CompleteAsync();
+#endif
+            };
 
         /// <summary>
         /// 

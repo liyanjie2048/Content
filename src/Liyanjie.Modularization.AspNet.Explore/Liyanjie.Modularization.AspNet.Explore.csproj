@@ -22,6 +22,7 @@
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net45'">
 		<PackageReference Include="Liyanjie.Modularization.AspNet" Version="1.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
 		<ProjectReference Include="..\Liyanjie.Contents.Explore\Liyanjie.Contents.Explore.csproj" />
 	</ItemGroup>
 

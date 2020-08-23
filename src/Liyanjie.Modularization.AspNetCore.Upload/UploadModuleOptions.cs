@@ -21,12 +21,16 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 序列化输出
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; } = async (response, obj) =>
-        {
-            response.StatusCode = 200;
-            response.ContentType = "application/json";
-            await response.WriteAsync(JsonSerializer.Serialize(obj));
-        };
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; }
+            = async (response, obj) =>
+            {
+                response.StatusCode = 200;
+                response.ContentType = "application/json";
+                await response.WriteAsync(JsonSerializer.Serialize(obj));
+#if NETCOREAPP3_0
+                await response.CompleteAsync();
+#endif
+            };
 
         /// <summary>
         /// 返回文件绝对路径，默认：false
