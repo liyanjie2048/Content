@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -28,9 +29,13 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        public async Task HandleAsync(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext context)
         {
-            var request = httpContext.Request;
+            if (options.UploadConstrainAsync != null)
+                if (!await options.UploadConstrainAsync(context))
+                    return;
+
+            var request = context.Request;
 
             var dir = "temps";
             var _dir = request.QueryString.GetValues("dir");
@@ -57,7 +62,7 @@ namespace Liyanjie.Modularization.AspNet
                 filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"{request.Url.Scheme}://{request.Url.Host}{port}/{_.FilePath}" : _.FilePath));
             }
 
-            await options.SerializeToResponseAsync(httpContext.Response, filePaths.Select(_ => _.FilePath));
+            await options.SerializeToResponseAsync(context.Response, filePaths.Select(_ => _.FilePath));
         }
     }
 }

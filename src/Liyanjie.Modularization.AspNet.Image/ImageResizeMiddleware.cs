@@ -28,13 +28,17 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="httpContext"></param>
-        public async Task HandleAsync(HttpContext httpContext)
+        /// <param name="context"></param>
+        public async Task InvokeAsync(HttpContext context)
         {
-            var model = new ImageResizeModel { ImagePath = httpContext.Request.Path };
+            if (options.ResizeConstrainAsync != null)
+                if (!await options.ResizeConstrainAsync.Invoke(context))
+                    return;
+
+            var model = new ImageResizeModel { ImagePath = context.Request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
             if (!imagePath.IsNullOrEmpty())
-                httpContext.Response.Redirect(imagePath);
+                context.Response.Redirect(imagePath);
 
             await Task.FromResult(0);
         }

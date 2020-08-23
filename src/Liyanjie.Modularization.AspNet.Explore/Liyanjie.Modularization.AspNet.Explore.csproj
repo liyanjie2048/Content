@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net45;</TargetFrameworks>
+		<Description>Liyanjie.Modularization.AspNet.Explore</Description>
+		<Copyright>© Liyanjie.me</Copyright>
+		<Authors>liyanjie8712@outlook.com</Authors>
+		<Company>Liyanjie.me</Company>
+		<RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
+		<RepositoryType>Git</RepositoryType>
+		<RootNamespace>Liyanjie.Modularization.AspNet</RootNamespace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DocumentationFile>bin\Release\Liyanjie.Modularization.AspNet.Explore.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<Target Name="MovePackage" AfterTargets="Pack">
+		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
+	</Target>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net45'">
+		<PackageReference Include="Liyanjie.Modularization.AspNet" Version="1.0.0" />
+		<ProjectReference Include="..\Liyanjie.Contents.Explore\Liyanjie.Contents.Explore.csproj" />
+	</ItemGroup>
+
+</Project>

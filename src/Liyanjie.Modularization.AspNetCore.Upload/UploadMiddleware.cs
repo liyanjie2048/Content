@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 using Liyanjie.Contents.Models;
@@ -35,6 +36,10 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            if (options.UploadConstrainAsync != null)
+                if (!await options.UploadConstrainAsync(context))
+                    return;
+
             var request = context.Request;
 
             var dir = "temps";

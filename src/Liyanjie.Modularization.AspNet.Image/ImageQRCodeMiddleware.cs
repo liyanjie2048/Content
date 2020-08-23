@@ -28,17 +28,21 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="httpContext"></param>
-        public async Task HandleAsync(HttpContext httpContext)
+        /// <param name="context"></param>
+        public async Task InvokeAsync(HttpContext context)
         {
-            var query = httpContext.Request.QueryString;
+            if (options.ResizeConstrainAsync != null)
+                if (!await options.ResizeConstrainAsync.Invoke(context))
+                    return;
+
+            var query = context.Request.QueryString;
             var model = query.AllKeys
                 .ToDictionary(_ => _.ToLower(), _ => query[_] as object)
                 .BuildModel<ImageQRCodeModel>();
             var imagePath = model?.GenerateQRCode(options);
             if (!imagePath.IsNullOrEmpty())
             {
-                var response = httpContext.Response;
+                var response = context.Response;
                 response.StatusCode = 200;
                 response.ContentType = "image/jpg";
                 response.WriteFile(Path.Combine(options.RootDirectory, imagePath));
@@ -46,7 +50,7 @@ namespace Liyanjie.Modularization.AspNet
 
             await Task.FromResult(0);
 
-            httpContext.Response.End();
+            context.Response.End();
         }
     }
 }

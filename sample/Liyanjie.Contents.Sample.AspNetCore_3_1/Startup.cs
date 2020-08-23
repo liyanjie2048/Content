@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Liyanjie.Contents.Sample.AspNetCore_3_0
+namespace Liyanjie.Contents.Sample.AspNetCore_3_1
 {
     public class Startup
     {
@@ -18,6 +18,24 @@ namespace Liyanjie.Contents.Sample.AspNetCore_3_0
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddModularization()
+                .AddExplore(options =>
+                {
+                    options.RootDirectory = Env.WebRootPath;
+                    options.Directories = new[] { "images", "temps" };
+                    options.SerializeToResponseAsync = serializeToResponse;
+                    //options.ReturnAbsolutePath = true;
+                })
+                .AddUpload(options =>
+                {
+                    options.RootDirectory = Env.WebRootPath;
+                    options.SerializeToResponseAsync = serializeToResponse;
+                }, "fileupload")
+                .AddImage(options =>
+                {
+                    options.RootDirectory = Env.WebRootPath;
+                    options.DeserializeFromRequestAsync = deserializeFromRequest;
+                    options.SerializeToResponseAsync = serializeToResponse;
+                }, resizeRouteTemplates: new[]
                 .AddUpload(options => options.RootDirectory = Env.WebRootPath, "fileupload")
                 .AddImage(options => options.RootDirectory = Env.WebRootPath, resizeRouteTemplates: new[]
                 {

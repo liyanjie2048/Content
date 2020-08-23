@@ -35,13 +35,13 @@ namespace Liyanjie.Contents.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="imageOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public string GenerateQRCode(ImageOptions imageOptions)
+        public string GenerateQRCode(ImageOptions options)
         {
-            var fileName = $"{Content.MD5Encoded()}-{Margin}.{Width}x{Height}.jpg";
-            var filePath = Path.Combine(imageOptions.QRCodesDirectory, fileName);
-            var filePhysicalPath = Path.Combine(imageOptions.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
+            var fileName = options.QRCodeFileNameScheme.Invoke(this);
+            var filePath = Path.Combine(options.QRCodesDirectory, fileName);
+            var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
             if (!File.Exists(filePhysicalPath))
             {
                 var writer = new BarcodeWriter
@@ -58,7 +58,7 @@ namespace Liyanjie.Contents.Models
                 if (image != null)
                 {
                     Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
-                    image.CompressSave(filePhysicalPath, imageOptions.CompressFlag);
+                    image.CompressSave(filePhysicalPath, options.CompressFlag);
                 }
             }
 

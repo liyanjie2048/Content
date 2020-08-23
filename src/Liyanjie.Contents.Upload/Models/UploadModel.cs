@@ -48,7 +48,7 @@ namespace Liyanjie.Contents.Models
                     continue;
                 }
 
-                var fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+                var fileName = options.FileNameScheme(file.FileName, fileExtension);
 
                 using var fs = File.Create(Path.Combine(directory, fileName));
                 using (file.FileStream)

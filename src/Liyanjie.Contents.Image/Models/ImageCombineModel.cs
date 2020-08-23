@@ -29,17 +29,17 @@ namespace Liyanjie.Contents.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="imageOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public async Task<string> CombineAsync(ImageOptions imageOptions)
+        public async Task<string> CombineAsync(ImageOptions options)
         {
-            var fileName = $"{Items.ToString(",").MD5Encoded()}.combined.{Width}x{Height}.jpg";
-            var filePath = Path.Combine(imageOptions.CombinedDirectory, fileName);
-            var fileAbsolutePath = Path.Combine(imageOptions.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
+            var fileName = options.CombinedFileNameScheme.Invoke(this);
+            var filePath = Path.Combine(options.CombinedDirectory, fileName);
+            var fileAbsolutePath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
 
             if (!File.Exists(fileAbsolutePath))
             {
-                var imageAbsolutePaths = Items.Select(_ => _.ImagePath).Process(imageOptions.RootDirectory).ToList();
+                var imageAbsolutePaths = Items.Select(_ => _.ImagePath).Process(options.RootDirectory).ToList();
                 var imagePoints = Items.Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0)).ToList();
                 var imageSizes = Items.Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0)).ToList();
                 var images = new List<(Point, Size, System.Drawing.Image)>();
@@ -66,7 +66,7 @@ namespace Liyanjie.Contents.Models
 
                 using (fileImage)
                 {
-                    fileImage.CompressSave(fileAbsolutePath, imageOptions.CompressFlag);
+                    fileImage.CompressSave(fileAbsolutePath, options.CompressFlag);
                 }
             }
 

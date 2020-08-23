@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Web;
 
 using Liyanjie.Contents;
+using Microsoft.AspNetCore.Http;
 
-namespace Liyanjie.Modularization.AspNet
+namespace Liyanjie.Modularization.AspNetCore
 {
     /// <summary>
     /// 
     /// </summary>
-    public class UploadModuleOptions : UploadOptions
+    public class ExploreModuleOptions : ExploreOptions
     {
         /// <summary>
         /// 上传约束
         /// </summary>
-        public Func<HttpContext, Task<bool>> UploadConstrainAsync { get; set; }
+        public Func<HttpContext, Task<bool>> ExploreConstrainAsync { get; set; }
 
         /// <summary>
         /// 序列化输出
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync;
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; }
 
         /// <summary>
         /// 返回文件绝对路径，默认：false

@@ -18,15 +18,15 @@ namespace Liyanjie.Contents.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="imageOptions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public string Resize(ImageOptions imageOptions)
+        public string Resize(ImageOptions options)
         {
             var path = ImagePath.TrimStart(new[] { '/', '\\' });
-            var match = path.Match(imageOptions.ResizePathPattern, RegexOptions.IgnoreCase);
+            var match = path.Match(options.ResizePathPattern, RegexOptions.IgnoreCase);
             if (!match.Success)
             {
-                return imageOptions.EmptyImagePath;
+                return options.EmptyImagePath;
             }
 
             var matchGroups = match.Groups;
@@ -34,11 +34,11 @@ namespace Liyanjie.Contents.Models
             var str_size = matchGroups["size"].Value;
             var str_color = matchGroups["color"].Value;
 
-            var imageSourcePath = Path.Combine(imageOptions.RootDirectory, path.Replace(str_parameters, string.Empty));
+            var imageSourcePath = Path.Combine(options.RootDirectory, path.Replace(str_parameters, string.Empty));
             if (!File.Exists(imageSourcePath))
             {
-                var dotIndex = imageOptions.EmptyImagePath.LastIndexOf(".");
-                return $"{imageOptions.EmptyImagePath.Substring(0, dotIndex)}{str_parameters}{imageOptions.EmptyImagePath.Substring(dotIndex)}";
+                var dotIndex = options.EmptyImagePath.LastIndexOf(".");
+                return $"{options.EmptyImagePath.Substring(0, dotIndex)}{str_parameters}{options.EmptyImagePath.Substring(dotIndex)}";
             }
 
             var size = str_size.Split('x');
@@ -71,8 +71,8 @@ namespace Liyanjie.Contents.Models
 
             using (image)
             {
-                var imageDestinationPath = Path.Combine(imageOptions.RootDirectory, path).Replace('/', Path.DirectorySeparatorChar);
-                image.CompressSave(imageDestinationPath, imageOptions.CompressFlag);
+                var imageDestinationPath = Path.Combine(options.RootDirectory, path).Replace('/', Path.DirectorySeparatorChar);
+                image.CompressSave(imageDestinationPath, options.CompressFlag);
             }
 
             return path;
