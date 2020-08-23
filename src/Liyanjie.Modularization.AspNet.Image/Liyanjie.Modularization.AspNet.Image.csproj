@@ -23,7 +23,7 @@
     <ItemGroup Condition="'$(TargetFramework)'=='net45'">
         <PackageReference Include="Liyanjie.Modularization.AspNet" Version="1.0.0" />
         <ProjectReference Include="..\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj" />
-      <Reference Include="System.Web" />
+        <Reference Include="System.Web" />
     </ItemGroup>
 
 </Project>

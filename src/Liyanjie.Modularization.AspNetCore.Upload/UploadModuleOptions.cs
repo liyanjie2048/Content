@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Liyanjie.Contents;
@@ -15,7 +16,12 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 
         /// </summary>
-        public Func<HttpResponse, object, Task> SerializeToResponseAsync;
+        public Func<HttpResponse, object, Task> SerializeToResponseAsync = async (response, obj) =>
+        {
+            response.StatusCode = 200;
+            response.ContentType = "application/json";
+            await response.WriteAsync(JsonSerializer.Serialize(obj));
+        };
 
         /// <summary>
         /// 返回文件绝对路径，默认：true

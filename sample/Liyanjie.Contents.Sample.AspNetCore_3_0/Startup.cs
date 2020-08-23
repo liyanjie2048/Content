@@ -1,12 +1,7 @@
-using System;
-using System.Text.Json;
-using System.Threading.Tasks;
-
 using Liyanjie.Modularization.AspNetCore;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Liyanjie.Contents.Sample.AspNetCore_3_0
@@ -22,38 +17,12 @@ namespace Liyanjie.Contents.Sample.AspNetCore_3_0
 
         public void ConfigureServices(IServiceCollection services)
         {
-            static async Task<object> deserializeFromRequest(HttpRequest request, Type modelType)
-            {
-                using var streamReader = new System.IO.StreamReader(request.Body);
-                var _request = await streamReader.ReadToEndAsync();
-                return JsonSerializer.Deserialize(_request, modelType, new JsonSerializerOptions
-                {
-                    IgnoreNullValues = true,
-                    IgnoreReadOnlyProperties = true,
-                    PropertyNameCaseInsensitive = true,
-                });
-            }
-            static async Task serializeToResponse(HttpResponse response, object content)
-            {
-                response.StatusCode = 200;
-                response.ContentType = "application/json";
-                await response.WriteAsync(JsonSerializer.Serialize(content));
-            }
             services.AddModularization()
-                .AddUpload(options =>
-                {
-                    options.RootDirectory = Env.WebRootPath;
-                    options.SerializeToResponseAsync = serializeToResponse;
-                }, "fileupload")
-                .AddImage(options =>
-                {
-                    options.RootDirectory = Env.WebRootPath;
-                    options.DeserializeFromRequestAsync = deserializeFromRequest;
-                    options.SerializeToResponseAsync = serializeToResponse;
-                }, resizeRouteTemplates: new[]
+                .AddUpload(options => options.RootDirectory = Env.WebRootPath, "fileupload")
+                .AddImage(options => options.RootDirectory = Env.WebRootPath, resizeRouteTemplates: new[]
                 {
                     "images/{filename}.{size}.{extension}",
-                    "images/{folder}/{filename}.{size}.{extension}"
+                    "images/{directory}/{filename}.{size}.{extension}"
                 });
 
             services.AddRazorPages();
