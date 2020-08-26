@@ -14,15 +14,19 @@ namespace Liyanjie.Modularization.AspNetCore
         /// </summary>
         /// <param name="moduleTable"></param>
         /// <param name="configureOptions"></param>
-        /// <param name="routeTemplate"></param>
+        /// <param name="clickCodeRouteTemplate"></param>
+        /// <param name="puzzleCodeRouteTemplate"></param>
+        /// <param name="sliderCodeRouteTemplate"></param>
+        /// <param name="arithmeticImageCodeRouteTemplate"></param>
+        /// <param name="stringImageCodeRouteTemplate"></param>
         /// <returns></returns>
         public static ModularizationModuleTable AddVerificationCode(this ModularizationModuleTable moduleTable,
             Action<VerificationCodeModuleOptions> configureOptions,
-            string clickCodeRoute = "verificationCode/click",
-            string puzzleCodeRoute = "verificationCode/puzzle",
-            string sliderCodeRoute = "verificationCode/slider",
-            string arithmeticImageCodeRoute = "verificationCode/arithmeticImage",
-            string stringImageCodeRoute = "verificationCode/stringImage")
+            string clickCodeRouteTemplate = "verificationCode/click",
+            string puzzleCodeRouteTemplate = "verificationCode/puzzle",
+            string sliderCodeRouteTemplate = "verificationCode/slider",
+            string arithmeticImageCodeRouteTemplate = "verificationCode/arithmeticImage",
+            string stringImageCodeRouteTemplate = "verificationCode/stringImage")
         {
             moduleTable.Services.AddSingleton<ClickCodeMiddleware>();
             moduleTable.Services.AddSingleton<PuzzleCodeMiddleware>();
@@ -35,31 +39,31 @@ namespace Liyanjie.Modularization.AspNetCore
                new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
-                   RouteTemplate = clickCodeRoute,
+                   RouteTemplate = clickCodeRouteTemplate,
                    HandlerType = typeof(ClickCodeMiddleware),
                },
                new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
-                   RouteTemplate = puzzleCodeRoute,
+                   RouteTemplate = puzzleCodeRouteTemplate,
                    HandlerType = typeof(PuzzleCodeMiddleware),
                },
                new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
-                   RouteTemplate = sliderCodeRoute,
+                   RouteTemplate = sliderCodeRouteTemplate,
                    HandlerType = typeof(SliderCodeMiddleware),
                },
                new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
-                   RouteTemplate = arithmeticImageCodeRoute,
+                   RouteTemplate = arithmeticImageCodeRouteTemplate,
                    HandlerType = typeof(ArithmeticImageCodeMiddleware),
                },
                new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
-                   RouteTemplate = stringImageCodeRoute,
+                   RouteTemplate = stringImageCodeRouteTemplate,
                    HandlerType = typeof(StringImageCodeMiddleware),
                },
             }, configureOptions);
