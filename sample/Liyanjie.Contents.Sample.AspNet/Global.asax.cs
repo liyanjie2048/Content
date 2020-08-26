@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Web;
 
 using Liyanjie.Modularization.AspNet;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Newtonsoft.Json;
 
 namespace Liyanjie.Contents.Sample.AspNet
 {
@@ -16,21 +13,6 @@ namespace Liyanjie.Contents.Sample.AspNet
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            static async Task<object> deserializeFromRequest(HttpRequest request, Type modelType)
-            {
-                await Task.FromResult(0);
-                using var streamReader = new System.IO.StreamReader(request.InputStream);
-                var _request = streamReader.ReadToEnd();
-                return JsonConvert.DeserializeObject(_request, modelType);
-            }
-            static async Task serializeToResponse(HttpResponse response, object content)
-            {
-                await Task.FromResult(0);
-                response.StatusCode = 200;
-                response.ContentType = "application/json";
-                response.Write(JsonConvert.SerializeObject(content));
-                response.End();
-            }
             static void registerServiceType(Type type, string lifeTime)
             {
                 var _services = lifeTime.ToLower() switch
@@ -56,23 +38,23 @@ namespace Liyanjie.Contents.Sample.AspNet
                 {
                     options.RootDirectory = Server.MapPath("~/");
                     options.Directories = new[] { "images", "temps" };
-                    options.SerializeToResponseAsync = serializeToResponse;
                     //options.ReturnAbsolutePath = true;
                 })
                 .AddUpload(options =>
                 {
                     options.RootDirectory = Server.MapPath("~/");
-                    options.SerializeToResponseAsync = serializeToResponse;
                 }, "fileupload")
                 .AddImage(options =>
                 {
                     options.RootDirectory = Server.MapPath("~/");
-                    options.DeserializeFromRequestAsync = deserializeFromRequest;
-                    options.SerializeToResponseAsync = serializeToResponse;
                 }, resizeRouteTemplates: new[]
                 {
                     "images/{filename}.{size}.{extension}",
                     "images/{folder}/{filename}.{size}.{extension}"
+                })
+                .AddVerificationCode(options =>
+                {
+                    options.RootDirectory = Server.MapPath("~/");
                 });
         }
 

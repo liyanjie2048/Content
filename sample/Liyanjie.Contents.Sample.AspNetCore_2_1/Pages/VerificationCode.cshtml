@@ -1,0 +1,136 @@
+﻿@page
+@model VerificationCodeModel
+@{
+    ViewData["Title"] = "验证码测试";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<section class="row">
+    <section class="col-6 py-4" id="Concatenate">
+        <h4>点击验证码</h4>
+        <div class="py-1">
+            <label>验证值：</label>
+            <span>@string.Join("|", Model.Click.Item1?.Select(_ => $"({_.X},{_.Y})"))</span>
+        </div>
+        <div>
+            <label>用户值：</label>
+            <span></span>
+        </div>
+        <div class="py-1">
+            <div>请在下图中依次点击：<img src="data:image/png;base64,@Model.Click.Item2" /></div>
+            <div><img src="data:image/png;base64,@Model.Click.Item3" /></div>
+        </div>
+    </section>
+    <section class="col-6 py-4" id="Concatenate">
+        <h4>拼图验证码</h4>
+        <div class="py-1">
+            <label>验证值：</label>
+            <span>@string.Join("|", Model.Puzzle.Item1)</span>
+        </div>
+        <div>
+            <label>用户值：</label>
+            <span></span>
+        </div>
+        <div class="py-1">
+            <div>请完成下方拼图，原图：<img src="data:image/png;base64,@Model.Puzzle.Item2" width="40" height="40" /></div>
+            <div>
+                @foreach (var item in Model.Puzzle.Item3)
+                {
+                    <img src="data:image/png;base64,@item" />
+                }
+            </div>
+        </div>
+    </section>
+</section>
+<section class="row">
+    <section class="col-6 py-4" id="Concatenate">
+        <h4>滑块验证码</h4>
+        <div class="py-1">
+            <label>验证值：</label>
+            <span>@Model.Slider.Item1</span>
+        </div>
+        <div>
+            <label>用户值：</label>
+            <span></span>
+        </div>
+        <div class="py-1">
+            <div>请完成下方拼图：</div>
+            <div>
+                <img src="data:image/png;base64,@Model.Slider.Item4" style="filter:drop-shadow(0 0 3px rgba(0,0,0,1))" />
+                <br />
+                <img src="data:image/png;base64,@Model.Slider.Item3" style="filter:drop-shadow(0 0 6px rgba(0,0,0,1))" />
+            </div>
+        </div>
+    </section>
+    <section class="col-6 py-4">
+        <div class="row">
+            <section class="col-6" id="Concatenate">
+                <h4>算术图片验证码</h4>
+                <div class="py-1">
+                    <label>验证值：</label>
+                    <span>@Model.Arithmetic.Item1</span>
+                </div>
+                <div class="py-1">
+                    <div>验证码图片：</div>
+                    <div>
+                        <img src="data:image/gif;base64,@Model.Arithmetic.Item2" />
+                    </div>
+                </div>
+            </section>
+            <section class="col-6" id="Concatenate">
+                <h4>文本图片验证码</h4>
+                <div class="py-1">
+                    <label>验证值：</label>
+                    <span>@Model.String.Item1</span>
+                </div>
+                <div class="py-1">
+                    <div>验证码图片：</div>
+                    <div>
+                        <img src="data:image/gif;base64,@Model.String.Item2" />
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="row pt-5">
+            <section class="col-6" id="Concatenate">
+                <h4>算术音频验证码</h4>
+                <div class="py-1">
+                    <label>验证值：</label>
+                    <span></span>
+                </div>
+                <div class="py-1">
+                    <div>验证码声音：</div>
+                    <div>
+                        <audio controls="controls" style="width:100%;">
+                            <source src="data:audio/wav;base64," />
+                        </audio>
+                    </div>
+                </div>
+            </section>
+            <section class="col-6" id="Concatenate">
+                <h4>文本音频验证码</h4>
+                <div class="py-1">
+                    <label>验证值：</label>
+                    <span></span>
+                </div>
+                <div class="py-1">
+                    <div>验证码声音：</div>
+                    <div>
+                        <audio controls="controls" style="width:100%;">
+                            <source src="data:audio/wav;base64," />
+                        </audio>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        window.onload = function () {
+
+        };
+    </script>
+}

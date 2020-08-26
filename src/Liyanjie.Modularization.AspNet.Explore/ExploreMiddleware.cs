@@ -59,6 +59,8 @@ namespace Liyanjie.Modularization.AspNet
             }
 
             await options.SerializeToResponseAsync(context.Response, contents);
+
+            context.Response.End();
         }
     }
 }

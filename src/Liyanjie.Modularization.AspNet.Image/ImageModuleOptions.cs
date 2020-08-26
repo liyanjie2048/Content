@@ -14,22 +14,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 图片合并约束
         /// </summary>
-        public Func<HttpContext, Task<bool>> CombineConstrainAsync { get; set; }
-
-        /// <summary>
-        /// 图片拼接约束
-        /// </summary>
-        public Func<HttpContext, Task<bool>> ConcatenateConstrainAsync { get; set; }
-
-        /// <summary>
-        /// 二维码图片约束
-        /// </summary>
-        public Func<HttpContext, Task<bool>> QRCodeConstrainAsync { get; set; }
-
-        /// <summary>
-        /// 图片缩放约束
-        /// </summary>
-        public Func<HttpContext, Task<bool>> ResizeConstrainAsync { get; set; }
+        public Func<HttpContext, Task<bool>> RequestConstrainAsync { get; set; }
 
         /// <summary>
         /// 
@@ -37,8 +22,10 @@ namespace Liyanjie.Modularization.AspNet
         public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync { get; set; }
             = async (request, type) =>
             {
+                await Task.FromResult(0);
+
                 using var streamReader = new System.IO.StreamReader(request.InputStream);
-                var str = await streamReader.ReadToEndAsync();
+                var str = streamReader.ReadToEnd();
                 return Newtonsoft.Json.JsonConvert.DeserializeObject(str, type);
             };
 
@@ -53,7 +40,6 @@ namespace Liyanjie.Modularization.AspNet
                 response.Clear();
                 response.ContentType = "application/json";
                 response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
-                response.End();
             };
 
         /// <summary>

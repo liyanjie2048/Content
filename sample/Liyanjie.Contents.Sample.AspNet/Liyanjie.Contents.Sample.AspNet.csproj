@@ -51,9 +51,6 @@
     <Reference Include="Liyanjie.TemplateMatching, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Liyanjie.TemplateMatching.1.0.0\lib\net45\Liyanjie.TemplateMatching.dll</HintPath>
     </Reference>
-    <Reference Include="Liyanjie.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Liyanjie.Utilities.1.0.0\lib\net45\Liyanjie.Utilities.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.1.0.0\lib\netstandard1.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
@@ -67,8 +64,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -81,6 +79,9 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
@@ -170,6 +171,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VerificationCodeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -184,6 +186,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="VerificationCode.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -210,6 +213,10 @@
       <Project>{8c378e87-b43e-4e88-8615-e9fd44ffa052}</Project>
       <Name>Liyanjie.Contents.Upload</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Liyanjie.Contents.VerificationCode\Liyanjie.Contents.VerificationCode.csproj">
+      <Project>{61470433-ee16-4fdb-80c5-ac1c9be008e7}</Project>
+      <Name>Liyanjie.Contents.VerificationCode</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.Explore\Liyanjie.Modularization.AspNet.Explore.csproj">
       <Project>{18b7fe4a-3673-4b00-8e17-ffb98f22aeed}</Project>
       <Name>Liyanjie.Modularization.AspNet.Explore</Name>
@@ -221,6 +228,10 @@
     <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.Upload\Liyanjie.Modularization.AspNet.Upload.csproj">
       <Project>{1cb4f82f-d2e1-4cb1-8638-eb84264164ce}</Project>
       <Name>Liyanjie.Modularization.AspNet.Upload</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNet.VerificationCode\Liyanjie.Modularization.AspNet.VerificationCode.csproj">
+      <Project>{070a741d-74ab-4be4-811c-35f522483295}</Project>
+      <Name>Liyanjie.Modularization.AspNet.VerificationCode</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -14,7 +14,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 上传约束
         /// </summary>
-        public Func<HttpContext, Task<bool>> UploadConstrainAsync { get; set; }
+        public Func<HttpContext, Task<bool>> RequestConstrainAsync { get; set; }
 
         /// <summary>
         /// 序列化输出
@@ -27,7 +27,6 @@ namespace Liyanjie.Modularization.AspNet
                 response.Clear();
                 response.ContentType = "application/json";
                 response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
-                response.End();
             };
 
         /// <summary>

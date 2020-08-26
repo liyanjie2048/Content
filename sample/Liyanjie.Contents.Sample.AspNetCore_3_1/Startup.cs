@@ -29,6 +29,10 @@ namespace Liyanjie.Contents.Sample.AspNetCore_3_1
                 {
                     "images/{filename}.{size}.{extension}",
                     "images/{directory}/{filename}.{size}.{extension}"
+                })
+                .AddVerificationCode(options =>
+                {
+                    options.RootDirectory = Env.WebRootPath;
                 });
 
             services.AddRazorPages();

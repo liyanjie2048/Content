@@ -16,6 +16,7 @@ namespace Liyanjie.Contents.Sample.AspNetCore_2_1.Pages
                 .Select(_ => $"images/{Path.GetFileName(_).ToLower()}")
                 .ToList();
         }
+
         public IEnumerable<string> Images { get; }
     }
 }

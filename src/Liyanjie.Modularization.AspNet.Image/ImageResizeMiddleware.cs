@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,16 +30,16 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="context"></param>
         public async Task InvokeAsync(HttpContext context)
         {
-            if (options.ResizeConstrainAsync != null)
-                if (!await options.ResizeConstrainAsync.Invoke(context))
+            await Task.FromResult(0);
+
+            if (options.RequestConstrainAsync != null)
+                if (!await options.RequestConstrainAsync.Invoke(context))
                     return;
 
             var model = new ImageResizeModel { ImagePath = context.Request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
             if (!imagePath.IsNullOrEmpty())
                 context.Response.Redirect(imagePath);
-
-            await Task.FromResult(0);
         }
     }
 }

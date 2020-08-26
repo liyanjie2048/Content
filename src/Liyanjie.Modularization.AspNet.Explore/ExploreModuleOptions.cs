@@ -27,7 +27,6 @@ namespace Liyanjie.Modularization.AspNet
                 response.Clear();
                 response.ContentType = "application/json";
                 response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
-                response.End();
             };
 
         /// <summary>

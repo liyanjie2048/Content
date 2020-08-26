@@ -42,7 +42,7 @@ namespace Liyanjie.Contents.Models
                 var imageAbsolutePaths = Items.Select(_ => _.ImagePath).Process(options.RootDirectory).ToList();
                 var imagePoints = Items.Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0)).ToList();
                 var imageSizes = Items.Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0)).ToList();
-                var images = new List<(Point, Size, System.Drawing.Image)>();
+                var images = new List<(Point, Size, Image)>();
                 for (int i = 0; i < imageAbsolutePaths.Count; i++)
                 {
                     var path = imageAbsolutePaths[i];

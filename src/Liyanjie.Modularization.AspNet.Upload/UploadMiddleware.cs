@@ -31,8 +31,8 @@ namespace Liyanjie.Modularization.AspNet
         /// </summary>
         public async Task InvokeAsync(HttpContext context)
         {
-            if (options.UploadConstrainAsync != null)
-                if (!await options.UploadConstrainAsync(context))
+            if (options.RequestConstrainAsync != null)
+                if (!await options.RequestConstrainAsync(context))
                     return;
 
             var request = context.Request;
@@ -63,6 +63,8 @@ namespace Liyanjie.Modularization.AspNet
             }
 
             await options.SerializeToResponseAsync(context.Response, filePaths.Select(_ => _.FilePath));
+
+            context.Response.End();
         }
     }
 }

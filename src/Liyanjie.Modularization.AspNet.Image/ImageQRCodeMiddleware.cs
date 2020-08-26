@@ -31,8 +31,10 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="context"></param>
         public async Task InvokeAsync(HttpContext context)
         {
-            if (options.ResizeConstrainAsync != null)
-                if (!await options.ResizeConstrainAsync.Invoke(context))
+            await Task.FromResult(0);
+
+            if (options.RequestConstrainAsync != null)
+                if (!await options.RequestConstrainAsync.Invoke(context))
                     return;
 
             var query = context.Request.QueryString;
@@ -47,8 +49,6 @@ namespace Liyanjie.Modularization.AspNet
                 response.ContentType = "image/jpg";
                 response.WriteFile(Path.Combine(options.RootDirectory, imagePath));
             }
-
-            await Task.FromResult(0);
 
             context.Response.End();
         }

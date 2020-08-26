@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Explore\Liyanjie.Modularization.AspNetCore.Explore.csproj" />
     <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Image\Liyanjie.Modularization.AspNetCore.Image.csproj" />
     <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Upload\Liyanjie.Modularization.AspNetCore.Upload.csproj" />
+    <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.VerificationCode\Liyanjie.Modularization.AspNetCore.VerificationCode.csproj" />
   </ItemGroup>
 
 </Project>

@@ -30,6 +30,10 @@ namespace Liyanjie.Contents.Sample.AspNetCore_2_1
                 {
                     "images/{filename}.{size}.{extension}",
                     "images/{directory}/{filename}.{size}.{extension}"
+                })
+                .AddVerificationCode(options =>
+                {
+                    options.RootDirectory = Env.WebRootPath;
                 });
 
             services.AddMvc()
