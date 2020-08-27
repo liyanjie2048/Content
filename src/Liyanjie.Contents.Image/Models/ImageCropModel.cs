@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Liyanjie.Contents.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ImageCropModel
     {
         /// <summary>
@@ -13,12 +16,36 @@ namespace Liyanjie.Contents.Models
         /// </summary>
         public string ImagePath { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int Left { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int Top { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int Width { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int Height { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int Radius { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         public async Task<string> CropAsync(ImageOptions options)
         {
             var fileName = options.CroppedImageFileNameScheme.Invoke(this);
