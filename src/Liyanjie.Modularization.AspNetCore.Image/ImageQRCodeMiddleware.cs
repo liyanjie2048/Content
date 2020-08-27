@@ -36,8 +36,8 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            if (options.QRCodeConstrainAsync != null)
-                if (!await options.QRCodeConstrainAsync(context))
+            if (options.RequestConstrainAsync != null)
+                if (!await options.RequestConstrainAsync(context))
                     return;
 
             var request = context.Request;
@@ -50,7 +50,7 @@ namespace Liyanjie.Modularization.AspNetCore
             if (!imagePath.IsNullOrEmpty())
             {
                 response.StatusCode = 200;
-                response.ContentType = "image/jpg";
+                response.ContentType = "image/jpeg";
                 using var stream = File.OpenRead(Path.Combine(options.RootDirectory, imagePath));
                 await stream.CopyToAsync(response.Body);
             }

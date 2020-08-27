@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,23 +35,28 @@ namespace Liyanjie.Contents.Models
         /// <returns></returns>
         public async Task<string> CombineAsync(ImageOptions options)
         {
-            var fileName = options.CombinedFileNameScheme.Invoke(this);
-            var filePath = Path.Combine(options.CombinedDirectory, fileName);
+            var fileName = options.CombinedImageFileNameScheme.Invoke(this);
+            var filePath = Path.Combine(options.CombinedImageDirectory, fileName);
             var fileAbsolutePath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
+            Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
 
             if (!File.Exists(fileAbsolutePath))
             {
-                var imageAbsolutePaths = Items.Select(_ => _.ImagePath).Process(options.RootDirectory).ToList();
-                var imagePoints = Items.Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0)).ToList();
-                var imageSizes = Items.Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0)).ToList();
+                var imageAbsolutePaths = Items
+                    .Select(_ => _.ImagePath)
+                    .Where(_ => !_.IsNullOrWhiteSpace())
+                    .Select(_ => _.PreProcess(options.RootDirectory))
+                    .ToList();
+                var imagePoints = Items
+                    .Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0))
+                    .ToList();
+                var imageSizes = Items
+                    .Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0))
+                    .ToList();
                 var images = new List<(Point, Size, Image)>();
                 for (int i = 0; i < imageAbsolutePaths.Count; i++)
                 {
-                    var path = imageAbsolutePaths[i];
-                    if (string.IsNullOrWhiteSpace(path))
-                        continue;
-
-                    var image = await ImageHelper.FromFileOrNetworkAsync(path);
+                    var image = await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePaths[i]);
                     if (image == null)
                         continue;
 
@@ -62,11 +69,9 @@ namespace Liyanjie.Contents.Models
                 var fileImage = new Bitmap(Width, Height);
                 fileImage.Combine(images.ToArray());
 
-                Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
-
                 using (fileImage)
                 {
-                    fileImage.CompressSave(fileAbsolutePath, options.CompressFlag);
+                    fileImage.CompressSave(fileAbsolutePath, options.CompressFlag, ImageFormat.Jpeg);
                 }
             }
 

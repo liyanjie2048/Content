@@ -14,7 +14,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 浏览约束
         /// </summary>
-        public Func<HttpContext, Task<bool>> ExploreConstrainAsync { get; set; }
+        public Func<HttpContext, Task<bool>> RequestConstrainAsync { get; set; }
 
         /// <summary>
         /// 序列化输出

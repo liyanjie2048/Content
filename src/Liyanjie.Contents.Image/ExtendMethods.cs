@@ -43,12 +43,11 @@ namespace Liyanjie.Contents
             Directory.CreateDirectory(path);
         }
 
-        public static IEnumerable<string> Process(this IEnumerable<string> paths, string webRootPath)
+        public static string PreProcess(this string path, string webRootPath)
         {
-            return paths
-                .Where(_ => !_.IsNullOrWhiteSpace())
-                .Select(_ => new Uri(_, UriKind.RelativeOrAbsolute).IsAbsoluteUri ? _ : Path.Combine(webRootPath, _).Replace('/', Path.DirectorySeparatorChar))
-                .ToList();
+            return new Uri(path, UriKind.RelativeOrAbsolute).IsAbsoluteUri
+                ? path
+                : Path.Combine(webRootPath, path).Replace('/', Path.DirectorySeparatorChar);
         }
     }
 }

@@ -16,42 +16,53 @@ namespace Liyanjie.Contents
         public string RootDirectory { get; set; }
 
         /// <summary>
-        /// 图片拼接文件目录
+        /// 拼接图片目录
         /// </summary>
-        public string ConcatenatedDirectory { get; set; } = @"images\concatenated";
+        public string ConcatenatedImageDirectory { get; set; } = @"images\concatenated";
 
         /// <summary>
-        /// 图片拼接文件名生成方案。默认：Guid
+        /// 拼接图片文件名生成方案。默认：Guid
         /// </summary>
-        public Func<ImageConcatenateModel, string> ConcatenatedFileNameScheme { get; set; }
+        public Func<ImageConcatenateModel, string> ConcatenatedImageFileNameScheme { get; set; }
             = model => $"{model.ImagePaths.ToString(",").MD5Encoded()}.combined.{model.Width}x{model.Height}.jpg";
 
         /// <summary>
-        /// 图片合并文件目录
+        /// 合并图片目录
         /// </summary>
-        public string CombinedDirectory { get; set; } = @"images\combined";
+        public string CombinedImageDirectory { get; set; } = @"images\combined";
 
         /// <summary>
-        /// 图片合并文件名生成方案。默认：Guid
+        /// 合并图片文件名生成方案。默认：Guid
         /// </summary>
-        public Func<ImageCombineModel, string> CombinedFileNameScheme { get; set; }
+        public Func<ImageCombineModel, string> CombinedImageFileNameScheme { get; set; }
             = model => $"{model.Items.ToString(",").MD5Encoded()}.concatenated.{model.Width}x{model.Height}.jpg";
 
         /// <summary>
         /// 二维码图片文件目录
         /// </summary>
-        public string QRCodesDirectory { get; set; } = @"images\qrcodes";
+        public string QRCodeImageDirectory { get; set; } = @"images\qrcodes";
 
         /// <summary>
         /// 二维码图片文件名生成方案。默认：Guid
         /// </summary>
-        public Func<ImageQRCodeModel, string> QRCodeFileNameScheme { get; set; }
+        public Func<ImageQRCodeModel, string> QRCodeImageFileNameScheme { get; set; }
             = model => $"{model.Content.MD5Encoded()}-{model.Margin}.{model.Width}x{model.Height}.jpg";
 
         /// <summary>
-        /// 图片缩放路径规则
+        /// 缩放图片路径规则
         /// </summary>
         public string ResizePathPattern { get; set; } = @"(?<parameters>(-(?<color>[0-9a-fA-F]{6}))?\.(?<size>\d*x\d*)?)\.(jpg|jpeg|png|gif|bmp)(\?.*)?$";
+
+        /// <summary>
+        /// 裁剪图片目录
+        /// </summary>
+        public string CroppedImageDirectory { get; set; } = @"images\cropped";
+
+        /// <summary>
+        /// 裁剪图片文件名生成方案
+        /// </summary>
+        public Func<ImageCropModel,string> CroppedImageFileNameScheme { get; set; }
+            = model => $"{model.ImagePath.MD5Encoded()}.cropped.{model.Left}x{model.Top}.{model.Radius}.{model.Width}x{model.Height}.png";
 
         /// <summary>
         /// 空文件路径

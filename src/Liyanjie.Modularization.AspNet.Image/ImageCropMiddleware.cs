@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -12,7 +9,7 @@ namespace Liyanjie.Modularization.AspNet
     /// <summary>
     /// 
     /// </summary>
-    public class ImageQRCodeMiddleware
+    public class ImageCropMiddleware
     {
         readonly ImageModuleOptions options;
 
@@ -20,7 +17,7 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public ImageQRCodeMiddleware(ImageModuleOptions options)
+        public ImageCropMiddleware(ImageModuleOptions options)
         {
             this.options = options;
         }
@@ -31,24 +28,21 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="context"></param>
         public async Task InvokeAsync(HttpContext context)
         {
-            await Task.FromResult(0);
-
             if (options.RequestConstrainAsync != null)
                 if (!await options.RequestConstrainAsync.Invoke(context))
                     return;
 
-            var query = context.Request.QueryString;
-            var model = query.AllKeys
-                .ToDictionary(_ => _.ToLower(), _ => query[_] as object)
-                .BuildModel<ImageQRCodeModel>();
-            var imagePath = model?.GenerateQRCode(options);
-            if (!imagePath.IsNullOrEmpty())
+            var request = context.Request;
+            
+            var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCropModel))) as ImageCropModel;
+            var imagePath = (await model?.CropAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+            if (options.ReturnAbsolutePath)
             {
-                var response = context.Response;
-                response.StatusCode = 200;
-                response.ContentType = "image/jpeg";
-                response.WriteFile(Path.Combine(options.RootDirectory, imagePath));
+                var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
+                imagePath = $"{request.Url.Scheme}://{request.Url.Host}{port}/{imagePath}";
             }
+
+            await options.SerializeToResponseAsync(context.Response, imagePath);
 
             context.Response.End();
         }

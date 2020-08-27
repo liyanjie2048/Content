@@ -23,13 +23,15 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public static ModularizationModuleTable AddImage(this ModularizationModuleTable moduleTable,
             Action<ImageModuleOptions> configureOptions,
-            string combineRouteTemplate = @"image/combine",
-            string concatenateRouteTemplate = @"image/concatenate",
-            string qrcodeRouteTemplate = @"image/qrcode",
+            string combineRouteTemplate = "image/combine",
+            string concatenateRouteTemplate = "image/concatenate",
+            string cropRouteTemplate = "image/crop",
+            string qrcodeRouteTemplate = "image/qrcode",
             params string[] resizeRouteTemplates)
         {
             moduleTable.Services.AddSingleton<ImageCombineMiddleware>();
             moduleTable.Services.AddSingleton<ImageConcatenateMiddleware>();
+            moduleTable.Services.AddSingleton<ImageCropMiddleware>();
             moduleTable.Services.AddSingleton<ImageQRCodeMiddleware>();
             moduleTable.Services.AddSingleton<ImageResizeMiddleware>();
 
@@ -46,6 +48,12 @@ namespace Liyanjie.Modularization.AspNetCore
                     HttpMethods = new[] { "POST" },
                     RouteTemplate = concatenateRouteTemplate,
                     HandlerType =  typeof(ImageConcatenateMiddleware),
+                }, 
+                new ModularizationModuleMiddleware
+                {
+                    HttpMethods = new[] { "POST" },
+                    RouteTemplate = cropRouteTemplate,
+                    HandlerType =  typeof(ImageCropMiddleware),
                 },
                 new ModularizationModuleMiddleware
                 {

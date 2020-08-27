@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,13 +34,17 @@ namespace Liyanjie.Contents.Models
         /// <returns></returns>
         public async Task<string> ConcatenateAsync(ImageOptions options)
         {
-            var fileName = options.ConcatenatedFileNameScheme.Invoke(this);
-            var filePath = Path.Combine(options.ConcatenatedDirectory, fileName);
+            var fileName = options.ConcatenatedImageFileNameScheme.Invoke(this);
+            var filePath = Path.Combine(options.ConcatenatedImageDirectory, fileName);
             var fileAbsolutePath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
+            Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
 
             if (!File.Exists(fileAbsolutePath))
             {
-                var fileAbsolutePaths = ImagePaths.Process(options.RootDirectory).ToList();
+                var fileAbsolutePaths = ImagePaths
+                    .Where(_ => !_.IsNullOrWhiteSpace())
+                    .Select(_ => _.PreProcess(options.RootDirectory))
+                    .ToList();
                 var fileImage = (await ImageHelper.FromFileOrNetworkAsync(fileAbsolutePaths[0]))?.Resize(Width, Height);
                 foreach (var path in fileAbsolutePaths.Skip(1))
                 {
@@ -50,11 +55,9 @@ namespace Liyanjie.Contents.Models
                     fileImage = fileImage.Concatenate(image.Resize(Width, Height));
                 }
 
-                Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
-
                 using (fileImage)
                 {
-                    fileImage.CompressSave(fileAbsolutePath, options.CompressFlag);
+                    fileImage.CompressSave(fileAbsolutePath, options.CompressFlag, ImageFormat.Jpeg);
                 }
             }
 

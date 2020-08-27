@@ -23,7 +23,7 @@
             <label>图片：</label>
             <input type="text" id="inputConcatenate2" placeholder="图片路径" />
         </div>
-        <div class="py-3">
+        <div class="py-2">
             <label>尺寸：</label>
             <input type="text" id="widthConcatenate" placeholder="宽" value="200" style="width:60px" />
             <span>×</span>
@@ -65,7 +65,7 @@
             <span>×</span>
             <input type="text" id="heightCombine1" placeholder="高" value="100" style="width:60px" />
         </div>
-        <div class="py-3">
+        <div class="py-2">
             <label>尺寸：</label>
             <input type="text" id="widthCombine" placeholder="宽" value="300" style="width:60px" />
             <span>×</span>
@@ -77,17 +77,45 @@
         <div class="py-2" id="messageCombine" style="word-break:break-all"></div>
     </section>
 
+    <section class="col-6 py-4" id="Crop">
+        <h4>裁剪图片</h4>
+        <div class="py-2">
+            <label>图片：</label>
+            <input type="text" id="inputCrop" placeholder="图片路径" />
+        </div>
+        <div class="py-2">
+            <label>位置：</label>
+            <input type="number" id="leftCrop" placeholder="左" value="0" style="width:60px" />
+            <span>×</span>
+            <input type="number" id="topCrop" placeholder="上" value="0" style="width:60px" />
+        </div>
+        <div class="py-2">
+            <label>尺寸：</label>
+            <input type="number" id="widthCrop" placeholder="宽" value="200" style="width:60px" />
+            <span>×</span>
+            <input type="number" id="heightCrop" placeholder="高" value="200" style="width:60px" />
+        </div>
+        <div class="py-2">
+            <label>圆角：</label>
+            <input type="text" id="radiusCrop" placeholder="圆角" value="50" />
+        </div>
+        <div class="py-2">
+            <button id="confirmCrop">确定</button>
+        </div>
+        <div class="py-2" id="messageCrop" style="word-break:break-all"></div>
+    </section>
+
     <section class="col-6 py-4" id="QRCode">
         <h4>生成二维码</h4>
         <div class="py-2">
             <label>内容：</label>
             <input type="text" id="inputQRCode" placeholder="二维码内容" />
         </div>
-        <div class="py-3">
+        <div class="py-2">
             <label>边距：</label>
             <input type="number" id="marginQRCode" placeholder="边距" value="0" style="width:60px" />
         </div>
-        <div class="py-3">
+        <div class="py-2">
             <label>尺寸：</label>
             <input type="number" id="widthQRCode" placeholder="宽" value="100" style="width:60px" />
             <span>×</span>
@@ -171,6 +199,31 @@
                     },
                     error: () => {
                         $('#messageCombine').text(`操作异常！`);
+                    },
+                });
+            });
+            $('#confirmCrop').click(() => {
+                let data = {
+                    imagePath: $('#inputCrop').val(),
+                    left: parseInt($('#leftCrop').val()),
+                    top: parseInt($('#topCrop').val()),
+                    width: parseInt($('#widthCrop').val()),
+                    height: parseInt($('#heightCrop').val()),
+                    radius: parseInt($('#radiusCrop').val()),
+                };
+                var dat = JSON.stringify(data);
+                console.log(dat);
+                $.ajax('/Image/Crop', {
+                    method: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    accepts: 'application/json',
+                    success: (response) => {
+                        $('#messageCrop').text(`裁剪成功！`);
+                        $('#messageCrop').append($(`<a target="_blank" href="${response}">${response}</a>`));
+                    },
+                    error: () => {
+                        $('#messageCrop').text(`操作异常！`);
                     },
                 });
             });

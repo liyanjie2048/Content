@@ -32,8 +32,8 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            if (options.ExploreConstrainAsync != null)
-                if (!await options.ExploreConstrainAsync(context))
+            if (options.RequestConstrainAsync != null)
+                if (!await options.RequestConstrainAsync(context))
                     return;
 
             var request = context.Request;

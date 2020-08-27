@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 
 using Liyanjie.Contents.Models;
@@ -12,7 +11,7 @@ namespace Liyanjie.Modularization.AspNetCore
     /// <summary>
     /// 
     /// </summary>
-    public class ImageResizeMiddleware : IMiddleware
+    public class ImageCropMiddleware : IMiddleware
     {
         readonly ImageModuleOptions options;
 
@@ -20,7 +19,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public ImageResizeMiddleware(IOptions<ImageModuleOptions> options)
+        public ImageCropMiddleware(IOptions<ImageModuleOptions> options)
         {
             this.options = options.Value;
         }
@@ -34,17 +33,18 @@ namespace Liyanjie.Modularization.AspNetCore
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             if (options.RequestConstrainAsync != null)
-                if (!await options.RequestConstrainAsync.Invoke(context))
+                if (!await options.RequestConstrainAsync(context))
                     return;
 
             var request = context.Request;
 
-            var model = new ImageResizeModel { ImagePath = request.Path };
-            var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
-            if (!imagePath.IsNullOrEmpty())
-                context.Response.Redirect($"/{imagePath}");
+            var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCropModel))) as ImageCropModel;
+            var imagePath = (await model?.CropAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 
-            await Task.CompletedTask;
+            if (options.ReturnAbsolutePath)
+                imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
+
+            await options.SerializeToResponseAsync(context.Response, imagePath);
         }
     }
 }

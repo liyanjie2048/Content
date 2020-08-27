@@ -45,9 +45,7 @@ namespace Liyanjie.Contents.Models
             var width = int.TryParse(size[0], out var w) ? w : 0;
             var height = int.TryParse(size[1], out var h) ? h : 0;
             if (width == 0 && height == 0)
-            {
                 return null;
-            }
 
             var image = Image.FromFile(imageSourcePath);
             if (width > 0 && height > 0)

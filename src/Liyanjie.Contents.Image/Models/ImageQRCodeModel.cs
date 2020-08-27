@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 
 using ZXing;
@@ -39,9 +40,11 @@ namespace Liyanjie.Contents.Models
         /// <returns></returns>
         public string GenerateQRCode(ImageOptions options)
         {
-            var fileName = options.QRCodeFileNameScheme.Invoke(this);
-            var filePath = Path.Combine(options.QRCodesDirectory, fileName);
+            var fileName = options.QRCodeImageFileNameScheme.Invoke(this);
+            var filePath = Path.Combine(options.QRCodeImageDirectory, fileName);
             var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
+            Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
+
             if (!File.Exists(filePhysicalPath))
             {
                 var writer = new BarcodeWriter
@@ -54,12 +57,9 @@ namespace Liyanjie.Contents.Models
                         Margin = Margin,
                     }
                 };
+
                 using var image = writer.Write(Content);
-                if (image != null)
-                {
-                    Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
-                    image.CompressSave(filePhysicalPath, options.CompressFlag);
-                }
+                image.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
             }
 
             return filePath;
