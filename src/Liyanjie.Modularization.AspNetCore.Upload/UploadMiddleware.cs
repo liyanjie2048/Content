@@ -61,7 +61,7 @@ namespace Liyanjie.Modularization.AspNetCore
             if (options.ReturnAbsolutePath)
                 filePaths = filePaths.Select(_ => (_.Success, _.Success ? $"{request.Scheme}://{request.Host}/{_.FilePath}" : _.FilePath));
 
-            await options.SerializeToResponseAsync(context.Response, filePaths.Select(_ => _.FilePath));
+            await options.SerializeToResponseAsync(context.Response, filePaths.Select(_ => _.Success ? _.FilePath : string.Empty).ToArray());
         }
     }
 }
