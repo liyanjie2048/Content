@@ -57,8 +57,6 @@ namespace Liyanjie.Contents.Models
 
                 using (fileImage)
                     fileImage.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
-
-                options.WhenProcessComplte?.Invoke(filePhysicalPath);
             }
 
             return filePath;

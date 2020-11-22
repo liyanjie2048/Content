@@ -80,8 +80,6 @@ namespace Liyanjie.Contents.Models
 
                 using (output)
                     output.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Png);
-
-                options.WhenProcessComplte?.Invoke(filePhysicalPath);
             }
 
             return filePath;

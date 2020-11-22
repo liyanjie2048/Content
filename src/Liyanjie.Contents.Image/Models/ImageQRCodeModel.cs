@@ -60,8 +60,6 @@ namespace Liyanjie.Contents.Models
 
                 using var image = writer.Write(Content);
                 image.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
-
-                options.WhenProcessComplte?.Invoke(filePhysicalPath);
             }
 
             return filePath;

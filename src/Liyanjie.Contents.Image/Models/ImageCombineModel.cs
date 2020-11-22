@@ -70,11 +70,7 @@ namespace Liyanjie.Contents.Models
                 fileImage.Combine(images.ToArray());
 
                 using (fileImage)
-                {
                     fileImage.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
-                }
-
-                options.WhenProcessComplte?.Invoke(filePhysicalPath);
             }
 
             return filePath;

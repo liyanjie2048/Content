@@ -36,7 +36,7 @@ namespace Liyanjie.Contents.Models
             foreach (var file in Files)
             {
                 var fileExtension = Path.GetExtension(file.FileName).ToLower();
-                if (options.AllowedExtensions.IndexOf(fileExtension) < 0)
+                if (Regex.IsMatch(fileExtension, options.AllowedExtensionsPattern))
                 {
                     filePaths.Add((false, $"File \"{file.FileName}\" is not allowed."));
                     continue;
@@ -59,8 +59,6 @@ namespace Liyanjie.Contents.Models
                     await file.FileStream.CopyToAsync(fs);
 #endif
                 }
-
-                options.WhenUploadComplete?.Invoke(filePhysicalPath);
 
                 filePaths.Add((true, Path.Combine(dir, fileName)));
             }

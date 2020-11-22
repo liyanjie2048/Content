@@ -23,13 +23,8 @@ namespace Liyanjie.Contents
         public long AllowedMaximumSize { get; set; } = 4294967296;
 
         /// <summary>
-        /// 允许的文件扩展名。默认：.jpg|.jpeg|.png|.gif
+        /// 允许的文件扩展名正则表达式。默认：\.(jpg|jpeg|png|gif)
         /// </summary>
-        public string AllowedExtensions { get; set; } = ".jpg|.jpeg|.png|.gif";
-
-        /// <summary>
-        /// 上传完成时
-        /// </summary>
-        public Action<string> WhenUploadComplete { get; set; }
+        public string AllowedExtensionsPattern { get; set; } = @"^\.(jpg|jpeg|png|gif)$";
     }
 }

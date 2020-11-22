@@ -71,8 +71,6 @@ namespace Liyanjie.Contents.Models
             using (image)
                 image.CompressSave(imageDestinationPath, options.CompressFlag);
 
-            options.WhenProcessComplte?.Invoke(imageDestinationPath);
-
             return path;
         }
     }
