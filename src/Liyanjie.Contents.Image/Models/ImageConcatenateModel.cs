@@ -36,10 +36,10 @@ namespace Liyanjie.Contents.Models
         {
             var fileName = options.ConcatenatedImageFileNameScheme.Invoke(this);
             var filePath = Path.Combine(options.ConcatenatedImageDirectory, fileName);
-            var fileAbsolutePath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
-            Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
+            var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
+            Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 
-            if (!File.Exists(fileAbsolutePath))
+            if (!File.Exists(filePhysicalPath))
             {
                 var fileAbsolutePaths = ImagePaths
                     .Where(_ => !_.IsNullOrWhiteSpace())
@@ -56,9 +56,9 @@ namespace Liyanjie.Contents.Models
                 }
 
                 using (fileImage)
-                {
-                    fileImage.CompressSave(fileAbsolutePath, options.CompressFlag, ImageFormat.Jpeg);
-                }
+                    fileImage.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
+
+                options.WhenProcessComplte?.Invoke(filePhysicalPath);
             }
 
             return filePath;

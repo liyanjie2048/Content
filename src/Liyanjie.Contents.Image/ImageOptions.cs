@@ -65,6 +65,11 @@ namespace Liyanjie.Contents
             = model => $"{model.ImagePath.MD5Encoded()}.cropped.{model.Left}x{model.Top}.{model.Radius}.{model.Width}x{model.Height}.png";
 
         /// <summary>
+        /// 操作完成时
+        /// </summary>
+        public Action<string> WhenProcessComplte { get; set; }
+
+        /// <summary>
         /// 空文件路径
         /// </summary>
         public string EmptyImagePath { get; set; } = @"images\empty.jpg";

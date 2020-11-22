@@ -50,10 +50,10 @@ namespace Liyanjie.Contents.Models
         {
             var fileName = options.CroppedImageFileNameScheme.Invoke(this);
             var filePath = Path.Combine(options.CombinedImageDirectory, fileName);
-            var fileAbsolutePath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
-            Path.GetDirectoryName(fileAbsolutePath).CreateDirectory();
+            var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
+            Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 
-            if (!File.Exists(fileAbsolutePath))
+            if (!File.Exists(filePhysicalPath))
             {
                 var imageAbsolutePath = ImagePath.PreProcess(options.RootDirectory);
                 if (!(await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePath) is Bitmap image))
@@ -69,7 +69,7 @@ namespace Liyanjie.Contents.Models
                 path.AddLine(new Point(Left, Top + Height - Radius), new Point(Left, Top + Radius));
                 path.AddArc(new Rectangle(Left, Top, Radius * 2, Radius * 2), 180, 90);
 
-                using var output = new Bitmap(Width, Height);
+                var output = new Bitmap(Width, Height);
                 for (int i = Left; i < Left + Width; i++)
                 {
                     for (int j = Top; j < Top + Height; j++)
@@ -78,7 +78,10 @@ namespace Liyanjie.Contents.Models
                     }
                 }
 
-                output.CompressSave(fileAbsolutePath, options.CompressFlag, ImageFormat.Png);
+                using (output)
+                    output.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Png);
+
+                options.WhenProcessComplte?.Invoke(filePhysicalPath);
             }
 
             return filePath;

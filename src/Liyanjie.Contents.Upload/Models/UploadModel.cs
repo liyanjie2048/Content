@@ -49,8 +49,8 @@ namespace Liyanjie.Contents.Models
                 }
 
                 var fileName = options.FileNameScheme(file.FileName, fileExtension);
-
-                using var fs = File.Create(Path.Combine(directory, fileName));
+                var filePhysicalPath = Path.Combine(directory, fileName);
+                using var fs = File.Create(filePhysicalPath);
                 using (file.FileStream)
                 {
 #if NET45
@@ -59,6 +59,8 @@ namespace Liyanjie.Contents.Models
                     await file.FileStream.CopyToAsync(fs);
 #endif
                 }
+
+                options.WhenUploadComplete?.Invoke(filePhysicalPath);
 
                 filePaths.Add((true, Path.Combine(dir, fileName)));
             }

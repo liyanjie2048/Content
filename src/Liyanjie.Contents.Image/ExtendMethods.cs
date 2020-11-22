@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 
 namespace Liyanjie.Contents
@@ -11,7 +9,7 @@ namespace Liyanjie.Contents
         public static string MD5Encoded(this string input)
         {
             return input
-                .Encode(Utilities.EncodeMode.MD5)
+                .Encode(EncodeMode.MD5)
                 .Replace("-", string.Empty)
                 .ToLower();
         }

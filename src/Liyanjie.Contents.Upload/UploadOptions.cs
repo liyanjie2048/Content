@@ -11,7 +11,7 @@ namespace Liyanjie.Contents
         /// 根目录
         /// </summary>
         public string RootDirectory { get; set; }
-        
+
         /// <summary>
         /// 文件名生成方案。默认：Guid
         /// </summary>
@@ -26,5 +26,10 @@ namespace Liyanjie.Contents
         /// 允许的文件扩展名。默认：.jpg|.jpeg|.png|.gif
         /// </summary>
         public string AllowedExtensions { get; set; } = ".jpg|.jpeg|.png|.gif";
+
+        /// <summary>
+        /// 上传完成时
+        /// </summary>
+        public Action<string> WhenUploadComplete { get; set; }
     }
 }

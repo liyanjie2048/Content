@@ -67,11 +67,11 @@ namespace Liyanjie.Contents.Models
             else if (height == 0)
                 image = image.Resize(width, null);
 
+            var imageDestinationPath = Path.Combine(options.RootDirectory, path.Replace('/', Path.DirectorySeparatorChar));
             using (image)
-            {
-                var imageDestinationPath = Path.Combine(options.RootDirectory, path).Replace('/', Path.DirectorySeparatorChar);
                 image.CompressSave(imageDestinationPath, options.CompressFlag);
-            }
+
+            options.WhenProcessComplte?.Invoke(imageDestinationPath);
 
             return path;
         }
