@@ -18,6 +18,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="configureOptions"></param>
         /// <param name="combineRouteTemplate"></param>
         /// <param name="concatenateRouteTemplate"></param>
+        /// <param name="cropRouteTemplate"></param>
         /// <param name="qrcodeRouteTemplate"></param>
         /// <param name="resizeRouteTemplates"></param>
         /// <returns></returns>

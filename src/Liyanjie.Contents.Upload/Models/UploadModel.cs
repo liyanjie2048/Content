@@ -36,7 +36,7 @@ namespace Liyanjie.Contents.Models
             foreach (var file in Files)
             {
                 var fileExtension = Path.GetExtension(file.FileName).ToLower();
-                if (Regex.IsMatch(fileExtension, options.AllowedExtensionsPattern))
+                if (!Regex.IsMatch(fileExtension, options.AllowedExtensionsPattern))
                 {
                     filePaths.Add((false, $"File \"{file.FileName}\" is not allowed."));
                     continue;

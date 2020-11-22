@@ -15,10 +15,11 @@ namespace Liyanjie.Contents
         /// <summary>
         /// 文件名生成方案。默认：Guid
         /// </summary>
-        public Func<string, string, string> FileNameScheme { get; set; } = (fileName, fileExtension) => Guid.NewGuid().ToString("N");
+        public Func<string, string, string> FileNameScheme { get; set; }
+            = (fileName, fileExtension) => $"{Guid.NewGuid().ToString("N")}{fileExtension}";
 
         /// <summary>
-        /// 最大文件大小。单位：Byte
+        /// 最大文件大小。单位：Byte，默认：4294967296
         /// </summary>
         public long AllowedMaximumSize { get; set; } = 4294967296;
 
