@@ -50,17 +50,16 @@ namespace Liyanjie.Contents.Models
 
                 var fileName = options.FileNameScheme(file.FileName, fileExtension);
                 var filePhysicalPath = Path.Combine(directory, fileName);
-                using var fs = File.Create(filePhysicalPath);
-                using (file.FileStream)
+                try
                 {
-#if NET45
-                    file.FileStream.CopyTo(fs);
-#else
-                    await file.FileStream.CopyToAsync(fs);
-#endif
-                }
+                    File.WriteAllBytes(filePhysicalPath, file.FileBytes);
 
-                filePaths.Add((true, Path.Combine(dir, fileName)));
+                    filePaths.Add((true, Path.Combine(dir, fileName)));
+                }
+                catch
+                {
+                    filePaths.Add((false, $"File \"{file.FileName}\" write failed."));
+                }
             }
 
             return filePaths.ToArray();
@@ -81,7 +80,7 @@ namespace Liyanjie.Contents.Models
         /// <summary>
         /// 
         /// </summary>
-        public Stream FileStream { get; set; }
+        public byte[] FileBytes { get; set; }
 
         /// <summary>
         /// 

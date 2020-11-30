@@ -42,16 +42,21 @@ namespace Liyanjie.Modularization.AspNet
             if (!_dir.IsNullOrEmpty())
                 dir = _dir.FirstOrDefault();
 
+            var files = new List<UploadFileModel>(request.Files.Count);
+            foreach (var key in request.Files.AllKeys)
+            {
+                using var memory = new MemoryStream();
+                request.Files[key].InputStream.CopyTo(memory);
+                files.Add(new UploadFileModel
+                {
+                    FileName = request.Files[key].FileName,
+                    FileBytes = memory.ToArray(),
+                    FileLength = request.Files[key].ContentLength,
+                });
+            }
             var model = new UploadModel
             {
-                Files = request.Files.AllKeys
-                    .Select(_ => new UploadFileModel
-                    {
-                        FileName = request.Files[_].FileName,
-                        FileStream = request.Files[_].InputStream,
-                        FileLength = request.Files[_].ContentLength,
-                    })
-                    .ToArray(),
+                Files = files.ToArray(),
             };
 
             var paths = await model.SaveAsync(options, dir);

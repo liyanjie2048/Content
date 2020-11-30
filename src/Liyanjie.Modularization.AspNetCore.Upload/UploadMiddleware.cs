@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,16 +45,21 @@ namespace Liyanjie.Modularization.AspNetCore
             if (request.Query.TryGetValue("dir", out var _dir) && !_dir.IsNullOrEmpty())
                 dir = _dir.FirstOrDefault();
 
+            var files = new List<UploadFileModel>(request.Form.Files.Count);
+            foreach (var item in request.Form.Files)
+            {
+                using var memory = new MemoryStream();
+                item.OpenReadStream().CopyTo(memory);
+                files.Add(new UploadFileModel
+                {
+                    FileName = item.FileName,
+                    FileBytes = memory.ToArray(),
+                    FileLength = item.Length,
+                });
+            }
             var model = new UploadModel
             {
-                Files = request.Form.Files
-                    .Select(_ => new UploadFileModel
-                    {
-                        FileName = _.FileName,
-                        FileStream = _.OpenReadStream(),
-                        FileLength = _.Length,
-                    })
-                    .ToArray(),
+                Files = files.ToArray(),
             };
 
             var paths = await model.SaveAsync(options, dir);
