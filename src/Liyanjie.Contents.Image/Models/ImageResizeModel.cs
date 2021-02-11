@@ -29,10 +29,9 @@ namespace Liyanjie.Contents.Models
                 return options.EmptyImagePath;
             }
 
-            var matchGroups = match.Groups;
-            var str_parameters = matchGroups["parameters"].Value;
-            var str_size = matchGroups["size"].Value;
-            var str_color = matchGroups["color"].Value;
+            var str_parameters = match.Groups["parameters"].Value;
+            var str_size = match.Groups["size"].Value;
+            var str_color = match.Groups["color"].Value;
 
             var imageSourcePath = Path.Combine(options.RootDirectory, path.Replace(str_parameters, string.Empty));
             if (!File.Exists(imageSourcePath))
