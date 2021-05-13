@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 
-using Liyanjie.Contents.Models;
+using Liyanjie.Content.Models;
 
 namespace Liyanjie.Modularization.AspNet
 {

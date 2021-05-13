@@ -1,9 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <IsPackable>True</IsPackable>
-        <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
         <Description>Liyanjie.Modularization.AspNetCore.Image</Description>
         <Copyright>© Liyanjie.net</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -19,18 +17,24 @@
     </PropertyGroup>
 
     <Target Name="MovePackage" AfterTargets="Pack">
-        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
+        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_NugetPackages\" />
     </Target>
 
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <ItemGroup>
         <PackageReference Include="Liyanjie.Modularization.AspNetCore" Version="1.0.0" />
-        <PackageReference Include="System.Text.Json" Version="4.6.0" />
-        <ProjectReference Include="..\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj" />
+        <ProjectReference Include="..\Liyanjie.Content.Image\Liyanjie.Content.Image.csproj" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
-        <PackageReference Include="Liyanjie.Modularization.AspNetCore" Version="1.0.0" />
-        <ProjectReference Include="..\Liyanjie.Contents.Image\Liyanjie.Contents.Image.csproj" />
+    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+        <PackageReference Include="System.Text.Json" Version="4.6.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
+        <PackageReference Include="System.Text.Json" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
+        <PackageReference Include="System.Text.Json" Version="5.0.0" />
     </ItemGroup>
 
 </Project>

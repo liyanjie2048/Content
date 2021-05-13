@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Liyanjie.Contents.Models;
+using Liyanjie.Content.Models;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;

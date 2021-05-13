@@ -17,13 +17,13 @@
 	</PropertyGroup>
 
 	<Target Name="MovePackage" AfterTargets="Pack">
-		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
+		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_NugetPackages\" />
 	</Target>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net45'">
 		<PackageReference Include="Liyanjie.Modularization.AspNet" Version="1.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-		<ProjectReference Include="..\Liyanjie.Contents.Explore\Liyanjie.Contents.Explore.csproj" />
+		<ProjectReference Include="..\Liyanjie.Content.Explore\Liyanjie.Content.Explore.csproj" />
 	</ItemGroup>
 
 </Project>

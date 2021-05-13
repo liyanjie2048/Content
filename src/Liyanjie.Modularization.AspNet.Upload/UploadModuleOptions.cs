@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 
-using Liyanjie.Contents;
+using Liyanjie.Content;
 
 namespace Liyanjie.Modularization.AspNet
 {

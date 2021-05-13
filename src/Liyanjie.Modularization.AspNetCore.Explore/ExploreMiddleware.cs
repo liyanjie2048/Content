@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-using Liyanjie.Contents;
+using Liyanjie.Content;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -47,7 +47,7 @@ namespace Liyanjie.Modularization.AspNetCore
                     fixPath(item, pathPrefix);
                 }
 
-                static void fixPath(ContentsModel.Directory dir, string pathPrefix)
+                static void fixPath(ContentModel.Directory dir, string pathPrefix)
                 {
                     dir.Path = pathPrefix + dir.Path;
                     foreach (var item in dir.Files)
