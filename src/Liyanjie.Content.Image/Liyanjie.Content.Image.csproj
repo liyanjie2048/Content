@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net45;netstandard2.0;netstandard2.1;</TargetFrameworks>
-      <Description>Liyanjie.Content.Image</Description>
-      <Copyright>© Liyanjie.net</Copyright>
-      <Authors>liyanjie8712@outlook.com</Authors>
-      <Company>Liyanjie.net</Company>
-      <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
-      <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
-      <RepositoryType>Git</RepositoryType>
-    <RootNamespace>Liyanjie.Content</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net45;netstandard2.0;netstandard2.1;</TargetFrameworks>
+        <Description>Liyanjie.Content.Image</Description>
+        <Copyright>© Liyanjie.net</Copyright>
+        <Authors>liyanjie8712@outlook.com</Authors>
+        <Company>Liyanjie.net</Company>
+        <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
+        <RepositoryType>Git</RepositoryType>
+        <RootNamespace>Liyanjie.Content</RootNamespace>
+    </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <DocumentationFile>bin\Release\Liyanjie.Content.Image.xml</DocumentationFile>

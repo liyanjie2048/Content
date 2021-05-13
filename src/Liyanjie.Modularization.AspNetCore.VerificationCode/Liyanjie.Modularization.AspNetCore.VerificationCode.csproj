@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0;</TargetFrameworks>
+        <TargetFrameworks>net5.0;</TargetFrameworks>
         <Description>Liyanjie.Modularization.AspNetCore.VerificationCode</Description>
         <Copyright>© Liyanjie.net</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -23,18 +23,6 @@
     <ItemGroup>
         <PackageReference Include="Liyanjie.Modularization.AspNetCore" Version="1.0.0" />
         <ProjectReference Include="..\Liyanjie.Content.VerificationCode\Liyanjie.Content.VerificationCode.csproj" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-      <PackageReference Include="System.Text.Json" Version="4.6.0" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
-        <PackageReference Include="System.Text.Json" Version="5.0.0" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
-        <PackageReference Include="System.Text.Json" Version="5.0.0" />
     </ItemGroup>
 
 </Project>
