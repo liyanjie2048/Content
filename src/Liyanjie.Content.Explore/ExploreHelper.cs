@@ -14,7 +14,7 @@ namespace Liyanjie.Content
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public static IList<ContentModel.Directory> GetContents(ExploreOptions options)
+        public static IEnumerable<ContentModel.Directory> GetContents(ExploreOptions options)
         {
             var rootDirectory = options.RootDirectory;
 
@@ -24,7 +24,7 @@ namespace Liyanjie.Content
                 .Select(_ => new ContentModel.Directory
                 {
                     Name = _.Name,
-                    Path = _.FullName,
+                    Path = FixToRelativePath(_.FullName, rootDirectory),
                     Files = _.GetFiles().Select(__ => new ContentModel.File
                     {
                         Name = __.Name,
@@ -34,11 +34,11 @@ namespace Liyanjie.Content
                 }).ToList();
         }
 
-        static IList<ContentModel.Directory> EnumerateDirectories(DirectoryInfo directory, string rootDirectory)
+        static IEnumerable<ContentModel.Directory> EnumerateDirectories(DirectoryInfo directory, string rootDirectory)
         {
             var directories = directory.GetDirectories();
-            return directories.Length > 0
-                ? directories.Select(_ => new ContentModel.Directory
+            return directories
+                .Select(_ => new ContentModel.Directory
                 {
                     Name = _.Name,
                     Path = FixToRelativePath(_.FullName, rootDirectory),
@@ -48,8 +48,7 @@ namespace Liyanjie.Content
                         Path = FixToRelativePath(_.FullName, rootDirectory)
                     }).ToList(),
                     SubDirs = EnumerateDirectories(_, rootDirectory),
-                }).ToList()
-                : null;
+                }).ToList();
         }
 
         static string FixToRelativePath(string absolutePath, string rootDirectory)
