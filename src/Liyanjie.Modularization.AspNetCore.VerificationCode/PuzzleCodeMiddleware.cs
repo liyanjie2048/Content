@@ -17,7 +17,7 @@ namespace Liyanjie.Modularization.AspNetCore
     /// </summary>
     public class PuzzleCodeMiddleware : IMiddleware
     {
-        readonly VerificationCodeModuleOptions options;
+        readonly IOptions<VerificationCodeModuleOptions> options;
 
         /// <summary>
         /// 
@@ -25,7 +25,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="options"></param>
         public PuzzleCodeMiddleware(IOptions<VerificationCodeModuleOptions> options)
         {
-            this.options = options.Value;
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -36,6 +36,8 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            var options = this.options.Value;
+
             if (options.RequestConstrainAsync != null)
                 if (!await options.RequestConstrainAsync(context))
                     return;

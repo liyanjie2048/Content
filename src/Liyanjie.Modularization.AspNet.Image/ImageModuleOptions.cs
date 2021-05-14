@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 
 using Liyanjie.Content;
+
+using Newtonsoft.Json;
 
 namespace Liyanjie.Modularization.AspNet
 {
@@ -24,9 +27,9 @@ namespace Liyanjie.Modularization.AspNet
             {
                 await Task.FromResult(0);
 
-                using var streamReader = new System.IO.StreamReader(request.InputStream);
+                using var streamReader = new StreamReader(request.InputStream);
                 var str = streamReader.ReadToEnd();
-                return Newtonsoft.Json.JsonConvert.DeserializeObject(str, type);
+                return JsonConvert.DeserializeObject(str, type);
             };
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace Liyanjie.Modularization.AspNet
 
                 response.Clear();
                 response.ContentType = "application/json";
-                response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+                response.Write(JsonConvert.SerializeObject(obj));
             };
 
         /// <summary>

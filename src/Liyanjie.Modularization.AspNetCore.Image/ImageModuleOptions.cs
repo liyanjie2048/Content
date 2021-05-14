@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -24,9 +25,9 @@ namespace Liyanjie.Modularization.AspNetCore
         public Func<HttpRequest, Type, Task<object>> DeserializeFromRequestAsync { get; set; }
             = async (request, type) =>
             {
-                using var streamReader = new System.IO.StreamReader(request.Body);
+                using var streamReader = new StreamReader(request.Body);
                 var str = await streamReader.ReadToEndAsync();
-                return JsonSerializer.Deserialize(str, type, new JsonSerializerOptions
+                return JsonSerializer.Deserialize(str, type, new()
                 {
                     IgnoreNullValues = true,
                     IgnoreReadOnlyProperties = true,
@@ -43,9 +44,7 @@ namespace Liyanjie.Modularization.AspNetCore
                 response.StatusCode = 200;
                 response.ContentType = "application/json";
                 await response.WriteAsync(JsonSerializer.Serialize(obj));
-#if NETCOREAPP3_0
                 await response.CompleteAsync();
-#endif
             };
 
         /// <summary>

@@ -27,9 +27,7 @@ namespace Liyanjie.Modularization.AspNetCore
                 response.StatusCode = 200;
                 response.ContentType = "application/json";
                 await response.WriteAsync(JsonSerializer.Serialize(obj));
-#if NETCOREAPP3_0
                 await response.CompleteAsync();
-#endif
             };
 
         /// <summary>

@@ -4,6 +4,8 @@ using System.Web;
 
 using Liyanjie.Content;
 
+using Newtonsoft.Json;
+
 namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
@@ -26,7 +28,7 @@ namespace Liyanjie.Modularization.AspNet
 
                 response.Clear();
                 response.ContentType = "application/json";
-                response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+                response.Write(JsonConvert.SerializeObject(obj));
             };
 
         /// <summary>

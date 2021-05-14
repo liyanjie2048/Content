@@ -47,7 +47,7 @@ namespace Liyanjie.Modularization.AspNet
             {
                 using var memory = new MemoryStream();
                 request.Files[key].InputStream.CopyTo(memory);
-                files.Add(new UploadFileModel
+                files.Add(new()
                 {
                     FileName = request.Files[key].FileName,
                     FileBytes = memory.ToArray(),

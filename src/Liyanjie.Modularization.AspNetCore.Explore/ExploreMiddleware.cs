@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Liyanjie.Content;
@@ -13,7 +14,7 @@ namespace Liyanjie.Modularization.AspNetCore
     /// </summary>
     public class ExploreMiddleware : IMiddleware
     {
-        readonly ExploreModuleOptions options;
+        readonly IOptions<ExploreModuleOptions> options;
 
         /// <summary>
         /// 
@@ -21,7 +22,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="options"></param>
         public ExploreMiddleware(IOptions<ExploreModuleOptions> options)
         {
-            this.options = options.Value;
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -32,6 +33,8 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            var options = this.options.Value;
+
             if (options.RequestConstrainAsync != null)
                 if (!await options.RequestConstrainAsync(context))
                     return;

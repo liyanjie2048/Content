@@ -16,7 +16,7 @@ namespace Liyanjie.Modularization.AspNetCore
     /// </summary>
     public class UploadMiddleware : IMiddleware
     {
-        readonly UploadModuleOptions options;
+        readonly IOptions<UploadModuleOptions> options;
 
         /// <summary>
         /// 
@@ -24,7 +24,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="options"></param>
         public UploadMiddleware(IOptions<UploadModuleOptions> options)
         {
-            this.options = options.Value;
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -35,6 +35,8 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            var options = this.options.Value;
+
             if (options.RequestConstrainAsync != null)
                 if (!await options.RequestConstrainAsync(context))
                     return;
@@ -50,7 +52,7 @@ namespace Liyanjie.Modularization.AspNetCore
             {
                 using var memory = new MemoryStream();
                 item.OpenReadStream().CopyTo(memory);
-                files.Add(new UploadFileModel
+                files.Add(new()
                 {
                     FileName = item.FileName,
                     FileBytes = memory.ToArray(),

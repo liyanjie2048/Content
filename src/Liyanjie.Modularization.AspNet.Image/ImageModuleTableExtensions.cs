@@ -36,25 +36,25 @@ namespace Liyanjie.Modularization.AspNet
             
             var middlewares = new List<ModularizationModuleMiddleware>
             {
-                new ModularizationModuleMiddleware
+                new()
                 {
                     HttpMethods = new[] { "POST" },
                     RouteTemplate = combineRouteTemplate,
                     HandlerType = typeof(ImageCombineMiddleware),
                 },
-                new ModularizationModuleMiddleware
+                new()
                 {
                     HttpMethods = new[] { "POST" },
                     RouteTemplate = concatenateRouteTemplate,
                     HandlerType =  typeof(ImageConcatenateMiddleware),
                 },
-                new ModularizationModuleMiddleware
+                new()
                 {
                     HttpMethods = new[] { "POST" },
                     RouteTemplate = cropRouteTemplate,
                     HandlerType =  typeof(ImageCropMiddleware),
                 },
-                new ModularizationModuleMiddleware
+                new()
                 {
                     HttpMethods = new[] { "GET" },
                     RouteTemplate = qrCodeRouteTemplate,
@@ -64,7 +64,7 @@ namespace Liyanjie.Modularization.AspNet
             if (!resizeRouteTemplates.IsNullOrEmpty())
                 foreach (var routeTemplate in resizeRouteTemplates)
                 {
-                    middlewares.Add(new ModularizationModuleMiddleware
+                    middlewares.Add(new()
                     {
                         HttpMethods = new[] { "GET" },
                         RouteTemplate = routeTemplate,
