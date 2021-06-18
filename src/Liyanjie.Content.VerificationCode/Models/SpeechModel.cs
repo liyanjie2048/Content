@@ -1,4 +1,4 @@
-﻿#if NET45
+﻿#if NETFRAMEWORK
 using System.IO;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;

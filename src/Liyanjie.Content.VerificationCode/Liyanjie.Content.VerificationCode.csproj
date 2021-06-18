@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net45;netstandard2.1;</TargetFrameworks>
+        <TargetFrameworks>net452;netstandard2.1;</TargetFrameworks>
         <Description>Liyanjie.Content.VerificationCode</Description>
         <Copyright>© Liyanjie.net</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -25,7 +25,7 @@
         <PackageReference Include="Liyanjie.Drawing.Extensions" Version="1.0.0" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+    <ItemGroup Condition="'$(TargetFramework)'=='net452'">
         <Reference Include="System.Speech" />
     </ItemGroup>
 

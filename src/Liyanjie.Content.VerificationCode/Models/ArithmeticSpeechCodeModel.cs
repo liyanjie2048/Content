@@ -1,10 +1,10 @@
-﻿using System;
+﻿#if NETFRAMEWORK
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Liyanjie.Content.Models
 {
-#if NET45
     /// <summary>
     /// 
     /// </summary>
@@ -34,5 +34,5 @@ namespace Liyanjie.Content.Models
             return (answer, audio);
         }
     }
-#endif
 }
+#endif

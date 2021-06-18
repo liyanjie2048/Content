@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿#if NETFRAMEWORK
+using System.Threading.Tasks;
 
 namespace Liyanjie.Content.Models
 {
-#if NET45
     /// <summary>
     /// 
     /// </summary>
@@ -32,5 +32,5 @@ namespace Liyanjie.Content.Models
             return (str, audio);
         }
     }
-#endif
 }
+#endif
