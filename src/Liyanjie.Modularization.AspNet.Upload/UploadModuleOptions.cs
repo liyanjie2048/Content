@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -26,7 +27,7 @@ namespace Liyanjie.Modularization.AspNet
 
                 response.Clear();
                 response.ContentType = "application/json";
-                response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+                response.Write(JsonSerializer.Serialize(obj));
             };
 
         /// <summary>

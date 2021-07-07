@@ -30,7 +30,7 @@
     <ItemGroup>
         <Reference Include="System.Web" />
         <PackageReference Include="Liyanjie.Modularization.AspNet" Version="1.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="System.Text.Json" Version="5.0.0" />
         <ProjectReference Include="..\Liyanjie.Content.Image\Liyanjie.Content.Image.csproj" />
     </ItemGroup>
 
