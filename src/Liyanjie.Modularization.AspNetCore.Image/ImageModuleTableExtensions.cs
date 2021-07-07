@@ -23,7 +23,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="qrcodeRouteTemplate"></param>
         /// <param name="resizeRouteTemplates"></param>
         /// <returns></returns>
-        public static ModuleTable AddImage(this ModuleTable moduleTable,
+        public static ModularizationModuleTable AddImage(this ModularizationModuleTable moduleTable,
             Action<ImageModuleOptions> configureOptions,
             string combineRouteTemplate = "image/combine",
             string combineToGIFRouteTemplate="image/combineToGIF",
@@ -39,7 +39,7 @@ namespace Liyanjie.Modularization.AspNetCore
             moduleTable.Services.AddSingleton<ImageQRCodeMiddleware>();
             moduleTable.Services.AddSingleton<ImageResizeMiddleware>();
 
-            var middlewares = new List<ModuleMiddleware>
+            var middlewares = new List<ModularizationModuleMiddleware>
             {
                 new()
                 {

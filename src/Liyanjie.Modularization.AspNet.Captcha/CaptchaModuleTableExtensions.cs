@@ -22,7 +22,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="stringImageCodeRouteTemplate"></param>
         /// <param name="stringSpeechCodeRouteTemplate"></param>
         /// <returns></returns>
-        public static ModuleTable AddCaptcha(this ModuleTable moduleTable,
+        public static ModularizationModuleTable AddCaptcha(this ModularizationModuleTable moduleTable,
             Action<CaptchaModuleOptions> configureOptions,
             string clickCodeRouteTemplate = "captcha/click",
             string puzzleCodeRouteTemplate = "captcha/puzzle",
@@ -42,43 +42,43 @@ namespace Liyanjie.Modularization.AspNet
 
             moduleTable.AddModule("Captcha(Module", new[]
             {
-               new ModuleMiddleware
+               new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = clickCodeRouteTemplate,
                    HandlerType = typeof(ClickCaptchaMiddleware),
                },
-               new ModuleMiddleware
+               new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = puzzleCodeRouteTemplate,
                    HandlerType = typeof(PuzzleCaptchaMiddleware),
                },
-               new ModuleMiddleware
+               new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = sliderCodeRouteTemplate,
                    HandlerType = typeof(SliderCaptchaMiddleware),
                },
-               new ModuleMiddleware
+               new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = arithmeticImageCodeRouteTemplate,
                    HandlerType = typeof(ArithmeticImageCaptchaMiddleware),
                },
-               new ModuleMiddleware
+               new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = arithmeticSpeechCodeRouteTemplate,
                    HandlerType = typeof(ArithmeticSpeechCaptchaMiddleware),
                },
-               new ModuleMiddleware
+               new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = stringImageCodeRouteTemplate,
                    HandlerType = typeof(StringImageCaptchaMiddleware),
                },
-               new ModuleMiddleware
+               new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = stringSpeechCodeRouteTemplate,

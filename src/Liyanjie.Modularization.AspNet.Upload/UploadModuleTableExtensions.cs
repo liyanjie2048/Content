@@ -16,7 +16,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="configureOptions"></param>
         /// <param name="routeTemplate"></param>
         /// <returns></returns>
-        public static ModuleTable AddUpload(this ModuleTable moduleTable,
+        public static ModularizationModuleTable AddUpload(this ModularizationModuleTable moduleTable,
             Action<UploadModuleOptions> configureOptions,
             string routeTemplate = "upload")
         {
@@ -24,7 +24,7 @@ namespace Liyanjie.Modularization.AspNet
 
             moduleTable.AddModule("UploadModule", new[]
             {
-               new ModuleMiddleware
+               new ModularizationModuleMiddleware
                {
                    HttpMethods = new[]{ "POST" },
                    RouteTemplate = routeTemplate,
