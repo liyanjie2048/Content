@@ -16,7 +16,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="configureOptions"></param>
         /// <param name="routeTemplate"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddExplore(this ModularizationModuleTable moduleTable,
+        public static ModuleTable AddExplore(this ModuleTable moduleTable,
             Action<ExploreModuleOptions> configureOptions,
             string routeTemplate = "explore")
         {
@@ -24,7 +24,7 @@ namespace Liyanjie.Modularization.AspNetCore
 
             moduleTable.AddModule("ExploreModule", new[]
             {
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = routeTemplate,

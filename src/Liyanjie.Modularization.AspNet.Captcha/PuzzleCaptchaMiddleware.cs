@@ -13,7 +13,7 @@ namespace Liyanjie.Modularization.AspNet
     /// <summary>
     /// 
     /// </summary>
-    public class PuzzleCodeMiddleware
+    public class PuzzleCaptchaMiddleware
     {
         readonly CaptchaModuleOptions options;
 
@@ -21,7 +21,7 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public PuzzleCodeMiddleware(CaptchaModuleOptions options)
+        public PuzzleCaptchaMiddleware(CaptchaModuleOptions options)
         {
             this.options = options;
         }

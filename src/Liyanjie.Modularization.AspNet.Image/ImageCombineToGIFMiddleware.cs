@@ -12,7 +12,7 @@ namespace Liyanjie.Modularization.AspNet
     /// <summary>
     /// 
     /// </summary>
-    public class ImageCropMiddleware
+    public class ImageCombineToGIFMiddleware
     {
         readonly IOptions<ImageModuleOptions> options;
 
@@ -20,7 +20,7 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public ImageCropMiddleware(IOptions<ImageModuleOptions> options)
+        public ImageCombineToGIFMiddleware(IOptions<ImageModuleOptions> options)
         {
             this.options = options ?? throw new ArgumentNullException(nameof(options));
         }
@@ -29,20 +29,21 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="context"></param>
+        /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
             var options = this.options.Value;
 
             if (options.RequestConstrainAsync is not null)
-                if (!await options.RequestConstrainAsync.Invoke(context))
+                if (!await options.RequestConstrainAsync(context))
                     return;
 
             var request = context.Request;
 
-            var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCropModel))) as ImageCropModel;
+            var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCombineToGIFModel))) as ImageCombineToGIFModel;
             if (model is not null)
             {
-                var imagePath = (await model?.CropAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+                var imagePath = (await model.CombineToGIFAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
                 if (options.ReturnAbsolutePath)
                 {
                     var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";

@@ -16,7 +16,14 @@
 		<DocumentationFile>bin\Release\Liyanjie.Modularization.AspNet.Explore.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<Target Name="MovePackage" AfterTargets="Pack">
+    <ItemGroup>
+        <None Include="..\..\liyanjie.net.256.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
+    <Target Name="MovePackage" AfterTargets="Pack">
 		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_NugetPackages\" />
 	</Target>
 

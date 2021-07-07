@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
@@ -14,15 +16,15 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="configureOptions"></param>
         /// <param name="routeTemplate"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddUpload(this ModularizationModuleTable moduleTable,
+        public static ModuleTable AddUpload(this ModuleTable moduleTable,
             Action<UploadModuleOptions> configureOptions,
             string routeTemplate = "upload")
         {
-            moduleTable.RegisterServiceType?.Invoke(typeof(UploadMiddleware), "Singleton");
+            moduleTable.Services.AddSingleton<UploadMiddleware>();
 
             moduleTable.AddModule("UploadModule", new[]
             {
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "POST" },
                    RouteTemplate = routeTemplate,

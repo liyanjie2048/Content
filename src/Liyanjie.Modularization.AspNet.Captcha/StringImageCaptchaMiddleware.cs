@@ -13,7 +13,7 @@ namespace Liyanjie.Modularization.AspNet
     /// <summary>
     /// 
     /// </summary>
-    public class StringImageCodeMiddleware
+    public class StringImageCaptchaMiddleware
     {
         readonly CaptchaModuleOptions options;
 
@@ -21,7 +21,7 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public StringImageCodeMiddleware(CaptchaModuleOptions options)
+        public StringImageCaptchaMiddleware(CaptchaModuleOptions options)
         {
             this.options = options;
         }

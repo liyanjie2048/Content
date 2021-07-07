@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
@@ -14,15 +16,15 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="configureOptions"></param>
         /// <param name="routeTemplate"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddExplore(this ModularizationModuleTable moduleTable,
+        public static ModuleTable AddExplore(this ModuleTable moduleTable,
             Action<ExploreModuleOptions> configureOptions,
             string routeTemplate = "explore")
         {
-            moduleTable.RegisterServiceType?.Invoke(typeof(ExploreMiddleware), "Singleton");
+            moduleTable.Services.AddSingleton<ExploreMiddleware>();
 
             moduleTable.AddModule("ExploreModule", new[]
             {
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = routeTemplate,

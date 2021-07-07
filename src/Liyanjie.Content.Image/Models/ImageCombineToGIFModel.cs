@@ -11,12 +11,12 @@ namespace Liyanjie.Content.Models
     /// <summary>
     /// 
     /// </summary>
-    public class ImageCombineModel
+    public class ImageCombineToGIFModel
     {
         /// <summary>
         /// 
         /// </summary>
-        public ImageCombineToItemModel[] Items { get; set; }
+        public ImageCombineToGIFItemModel[] Items { get; set; }
 
         /// <summary>
         /// 
@@ -31,46 +31,42 @@ namespace Liyanjie.Content.Models
         /// <summary>
         /// 
         /// </summary>
+        public int Delay { get; set; } = 500;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Repeat { get; set; } = 0;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public async Task<string> CombineAsync(ImageOptions options)
+        public async Task<string> CombineToGIFAsync(ImageOptions options)
         {
-            var fileName = options.CombinedImageFileNameScheme.Invoke(this);
+            var fileName = options.CombinedGIFImageFileNameScheme.Invoke(this);
             var filePath = Path.Combine(options.CombinedImageDirectory, fileName);
             var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
             Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 
             if (!File.Exists(filePhysicalPath))
             {
-                var imageAbsolutePaths = Items
-                    .Select(_ => _.ImagePath)
-                    .Where(_ => !_.IsNullOrWhiteSpace())
-                    .Select(_ => _.PreProcess(options.RootDirectory))
-                    .ToList();
-                var imagePoints = Items
-                    .Select(_ => (X: _.X ?? 0, Y: _.Y ?? 0))
-                    .ToList();
-                var imageSizes = Items
-                    .Select(_ => (Width: _.Width ?? 0, Height: _.Height ?? 0))
-                    .ToList();
-                var images = new List<(Point, Size, Image)>();
-                for (int i = 0; i < imageAbsolutePaths.Count; i++)
+                var images = new List<(Point, Size, Image, int)>();
+                foreach (var item in Items.Where(_ => _.ImagePath.IsNotNullOrWhiteSpace()))
                 {
-                    var image = await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePaths[i]);
+                    var image = await ImageHelper.FromFileOrNetworkAsync(item.ImagePath.PreProcess(options.RootDirectory));
                     if (image == null)
                         continue;
 
-                    var size = imageSizes[i];
-                    var point = imagePoints[i];
-
-                    images.Add((new Point(point.X, point.Y), new Size(size.Width, size.Height), image));
+                    images.Add((new Point(item.X ?? 0, item.Y ?? 0), new Size(item.Width ?? 0, item.Height ?? 0), image, item.Delay));
                 }
 
                 var fileImage = new Bitmap(Width, Height);
-                fileImage.Combine(images.ToArray());
+                fileImage.CombineToGIF(Delay, Repeat, images.ToArray());
 
                 using (fileImage)
-                    fileImage.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
+                    fileImage.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Gif);
             }
 
             return filePath;
@@ -79,7 +75,7 @@ namespace Liyanjie.Content.Models
     /// <summary>
     /// 
     /// </summary>
-    public class ImageCombineToItemModel
+    public class ImageCombineToGIFItemModel
     {
         /// <summary>
         /// 
@@ -105,6 +101,11 @@ namespace Liyanjie.Content.Models
         /// 
         /// </summary>
         public int? Height { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Delay { get; set; } = 500;
 
         /// <summary>
         /// 

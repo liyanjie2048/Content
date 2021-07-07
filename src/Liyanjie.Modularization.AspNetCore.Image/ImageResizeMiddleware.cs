@@ -35,7 +35,7 @@ namespace Liyanjie.Modularization.AspNetCore
         {
             var options = this.options.Value;
 
-            if (options.RequestConstrainAsync != null)
+            if (options.RequestConstrainAsync is not null)
                 if (!await options.RequestConstrainAsync.Invoke(context))
                     return;
 
@@ -43,7 +43,7 @@ namespace Liyanjie.Modularization.AspNetCore
 
             var model = new ImageResizeModel { ImagePath = request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
-            if (!imagePath.IsNullOrEmpty())
+            if (imagePath.IsNotNullOrEmpty())
                 context.Response.Redirect($"/{imagePath}");
 
             await Task.CompletedTask;

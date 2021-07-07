@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
@@ -15,32 +17,41 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="moduleTable"></param>
         /// <param name="configureOptions"></param>
         /// <param name="combineRouteTemplate"></param>
+        /// <param name="combineToGIFRouteTemplate"></param>
         /// <param name="concatenateRouteTemplate"></param>
         /// <param name="cropRouteTemplate"></param>
         /// <param name="qrCodeRouteTemplate"></param>
         /// <param name="resizeRouteTemplates"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddImage(this ModularizationModuleTable moduleTable,
+        public static ModuleTable AddImage(this ModuleTable moduleTable,
             Action<ImageModuleOptions> configureOptions,
-            string combineRouteTemplate="image/combine",
+            string combineRouteTemplate = "image/combine",
+            string combineToGIFRouteTemplate = "image/combineToGIF",
             string concatenateRouteTemplate = "image/concatenate",
-            string cropRouteTemplate="image/crop",
+            string cropRouteTemplate = "image/crop",
             string qrCodeRouteTemplate = "image/qrCode",
             params string[] resizeRouteTemplates)
         {
-            moduleTable.RegisterServiceType?.Invoke(typeof(ImageCombineMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(ImageConcatenateMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(ImageCropMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(ImageQRCodeMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(ImageResizeMiddleware), "Singleton");
-            
-            var middlewares = new List<ModularizationModuleMiddleware>
+            moduleTable.Services.AddSingleton<ImageCombineMiddleware>();
+            moduleTable.Services.AddSingleton<ImageCombineToGIFMiddleware>();
+            moduleTable.Services.AddSingleton<ImageConcatenateMiddleware>();
+            moduleTable.Services.AddSingleton<ImageCropMiddleware>();
+            moduleTable.Services.AddSingleton<ImageQRCodeMiddleware>();
+            moduleTable.Services.AddSingleton<ImageResizeMiddleware>();
+
+            var middlewares = new List<ModuleMiddleware>
             {
                 new()
                 {
                     HttpMethods = new[] { "POST" },
                     RouteTemplate = combineRouteTemplate,
                     HandlerType = typeof(ImageCombineMiddleware),
+                },
+                new()
+                {
+                    HttpMethods = new[] { "POST" },
+                    RouteTemplate = combineToGIFRouteTemplate,
+                    HandlerType = typeof(ImageCombineToGIFMiddleware),
                 },
                 new()
                 {

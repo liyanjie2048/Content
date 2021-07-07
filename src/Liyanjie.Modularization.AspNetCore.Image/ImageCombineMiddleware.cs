@@ -35,19 +35,22 @@ namespace Liyanjie.Modularization.AspNetCore
         {
             var options = this.options.Value;
 
-            if (options.RequestConstrainAsync != null)
+            if (options.RequestConstrainAsync is not null)
                 if (!await options.RequestConstrainAsync(context))
                     return;
 
             var request = context.Request;
 
             var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
-            var imagePath = (await model?.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+            if (model is not null)
+            {
+                var imagePath = (await model.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
 
-            if (options.ReturnAbsolutePath)
-                imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
+                if (options.ReturnAbsolutePath)
+                    imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
 
-            await options.SerializeToResponseAsync(context.Response, imagePath);
+                await options.SerializeToResponseAsync(context.Response, imagePath);
+            }
         }
     }
 }

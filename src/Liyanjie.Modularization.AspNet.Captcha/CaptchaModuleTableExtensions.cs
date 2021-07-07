@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
@@ -20,67 +22,67 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="stringImageCodeRouteTemplate"></param>
         /// <param name="stringSpeechCodeRouteTemplate"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddVerificationCode(this ModularizationModuleTable moduleTable,
+        public static ModuleTable AddCaptcha(this ModuleTable moduleTable,
             Action<CaptchaModuleOptions> configureOptions,
-            string clickCodeRouteTemplate = "verificationCode/click",
-            string puzzleCodeRouteTemplate = "verificationCode/puzzle",
-            string sliderCodeRouteTemplate = "verificationCode/slider",
-            string arithmeticImageCodeRouteTemplate = "verificationCode/arithmeticImage",
-            string arithmeticSpeechCodeRouteTemplate = "verificationCode/arithmeticSpeech",
-            string stringImageCodeRouteTemplate = "verificationCode/stringImage",
-            string stringSpeechCodeRouteTemplate = "verificationCode/stringSpeech")
+            string clickCodeRouteTemplate = "captcha/click",
+            string puzzleCodeRouteTemplate = "captcha/puzzle",
+            string sliderCodeRouteTemplate = "captcha/slider",
+            string arithmeticImageCodeRouteTemplate = "captcha/arithmeticImage",
+            string arithmeticSpeechCodeRouteTemplate = "captcha/arithmeticSpeech",
+            string stringImageCodeRouteTemplate = "captcha/stringImage",
+            string stringSpeechCodeRouteTemplate = "captcha/stringSpeech")
         {
-            moduleTable.RegisterServiceType?.Invoke(typeof(ClickCodeMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(PuzzleCodeMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(SliderCodeMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(ArithmeticImageCodeMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(ArithmeticSpeechCodeMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(StringImageCodeMiddleware), "Singleton");
-            moduleTable.RegisterServiceType?.Invoke(typeof(StringSpeechCodeMiddleware), "Singleton");
+            moduleTable.Services.AddSingleton<ClickCaptchaMiddleware>();
+            moduleTable.Services.AddSingleton<PuzzleCaptchaMiddleware>();
+            moduleTable.Services.AddSingleton<SliderCaptchaMiddleware>();
+            moduleTable.Services.AddSingleton<ArithmeticImageCaptchaMiddleware>();
+            moduleTable.Services.AddSingleton<ArithmeticSpeechCaptchaMiddleware>();
+            moduleTable.Services.AddSingleton<StringImageCaptchaMiddleware>();
+            moduleTable.Services.AddSingleton<StringSpeechCaptchaMiddleware>();
 
-            moduleTable.AddModule("VerificationCodeModule", new[]
+            moduleTable.AddModule("Captcha(Module", new[]
             {
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = clickCodeRouteTemplate,
-                   HandlerType = typeof(ClickCodeMiddleware),
+                   HandlerType = typeof(ClickCaptchaMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = puzzleCodeRouteTemplate,
-                   HandlerType = typeof(PuzzleCodeMiddleware),
+                   HandlerType = typeof(PuzzleCaptchaMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = sliderCodeRouteTemplate,
-                   HandlerType = typeof(SliderCodeMiddleware),
+                   HandlerType = typeof(SliderCaptchaMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = arithmeticImageCodeRouteTemplate,
-                   HandlerType = typeof(ArithmeticImageCodeMiddleware),
+                   HandlerType = typeof(ArithmeticImageCaptchaMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = arithmeticSpeechCodeRouteTemplate,
-                   HandlerType = typeof(ArithmeticSpeechCodeMiddleware),
+                   HandlerType = typeof(ArithmeticSpeechCaptchaMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = stringImageCodeRouteTemplate,
-                   HandlerType = typeof(StringImageCodeMiddleware),
+                   HandlerType = typeof(StringImageCaptchaMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = stringSpeechCodeRouteTemplate,
-                   HandlerType = typeof(StringSpeechCodeMiddleware),
+                   HandlerType = typeof(StringSpeechCaptchaMiddleware),
                },
             }, configureOptions);
 

@@ -6,6 +6,8 @@ using System.Web;
 
 using Liyanjie.Content.Models;
 
+using Microsoft.Extensions.Options;
+
 namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
@@ -13,15 +15,15 @@ namespace Liyanjie.Modularization.AspNet
     /// </summary>
     public class ImageResizeMiddleware
     {
-        readonly ImageModuleOptions options;
+        readonly IOptions<ImageModuleOptions> options;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public ImageResizeMiddleware(ImageModuleOptions options)
+        public ImageResizeMiddleware(IOptions<ImageModuleOptions> options)
         {
-            this.options = options;
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -32,13 +34,15 @@ namespace Liyanjie.Modularization.AspNet
         {
             await Task.FromResult(0);
 
-            if (options.RequestConstrainAsync != null)
+            var options = this.options.Value;
+
+            if (options.RequestConstrainAsync is not null)
                 if (!await options.RequestConstrainAsync.Invoke(context))
                     return;
 
             var model = new ImageResizeModel { ImagePath = context.Request.Path };
             var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
-            if (!imagePath.IsNullOrEmpty())
+            if (imagePath.IsNotNullOrEmpty())
                 context.Response.Redirect(imagePath);
         }
     }

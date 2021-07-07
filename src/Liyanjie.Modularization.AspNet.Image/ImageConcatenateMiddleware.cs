@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 
 using Liyanjie.Content.Models;
+
+using Microsoft.Extensions.Options;
 
 namespace Liyanjie.Modularization.AspNet
 {
@@ -11,15 +14,15 @@ namespace Liyanjie.Modularization.AspNet
     /// </summary>
     public class ImageConcatenateMiddleware
     {
-        readonly ImageModuleOptions options;
+        readonly IOptions<ImageModuleOptions> options;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public ImageConcatenateMiddleware(ImageModuleOptions options)
+        public ImageConcatenateMiddleware(IOptions<ImageModuleOptions> options)
         {
-            this.options = options;
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -28,24 +31,29 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="context"></param>
         public async Task InvokeAsync(HttpContext context)
         {
-            if (options.RequestConstrainAsync != null)
+            var options = this.options.Value;
+
+            if (options.RequestConstrainAsync is not null)
                 if (!await options.RequestConstrainAsync.Invoke(context))
                     return;
 
             var request = context.Request;
 
             var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageConcatenateModel))) as ImageConcatenateModel;
-            var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
-
-            if (options.ReturnAbsolutePath)
+            if (model is not null)
             {
-                var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
-                imagePath = $"{request.Url.Scheme}://{request.Url.Host}{port}/{imagePath}";
+                var imagePath = (await model?.ConcatenateAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+
+                if (options.ReturnAbsolutePath)
+                {
+                    var port = request.Url.IsDefaultPort ? null : $":{request.Url.Port}";
+                    imagePath = $"{request.Url.Scheme}://{request.Url.Host}{port}/{imagePath}";
+                }
+
+                await options.SerializeToResponseAsync(context.Response, imagePath);
+
+                context.Response.End();
             }
-
-            await options.SerializeToResponseAsync(context.Response, imagePath);
-
-            context.Response.End();
         }
     }
 }

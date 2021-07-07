@@ -9,7 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{B93876
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A97F6C32-94E8-4B4A-A983-D9067F7A1F98}"
 	ProjectSection(SolutionItems) = preProject
-		ReadMe.md = ReadMe.md
+		liyanjie.net.256.png = liyanjie.net.256.png
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Upload", "src\Liyanjie.Content.Upload\Liyanjie.Content.Upload.csproj", "{8C378E87-B43E-4E88-8615-E9FD44FFA052}"

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,7 +11,7 @@ namespace Liyanjie.Modularization.AspNet
     /// <summary>
     /// 
     /// </summary>
-    public class SliderCodeMiddleware
+    public class ArithmeticSpeechCaptchaMiddleware
     {
         readonly CaptchaModuleOptions options;
 
@@ -21,7 +19,7 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public SliderCodeMiddleware(CaptchaModuleOptions options)
+        public ArithmeticSpeechCaptchaMiddleware(CaptchaModuleOptions options)
         {
             this.options = options;
         }
@@ -40,15 +38,13 @@ namespace Liyanjie.Modularization.AspNet
             var query = context.Request.QueryString;
             var model = query.AllKeys
                 .ToDictionary(_ => _.ToLower(), _ => query[_] as object)
-                .BuildModel<SliderCaptchaModel>();
-            var (blockPoint, originImage, boardImage, blockImage) = await model.GenerateAsync(options);
+                .BuildModel<ArithmeticSpeechCaptchaModel>();
+            var (code, audio) = await model.GenerateAsync(options);
 
             await options.SerializeToResponseAsync(context.Response, new
             {
-                BlockPoint = blockPoint,
-                OriginImage = originImage.Encode(ImageFormat.Png),
-                BoardImage = boardImage.Encode(ImageFormat.Png),
-                BlockImage = blockImage.Encode(ImageFormat.Png),
+                Code = code,
+                Audio = Convert.ToBase64String(audio),
             });
 
             context.Response.End();

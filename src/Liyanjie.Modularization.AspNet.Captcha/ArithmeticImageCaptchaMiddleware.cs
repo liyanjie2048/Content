@@ -13,7 +13,7 @@ namespace Liyanjie.Modularization.AspNet
     /// <summary>
     /// 
     /// </summary>
-    public class ClickCodeMiddleware
+    public class ArithmeticImageCaptchaMiddleware
     {
         readonly CaptchaModuleOptions options;
 
@@ -21,7 +21,7 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public ClickCodeMiddleware(CaptchaModuleOptions options)
+        public ArithmeticImageCaptchaMiddleware(CaptchaModuleOptions options)
         {
             this.options = options;
         }
@@ -38,17 +38,15 @@ namespace Liyanjie.Modularization.AspNet
                     return;
 
             var query = context.Request.QueryString;
-            var model = query.AllKeys
-                .Where(_ => !_.IsNullOrWhiteSpace())
-                .ToDictionary(_ => _.ToLower(), _ => query[_] as object)
-                .BuildModel<ClickCaptchaModel>();
-            var (fontPoints, fontImage, boardImage) = await model.GenerateAsync(options);
+            var dic = query.AllKeys
+                .ToDictionary(_ => _.ToLower(), _ => query[_] as object);
+            var model = dic.BuildModel<ArithmeticImageCaptchaModel>();
+            var (code, image) = await model.GenerateAsync(options);
 
             await options.SerializeToResponseAsync(context.Response, new
             {
-                FontPoints = fontPoints,
-                FontImage = fontImage.Encode(ImageFormat.Png),
-                BoardImage = boardImage.Encode(ImageFormat.Png),
+                Code = code,
+                Image = image.Encode(model.Image.GenerateGif ? ImageFormat.Gif : ImageFormat.Png),
             });
 
             context.Response.End();

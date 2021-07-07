@@ -20,7 +20,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="arithmeticImageCodeRouteTemplate"></param>
         /// <param name="stringImageCodeRouteTemplate"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddVerificationCode(this ModularizationModuleTable moduleTable,
+        public static ModuleTable AddVerificationCode(this ModuleTable moduleTable,
             Action<CaptchaModuleOptions> configureOptions,
             string clickCodeRouteTemplate = "verificationCode/click",
             string puzzleCodeRouteTemplate = "verificationCode/puzzle",
@@ -36,31 +36,31 @@ namespace Liyanjie.Modularization.AspNetCore
 
             moduleTable.AddModule("VerificationCodeModule", new[]
             {
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = clickCodeRouteTemplate,
                    HandlerType = typeof(ClickCodeMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = puzzleCodeRouteTemplate,
                    HandlerType = typeof(PuzzleCodeMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = sliderCodeRouteTemplate,
                    HandlerType = typeof(SliderCodeMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = arithmeticImageCodeRouteTemplate,
                    HandlerType = typeof(ArithmeticImageCodeMiddleware),
                },
-               new ModularizationModuleMiddleware
+               new ModuleMiddleware
                {
                    HttpMethods = new[]{ "GET" },
                    RouteTemplate = stringImageCodeRouteTemplate,

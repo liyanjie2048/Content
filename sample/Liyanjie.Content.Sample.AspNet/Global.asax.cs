@@ -9,31 +9,11 @@ namespace Liyanjie.Content.Sample.AspNet
 {
     public class Global : System.Web.HttpApplication
     {
-        readonly static IServiceCollection services = new ServiceCollection();
-
+        readonly IServiceCollection services = new ServiceCollection();
+        IServiceProvider serviceProvider;
         protected void Application_Start(object sender, EventArgs e)
         {
-            static void registerServiceType(Type type, string lifeTime)
-            {
-                var _services = lifeTime.ToLower() switch
-                {
-                    "singleton" => services.AddSingleton(type),
-                    "scoped" => services.AddScoped(type),
-                    "transient" => services.AddTransient(type),
-                    _ => services,
-                };
-            }
-            static void registerServiceImplementationFactory(Type type, Func<IServiceProvider, object> implementationFactory, string lifeTime)
-            {
-                var _services = lifeTime.ToLower() switch
-                {
-                    "singleton" => services.AddSingleton(type, implementationFactory),
-                    "scoped" => services.AddScoped(type, implementationFactory),
-                    "transient" => services.AddTransient(type, implementationFactory),
-                    _ => services,
-                };
-            }
-            this.AddModularization(registerServiceType, registerServiceImplementationFactory)
+            services.AddModularization()
                 .AddExplore(options =>
                 {
                     options.RootDirectory = Server.MapPath("~/");
@@ -52,16 +32,17 @@ namespace Liyanjie.Content.Sample.AspNet
                     "images/{filename}.{size}.{extension}",
                     "images/{folder}/{filename}.{size}.{extension}"
                 })
-                .AddVerificationCode(options =>
+                .AddCaptcha(options =>
                 {
                     options.RootDirectory = Server.MapPath("~/");
                 });
+            serviceProvider = services.BuildServiceProvider();
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            var serviceProvider = services.BuildServiceProvider();
-            this.UseModularization(serviceProvider);
+            using var scope = this.serviceProvider.CreateScope();
+            this.UseModularization(scope.ServiceProvider);
         }
     }
 }

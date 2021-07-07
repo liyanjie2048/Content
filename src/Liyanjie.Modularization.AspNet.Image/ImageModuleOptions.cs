@@ -15,7 +15,7 @@ namespace Liyanjie.Modularization.AspNet
     public class ImageModuleOptions : ImageOptions
     {
         /// <summary>
-        /// 图片合并约束
+        /// 请求约束
         /// </summary>
         public Func<HttpContext, Task<bool>> RequestConstrainAsync { get; set; }
 

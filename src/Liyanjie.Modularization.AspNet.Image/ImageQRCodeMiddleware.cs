@@ -7,6 +7,8 @@ using System.Web;
 
 using Liyanjie.Content.Models;
 
+using Microsoft.Extensions.Options;
+
 namespace Liyanjie.Modularization.AspNet
 {
     /// <summary>
@@ -14,15 +16,15 @@ namespace Liyanjie.Modularization.AspNet
     /// </summary>
     public class ImageQRCodeMiddleware
     {
-        readonly ImageModuleOptions options;
+        readonly IOptions<ImageModuleOptions> options;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public ImageQRCodeMiddleware(ImageModuleOptions options)
+        public ImageQRCodeMiddleware(IOptions<ImageModuleOptions> options)
         {
-            this.options = options;
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>
@@ -33,7 +35,9 @@ namespace Liyanjie.Modularization.AspNet
         {
             await Task.FromResult(0);
 
-            if (options.RequestConstrainAsync != null)
+            var options = this.options.Value;
+
+            if (options.RequestConstrainAsync is not null)
                 if (!await options.RequestConstrainAsync.Invoke(context))
                     return;
 
@@ -42,7 +46,7 @@ namespace Liyanjie.Modularization.AspNet
                 .ToDictionary(_ => _.ToLower(), _ => query[_] as object)
                 .BuildModel<ImageQRCodeModel>();
             var imagePath = model?.GenerateQRCode(options);
-            if (!imagePath.IsNullOrEmpty())
+            if (imagePath.IsNotNullOrEmpty())
             {
                 var response = context.Response;
                 response.StatusCode = 200;

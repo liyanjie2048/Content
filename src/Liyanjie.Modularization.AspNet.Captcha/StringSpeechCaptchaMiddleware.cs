@@ -11,7 +11,7 @@ namespace Liyanjie.Modularization.AspNet
     /// <summary>
     /// 
     /// </summary>
-    public class ArithmeticSpeechCodeMiddleware
+    public class StringSpeechCaptchaMiddleware
     {
         readonly CaptchaModuleOptions options;
 
@@ -19,7 +19,7 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public ArithmeticSpeechCodeMiddleware(CaptchaModuleOptions options)
+        public StringSpeechCaptchaMiddleware(CaptchaModuleOptions options)
         {
             this.options = options;
         }
@@ -38,13 +38,13 @@ namespace Liyanjie.Modularization.AspNet
             var query = context.Request.QueryString;
             var model = query.AllKeys
                 .ToDictionary(_ => _.ToLower(), _ => query[_] as object)
-                .BuildModel<ArithmeticSpeechCaptchaModel>();
+                .BuildModel<StringSpeechCaptchaModel>();
             var (code, audio) = await model.GenerateAsync(options);
 
             await options.SerializeToResponseAsync(context.Response, new
             {
                 Code = code,
-                Audio = Convert.ToBase64String(audio),
+                Audio = Convert.ToBase64String(audio)
             });
 
             context.Response.End();

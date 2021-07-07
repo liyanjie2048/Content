@@ -38,7 +38,7 @@ namespace Liyanjie.Modularization.AspNetCore
         {
             var options = this.options.Value;
 
-            if (options.RequestConstrainAsync != null)
+            if (options.RequestConstrainAsync is not null)
                 if (!await options.RequestConstrainAsync(context))
                     return;
 
@@ -49,7 +49,7 @@ namespace Liyanjie.Modularization.AspNetCore
                 .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
                 .BuildModel<ImageQRCodeModel>();
             var imagePath = model?.GenerateQRCode(options);
-            if (!imagePath.IsNullOrEmpty())
+            if (imagePath.IsNotNullOrEmpty())
             {
                 response.StatusCode = 200;
                 response.ContentType = "image/jpeg";
