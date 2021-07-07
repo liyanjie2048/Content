@@ -32,13 +32,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.Asp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNet.Explore", "src\Liyanjie.Modularization.AspNet.Explore\Liyanjie.Modularization.AspNet.Explore.csproj", "{18B7FE4A-3673-4B00-8E17-FFB98F22AEED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.VerificationCode", "src\Liyanjie.Content.VerificationCode\Liyanjie.Content.VerificationCode.csproj", "{61470433-EE16-4FDB-80C5-AC1C9BE008E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Captcha", "src\Liyanjie.Content.Captcha\Liyanjie.Content.Captcha.csproj", "{61470433-EE16-4FDB-80C5-AC1C9BE008E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{046F81DF-049B-4866-B559-98052CE248A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore.VerificationCode", "src\Liyanjie.Modularization.AspNetCore.VerificationCode\Liyanjie.Modularization.AspNetCore.VerificationCode.csproj", "{43A4CCD6-9FB7-4A41-B2C6-81803A6D7A19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore.Captcha", "src\Liyanjie.Modularization.AspNetCore.Captcha\Liyanjie.Modularization.AspNetCore.Captcha.csproj", "{43A4CCD6-9FB7-4A41-B2C6-81803A6D7A19}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNet.VerificationCode", "src\Liyanjie.Modularization.AspNet.VerificationCode\Liyanjie.Modularization.AspNet.VerificationCode.csproj", "{070A741D-74AB-4BE4-811C-35F522483295}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNet.Captcha", "src\Liyanjie.Modularization.AspNet.Captcha\Liyanjie.Modularization.AspNet.Captcha.csproj", "{070A741D-74AB-4BE4-811C-35F522483295}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Sample.AspNetCore", "sample\Liyanjie.Content.Sample.AspNetCore\Liyanjie.Content.Sample.AspNetCore.csproj", "{92187AC2-601F-45C3-B36B-C5ADB92FF42A}"
 EndProject
