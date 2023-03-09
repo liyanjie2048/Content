@@ -1,40 +1,33 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿namespace Liyanjie.Content;
 
-namespace Liyanjie.Content
+/// <summary>
+/// 
+/// </summary>
+internal static class ImageHelper
 {
     /// <summary>
     /// 
     /// </summary>
-    internal static class ImageHelper
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static async Task<Image> FromFileOrNetworkAsync(string path)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static async Task<Image> FromFileOrNetworkAsync(string path)
+        try
         {
-            try
+            if (path.IsMatch(@"^http(s)?\:\/\/[\S\s]*"))
             {
-                if (path.IsMatch(@"^http(s)?\:\/\/[\S\s]*"))
-                {
-                    using var client = new HttpClient();
-                    var stream = await client.GetStreamAsync(path);
-                    return Image.FromStream(stream);
-                }
-                else
-                    return File.Exists(path)
-                        ? Image.FromFile(path)
-                        : null;
+                using var client = new HttpClient();
+                var stream = await client.GetStreamAsync(path);
+                return Image.FromStream(stream);
             }
-            catch (Exception)
-            {
-                return null;
-            }
+            else
+                return File.Exists(path)
+                    ? Image.FromFile(path)
+                    : null;
+        }
+        catch (Exception)
+        {
+            return null;
         }
     }
 }

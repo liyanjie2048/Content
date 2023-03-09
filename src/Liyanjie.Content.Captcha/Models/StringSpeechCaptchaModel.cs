@@ -1,36 +1,35 @@
 ﻿#if NETFRAMEWORK
 using System.Threading.Tasks;
 
-namespace Liyanjie.Content.Models
+namespace Liyanjie.Content.Models;
+
+/// <summary>
+/// 
+/// </summary>
+public class StringSpeechCaptchaModel
 {
     /// <summary>
     /// 
     /// </summary>
-    public class StringSpeechCaptchaModel
+    public StringModel String { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public SpeechModel Speech { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public async Task<(string Code, byte[] Audio)> GenerateAsync(CaptchaOptions options)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public StringModel String { get; set; }
+        await Task.FromResult(0);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public SpeechModel Speech { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public async Task<(string Code, byte[] Audio)> GenerateAsync(CaptchaOptions options)
-        {
-            await Task.FromResult(0);
-
-            var str = String.Build();
-            var audio = Speech.Generate(str);
-            return (str, audio);
-        }
+        var str = String.Build();
+        var audio = Speech.Generate(str);
+        return (str, audio);
     }
 }
 #endif

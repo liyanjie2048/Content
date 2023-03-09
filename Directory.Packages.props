@@ -1,0 +1,13 @@
+<Project>
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageVersion Include="Liyanjie.Drawing.Extensions" Version="1.0.0" />
+		<PackageVersion Include="Liyanjie.Utilities" Version="1.0.0" />
+		<PackageVersion Include="Liyanjie.Modularization.AspNetCore" Version="1.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Options" Version="6.0.0" />
+		<PackageVersion Include="ZXing.Net" Version="0.16.9" />
+	</ItemGroup>
+</Project>

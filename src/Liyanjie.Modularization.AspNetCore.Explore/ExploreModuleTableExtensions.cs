@@ -1,38 +1,33 @@
-﻿using System;
+﻿namespace Liyanjie.Modularization.AspNetCore;
 
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Liyanjie.Modularization.AspNetCore
+/// <summary>
+/// 
+/// </summary>
+public static class ExploreModuleTableExtensions
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class ExploreModuleTableExtensions
+    /// <param name="moduleTable"></param>
+    /// <param name="configureOptions"></param>
+    /// <param name="routeTemplate"></param>
+    /// <returns></returns>
+    public static ModularizationModuleTable AddExplore(this ModularizationModuleTable moduleTable,
+        Action<ExploreModuleOptions> configureOptions,
+        string routeTemplate = "explore")
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="moduleTable"></param>
-        /// <param name="configureOptions"></param>
-        /// <param name="routeTemplate"></param>
-        /// <returns></returns>
-        public static ModularizationModuleTable AddExplore(this ModularizationModuleTable moduleTable,
-            Action<ExploreModuleOptions> configureOptions,
-            string routeTemplate = "explore")
+        moduleTable.Services.AddSingleton<ExploreMiddleware>();
+
+        moduleTable.AddModule("ExploreModule", new[]
         {
-            moduleTable.Services.AddSingleton<ExploreMiddleware>();
+           new ModularizationModuleMiddleware
+           {
+               HttpMethods = new[]{ "GET" },
+               RouteTemplate = routeTemplate,
+               HandlerType = typeof(ExploreMiddleware),
+           },
+        }, configureOptions);
 
-            moduleTable.AddModule("ExploreModule", new[]
-            {
-               new ModularizationModuleMiddleware
-               {
-                   HttpMethods = new[]{ "GET" },
-                   RouteTemplate = routeTemplate,
-                   HandlerType = typeof(ExploreMiddleware),
-               },
-            }, configureOptions);
-
-            return moduleTable;
-        }
+        return moduleTable;
     }
 }

@@ -1,42 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net461;netstandard2.1;</TargetFrameworks>
-        <Description>Liyanjie.Content.Image</Description>
-        <Copyright>© Liyanjie.net</Copyright>
-        <Authors>liyanjie8712@outlook.com</Authors>
-        <Company>Liyanjie.net</Company>
-        <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
-        <RepositoryType>Git</RepositoryType>
-        <RootNamespace>Liyanjie.Content</RootNamespace>
-        <PackageIcon>liyanjie.net.256.png</PackageIcon>
-        <PackageIconUrl />
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.1;</TargetFrameworks>
+		<Description>Liyanjie.Content.Image</Description>
+		<Copyright>© Liyanjie.net</Copyright>
+		<Authors>liyanjie8712@outlook.com</Authors>
+		<Company>Liyanjie.net</Company>
+		<RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
+		<RepositoryType>Git</RepositoryType>
+		<RootNamespace>Liyanjie.Content</RootNamespace>
+		<PackageIcon>liyanjie.net.256.png</PackageIcon>
+		<PackageIconUrl />
+	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)'=='Release'">
-        <DocumentationFile>bin\Release\Liyanjie.Content.Image.xml</DocumentationFile>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DocumentationFile>bin\Release\Liyanjie.Content.Image.xml</DocumentationFile>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <None Include="..\..\liyanjie.net.256.png">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-    </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\liyanjie.net.256.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-    <Target Name="MovePackage" AfterTargets="Pack">
-        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_NugetPackages\" />
-    </Target>
+	<Target Name="MovePackage" AfterTargets="Pack">
+		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_Packages\" />
+	</Target>
 
-    <ItemGroup>
-        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
-        <PackageReference Include="Liyanjie.Drawing.Extensions" Version="1.0.0" />
-        <PackageReference Include="ZXing.Net" Version="0.16.6" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)'=='net461'">
-        <Reference Include="System.Net.Http" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Liyanjie.Utilities" />
+		<PackageReference Include="Liyanjie.Drawing.Extensions" />
+		<PackageReference Include="ZXing.Net" />
+	</ItemGroup>
 
 </Project>

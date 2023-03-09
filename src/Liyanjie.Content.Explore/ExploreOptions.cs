@@ -1,20 +1,17 @@
-﻿using System;
+﻿namespace Liyanjie.Content;
 
-namespace Liyanjie.Content
+/// <summary>
+/// 
+/// </summary>
+public class ExploreOptions
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ExploreOptions
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public string RootDirectory { get; set; }
+    public string RootDirectory { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string[] Directories { get; set; }
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public string[] Directories { get; set; }
 }

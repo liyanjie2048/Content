@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net5.0;</TargetFrameworks>
+        <TargetFrameworks>net6.0;</TargetFrameworks>
         <Description>Liyanjie.Modularization.AspNetCore.Upload</Description>
         <Copyright>© Liyanjie.net</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -26,11 +26,11 @@
     </ItemGroup>
 
     <Target Name="MovePackage" AfterTargets="Pack">
-        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_NugetPackages\" />
+        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_Packages\" />
     </Target>
 
     <ItemGroup>
-        <PackageReference Include="Liyanjie.Modularization.AspNetCore" Version="1.0.0" />
+        <PackageReference Include="Liyanjie.Modularization.AspNetCore" />
         <ProjectReference Include="..\Liyanjie.Content.Upload\Liyanjie.Content.Upload.csproj" />
     </ItemGroup>
 
