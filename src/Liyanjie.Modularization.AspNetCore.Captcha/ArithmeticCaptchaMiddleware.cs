@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class ArithmeticImageCodeMiddleware : IMiddleware
+public class ArithmeticCaptchaMiddleware : IMiddleware
 {
     readonly IOptions<CaptchaModuleOptions> options;
 
@@ -11,7 +11,7 @@ public class ArithmeticImageCodeMiddleware : IMiddleware
     /// 
     /// </summary>
     /// <param name="options"></param>
-    public ArithmeticImageCodeMiddleware(IOptions<CaptchaModuleOptions> options)
+    public ArithmeticCaptchaMiddleware(IOptions<CaptchaModuleOptions> options)
     {
         this.options = options ?? throw new ArgumentNullException(nameof(options));
     }
@@ -32,7 +32,7 @@ public class ArithmeticImageCodeMiddleware : IMiddleware
 
         var model = context.Request.Query
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
-            .BuildModel<ArithmeticImageCaptchaModel>();
+            .BuildModel<ArithmeticCaptchaModel>();
         var (code, image) = await model.GenerateAsync(options);
 
         await options.SerializeToResponseAsync(context.Response, new

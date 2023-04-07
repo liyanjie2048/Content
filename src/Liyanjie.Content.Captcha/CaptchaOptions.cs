@@ -13,17 +13,17 @@ public class CaptchaOptions
     /// <summary>
     /// 
     /// </summary>
-    public string ClickCodeImageDir { get; set; } = @"images\clickCode";
+    public string ClickCodeImageDir { get; set; } = @"images\captcha";
 
     /// <summary>
     /// 
     /// </summary>
-    public string PuzzleCodeImageDir { get; set; } = @"images\puzzleCode";
+    public string PuzzleCodeImageDir { get; set; } = @"images\captcha";
 
     /// <summary>
     /// 
     /// </summary>
-    public string SliderCodeImageDir { get; set; } = @"images\sliderCode";
+    public string SliderCodeImageDir { get; set; } = @"images\captcha";
 
     /// <summary>
     /// 

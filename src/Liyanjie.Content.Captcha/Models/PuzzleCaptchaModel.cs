@@ -27,7 +27,7 @@ public class PuzzleCaptchaModel
     /// </summary>
     /// <param name="options"></param>
     /// <returns></returns>
-    public async Task<(int[] BlockIndexes, Image ImageOrigin, Image[] ImageBlocks)> GenerateAsync(CaptchaOptions options)
+    public async Task<(int[] Indexes, Image Image_Origin, Image[] Image_Blocks)> GenerateAsync(CaptchaOptions options)
     {
         await Task.FromResult(0);
 

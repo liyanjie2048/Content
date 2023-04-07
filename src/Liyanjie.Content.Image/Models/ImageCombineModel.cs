@@ -53,9 +53,9 @@ public class ImageCombineModel
                     continue;
 
                 var size = imageSizes[i];
-                var point = imagePoints[i];
+                var (x, y) = imagePoints[i];
 
-                images.Add((new Point(point.X, point.Y), new Size(size.Width, size.Height), image));
+                images.Add((new Point(x, y), new Size(size.Width, size.Height), image));
             }
 
             var fileImage = new Bitmap(Width, Height);

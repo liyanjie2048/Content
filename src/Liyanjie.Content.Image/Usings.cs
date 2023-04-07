@@ -6,6 +6,7 @@ global using System.Drawing.Imaging;
 global using System.IO;
 global using System.Linq;
 global using System.Net.Http;
+global using System.Security.Cryptography;
 global using System.Text.RegularExpressions;
 global using System.Threading.Tasks;
 

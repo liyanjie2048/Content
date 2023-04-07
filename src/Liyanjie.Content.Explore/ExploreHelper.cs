@@ -49,6 +49,6 @@ public class ExploreHelper
 
     static string FixToRelativePath(string absolutePath, string rootDirectory)
     {
-        return absolutePath.Substring(rootDirectory.Length).Replace(Path.DirectorySeparatorChar, '/').TrimStart('/');
+        return absolutePath[rootDirectory.Length..].Replace(Path.DirectorySeparatorChar, '/').TrimStart('/');
     }
 }

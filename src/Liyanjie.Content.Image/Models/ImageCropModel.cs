@@ -43,14 +43,14 @@ public class ImageCropModel
     public async Task<string> CropAsync(ImageOptions options)
     {
         var fileName = options.CroppedImageFileNameScheme.Invoke(this);
-        var filePath = Path.Combine(options.CombinedImageDirectory, fileName);
+        var filePath = Path.Combine(options.CroppedImageDirectory, fileName);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
         Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 
         if (!File.Exists(filePhysicalPath))
         {
             var imageAbsolutePath = ImagePath.PreProcess(options.RootDirectory);
-            if (!(await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePath) is Bitmap image))
+            if (await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePath) is not Bitmap image)
                 return string.Empty;
 
             using var path = new GraphicsPath();

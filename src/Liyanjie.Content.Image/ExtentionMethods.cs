@@ -2,12 +2,9 @@
 
 internal static class ExtentionMethods
 {
-    public static string MD5Encoded(this string input)
+    public static string MD5Encode(this string input)
     {
-        return input
-            .MD5Encoded()
-            .Replace("-", string.Empty)
-            .ToLower();
+        return input.Encode(EncodeType.MD5).ToLower();
     }
 
     public static int ToInt(this string input)

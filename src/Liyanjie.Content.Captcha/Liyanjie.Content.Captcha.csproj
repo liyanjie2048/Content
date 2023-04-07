@@ -30,8 +30,8 @@
     </Target>
 
     <ItemGroup>
-        <PackageReference Include="Liyanjie.Utilities" />
         <PackageReference Include="Liyanjie.Drawing.Extensions" />
+		<PackageReference Include="Liyanjie.Utilities" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)'=='net461'">

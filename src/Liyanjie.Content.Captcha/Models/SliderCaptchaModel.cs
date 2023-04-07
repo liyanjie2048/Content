@@ -19,14 +19,14 @@ public class SliderCaptchaModel
     /// </summary>
     /// <param name="options"></param>
     /// <returns></returns>
-    public async Task<(Point BlockPoint, Image OriginImage, Image BoardImage, Image BlockImage)> GenerateAsync(CaptchaOptions options)
+    public async Task<(Point Point, Image Image_Origin, Image Image_Board, Image Image_Block)> GenerateAsync(CaptchaOptions options)
     {
         await Task.FromResult(0);
 
-        var imageFile = Directory
+        var image_File = Directory
             .GetFiles(Path.Combine(options.RootDirectory, options.SliderCodeImageDir))
             .RandomTake(1).SingleOrDefault();
-        using var imageOrigin = (Bitmap)Image.FromFile(imageFile).Resize(Width, Height, true, true);
+        using var image_Origin = (Bitmap)Image.FromFile(image_File).Resize(Width, Height, true, true);
 
         var s = Math.Min(Width, Height) / 12;
         var s_ = s / 2;
@@ -54,24 +54,24 @@ public class SliderCaptchaModel
         var width = (int)b.Width;
         var height = (int)b.Height;
 
-        var imageBoard = (Bitmap)imageOrigin.Clone();
-        var imageBlock = new Bitmap(width, height);
+        var image_Board = (Bitmap)image_Origin.Clone();
+        var image_Block = new Bitmap(width, height);
         for (int i = left; i < left + width; i++)
         {
             for (int j = top; j < top + height; j++)
             {
                 if (path.IsVisible(i, j))
                 {
-                    imageBoard.SetPixel(i, j, Color.FromArgb(64, imageOrigin.GetPixel(i, j)));
-                    imageBlock.SetPixel(i - left, j - top, imageOrigin.GetPixel(i, j));
+                    image_Board.SetPixel(i, j, Color.Transparent);
+                    image_Block.SetPixel(i - left, j - top, image_Origin.GetPixel(i, j));
                 }
                 else
                 {
-                    imageBlock.SetPixel(i - left, j - top, Color.Transparent);
+                    image_Block.SetPixel(i - left, j - top, Color.Transparent);
                 }
             }
         }
 
-        return (new Point(x, y), (Image)imageOrigin.Clone(), imageBoard, imageBlock);
+        return (new Point(x, y), (Image)image_Origin.Clone(), image_Board, image_Block);
     }
 }

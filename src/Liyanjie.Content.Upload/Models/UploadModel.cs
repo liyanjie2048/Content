@@ -5,8 +5,6 @@
 /// </summary>
 public class UploadModel
 {
-    static readonly Regex _regex_pathSpecials = new(@"\:|\*|\?|""|\<|\>|\||\s");
-
     /// <summary>
     /// 
     /// </summary>
@@ -18,46 +16,43 @@ public class UploadModel
     /// <param name="options"></param>
     /// <param name="dir"></param>
     /// <returns></returns>
-    public async Task<(bool Success, string FilePath)[]> SaveAsync(UploadOptions options, string dir = "temps")
+    public async Task<(bool Success, string Path)[]> SaveAsync(UploadOptions options, string dir = "temps")
     {
+        dir = options.Regex_PathIllegalChars.Replace(dir, string.Empty);
         dir = dir.TrimStart(new[] { '/', '\\' });
-        dir = _regex_pathSpecials.Replace(dir, string.Empty);
 
         var directory = Path.Combine(options.RootDirectory, dir).Replace('/', Path.DirectorySeparatorChar);
-
         Directory.CreateDirectory(directory);
 
-        var filePaths = new List<(bool, string)>();
+        var paths = new List<(bool, string)>();
         foreach (var file in Files)
         {
             var fileExtension = Path.GetExtension(file.FileName).ToLower();
             if (!Regex.IsMatch(fileExtension, options.AllowedExtensionsPattern))
             {
-                filePaths.Add((false, $"File \"{file.FileName}\" is not allowed."));
+                paths.Add((false, $"File \"{file.FileName}\" is not allowed."));
                 continue;
             }
 
             if (file.FileLength > options.AllowedMaximumSize)
             {
-                filePaths.Add((false, $"File \"{file.FileName}\" is too large."));
+                paths.Add((false, $"File \"{file.FileName}\" is too large."));
                 continue;
             }
 
             var fileName = options.FileNameScheme(file.FileName, fileExtension);
-            var filePhysicalPath = Path.Combine(directory, fileName);
             try
             {
-                await File.WriteAllBytesAsync(filePhysicalPath, file.FileBytes);
-
-                filePaths.Add((true, Path.Combine(dir, fileName)));
+                await File.WriteAllBytesAsync(Path.Combine(directory, fileName), file.FileBytes);
+                paths.Add((true, Path.Combine(dir, fileName)));
             }
-            catch
+            catch (Exception)
             {
-                filePaths.Add((false, $"File \"{file.FileName}\" write failed."));
+                paths.Add((false, $"File \"{file.FileName}\" write failed."));
             }
         }
 
-        return filePaths.ToArray();
+        return paths.ToArray();
     }
 
     /// <summary>

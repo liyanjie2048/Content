@@ -24,11 +24,11 @@ public static class CaptchaModuleTableExtensions
         string arithmeticImageCodeRouteTemplate = "captcha/arithmeticImage",
         string stringImageCodeRouteTemplate = "captcha/stringImage")
     {
-        moduleTable.Services.AddSingleton<ClickCodeMiddleware>();
-        moduleTable.Services.AddSingleton<PuzzleCodeMiddleware>();
-        moduleTable.Services.AddSingleton<SliderCodeMiddleware>();
-        moduleTable.Services.AddSingleton<ArithmeticImageCodeMiddleware>();
-        moduleTable.Services.AddSingleton<StringImageCodeMiddleware>();
+        moduleTable.Services.AddSingleton<ClickCaptchaMiddleware>();
+        moduleTable.Services.AddSingleton<PuzzleCaptchaMiddleware>();
+        moduleTable.Services.AddSingleton<SliderCaptchaMiddleware>();
+        moduleTable.Services.AddSingleton<ArithmeticCaptchaMiddleware>();
+        moduleTable.Services.AddSingleton<StringCaptchaMiddleware>();
 
         moduleTable.AddModule("CaptchaModule", new[]
         {
@@ -36,31 +36,31 @@ public static class CaptchaModuleTableExtensions
            {
                HttpMethods = new[]{ "GET" },
                RouteTemplate = clickCodeRouteTemplate,
-               HandlerType = typeof(ClickCodeMiddleware),
+               HandlerType = typeof(ClickCaptchaMiddleware),
            },
            new ModularizationModuleMiddleware
            {
                HttpMethods = new[]{ "GET" },
                RouteTemplate = puzzleCodeRouteTemplate,
-               HandlerType = typeof(PuzzleCodeMiddleware),
+               HandlerType = typeof(PuzzleCaptchaMiddleware),
            },
            new ModularizationModuleMiddleware
            {
                HttpMethods = new[]{ "GET" },
                RouteTemplate = sliderCodeRouteTemplate,
-               HandlerType = typeof(SliderCodeMiddleware),
+               HandlerType = typeof(SliderCaptchaMiddleware),
            },
            new ModularizationModuleMiddleware
            {
                HttpMethods = new[]{ "GET" },
                RouteTemplate = arithmeticImageCodeRouteTemplate,
-               HandlerType = typeof(ArithmeticImageCodeMiddleware),
+               HandlerType = typeof(ArithmeticCaptchaMiddleware),
            },
            new ModularizationModuleMiddleware
            {
                HttpMethods = new[]{ "GET" },
                RouteTemplate = stringImageCodeRouteTemplate,
-               HandlerType = typeof(StringImageCodeMiddleware),
+               HandlerType = typeof(StringCaptchaMiddleware),
            },
         }, configureOptions);
 

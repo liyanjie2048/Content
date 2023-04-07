@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class SliderCodeMiddleware : IMiddleware
+public class SliderCaptchaMiddleware : IMiddleware
 {
     readonly IOptions<CaptchaModuleOptions> options;
 
@@ -11,7 +11,7 @@ public class SliderCodeMiddleware : IMiddleware
     /// 
     /// </summary>
     /// <param name="options"></param>
-    public SliderCodeMiddleware(IOptions<CaptchaModuleOptions> options)
+    public SliderCaptchaMiddleware(IOptions<CaptchaModuleOptions> options)
     {
         this.options = options ?? throw new ArgumentNullException(nameof(options));
     }
@@ -33,14 +33,14 @@ public class SliderCodeMiddleware : IMiddleware
         var model = context.Request.Query
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
             .BuildModel<SliderCaptchaModel>();
-        var (blockPoint, originImage, boardImage, blockImage) = await model.GenerateAsync(options);
+        var (point, image_Origin, image_Board, image_Block) = await model.GenerateAsync(options);
 
         await options.SerializeToResponseAsync(context.Response, new
         {
-            BlockPoint = blockPoint,
-            OriginImage = originImage.Encode(ImageFormat.Png),
-            BoardImage = boardImage.Encode(ImageFormat.Png),
-            BlockImage = blockImage.Encode(ImageFormat.Png),
+            Point = point,
+            Image_Origin = image_Origin.Encode(ImageFormat.Png),
+            Image_Board = image_Board.Encode(ImageFormat.Png),
+            Image_Block = image_Block.Encode(ImageFormat.Png),
         });
     }
 }

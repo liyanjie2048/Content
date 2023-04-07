@@ -24,13 +24,13 @@ namespace Liyanjie.Content.Sample.AspNetCore
                     options.Directories = new[] { "images", "temps" };
                     options.ReturnAbsolutePath = true;
                 })
-                .AddUpload(options => options.RootDirectory = Env.WebRootPath, "fileupload")
+                .AddUpload(options => options.RootDirectory = Env.WebRootPath)
                 .AddImage(options => options.RootDirectory = Env.WebRootPath, resizeRouteTemplates: new[]
                 {
-                    "images/{filename}.{size}.{extension}",
-                    "images/{directory}/{filename}.{size}.{extension}"
+                    "images/{filename}_{resize}.{extension}",
+                    "images/{directory}/{filename}_{resize}.{extension}"
                 })
-                .AddVerificationCode(options =>
+                .AddCaptcha(options =>
                 {
                     options.RootDirectory = Env.WebRootPath;
                 });

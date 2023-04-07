@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class StringImageCaptchaModel
+public class StringCaptchaModel
 {
     /// <summary>
     /// 

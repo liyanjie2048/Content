@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class PuzzleCodeMiddleware : IMiddleware
+public class StringCaptchaMiddleware : IMiddleware
 {
     readonly IOptions<CaptchaModuleOptions> options;
 
@@ -11,7 +11,7 @@ public class PuzzleCodeMiddleware : IMiddleware
     /// 
     /// </summary>
     /// <param name="options"></param>
-    public PuzzleCodeMiddleware(IOptions<CaptchaModuleOptions> options)
+    public StringCaptchaMiddleware(IOptions<CaptchaModuleOptions> options)
     {
         this.options = options ?? throw new ArgumentNullException(nameof(options));
     }
@@ -32,14 +32,13 @@ public class PuzzleCodeMiddleware : IMiddleware
 
         var model = context.Request.Query
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
-            .BuildModel<PuzzleCaptchaModel>();
-        var (blockIndexes, imageOrigin, imageBlocks) = await model.GenerateAsync(options);
+            .BuildModel<StringCaptchaModel>();
+        var (code, image) = await model.GenerateAsync(options);
 
         await options.SerializeToResponseAsync(context.Response, new
         {
-            BlockIndexes = blockIndexes,
-            ImageOrigin = imageOrigin.Encode(ImageFormat.Png),
-            ImageBlocks = imageBlocks.Select(_ => _.Encode(ImageFormat.Png)),
+            Code = code,
+            Image = image.Encode(model.Image.GenerateGif ? ImageFormat.Gif : ImageFormat.Png),
         });
     }
 }

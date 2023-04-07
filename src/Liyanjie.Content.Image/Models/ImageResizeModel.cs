@@ -32,7 +32,7 @@ public class ImageResizeModel
         if (!File.Exists(imageSourcePath))
         {
             var dotIndex = options.EmptyImagePath.LastIndexOf(".");
-            return $"{options.EmptyImagePath.Substring(0, dotIndex)}{str_parameters}{options.EmptyImagePath.Substring(dotIndex)}";
+            return $"{options.EmptyImagePath[..dotIndex]}{str_parameters}{options.EmptyImagePath[dotIndex..]}";
         }
 
         var size = str_size.Split('x');
@@ -47,9 +47,9 @@ public class ImageResizeModel
             image = image.Resize(width, height);
             if (!string.IsNullOrEmpty(str_color))
             {
-                var r = str_color.Substring(0, 2).FromRadix16();
-                var g = str_color.Substring(2, 2).FromRadix16();
-                var b = str_color.Substring(4, 2).FromRadix16();
+                var r = str_color[..2].FromRadix16();
+                var g = str_color[2..4].FromRadix16();
+                var b = str_color[4..].FromRadix16();
                 var tmp = new Bitmap(width, height);
                 tmp.Clear(Color.FromArgb(r, g, b));
                 tmp.Combine((new Point((width - image.Width) / 2, (height - image.Height) / 2), new Size(image.Width, image.Height), image));

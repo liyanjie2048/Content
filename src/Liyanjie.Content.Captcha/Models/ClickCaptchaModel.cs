@@ -27,7 +27,7 @@ public class ClickCaptchaModel
     /// </summary>
     /// <param name="options"></param>
     /// <returns></returns>
-    public async Task<(Point[] FontPoints, Image FontImage, Image BoardImage)> GenerateAsync(CaptchaOptions options)
+    public async Task<(Point[] Points, Image Image_Fonts, Image Image_Board)> GenerateAsync(CaptchaOptions options)
     {
         await Task.FromResult(0);
 

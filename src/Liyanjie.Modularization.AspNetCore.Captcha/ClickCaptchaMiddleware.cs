@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class StringImageCodeMiddleware : IMiddleware
+public class ClickCaptchaMiddleware : IMiddleware
 {
     readonly IOptions<CaptchaModuleOptions> options;
 
@@ -11,7 +11,7 @@ public class StringImageCodeMiddleware : IMiddleware
     /// 
     /// </summary>
     /// <param name="options"></param>
-    public StringImageCodeMiddleware(IOptions<CaptchaModuleOptions> options)
+    public ClickCaptchaMiddleware(IOptions<CaptchaModuleOptions> options)
     {
         this.options = options ?? throw new ArgumentNullException(nameof(options));
     }
@@ -30,15 +30,16 @@ public class StringImageCodeMiddleware : IMiddleware
             if (!await options.RequestConstrainAsync(context))
                 return;
 
-        var model = context.Request.Query
-            .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
-            .BuildModel<StringImageCaptchaModel>();
-        var (code, image) = await model.GenerateAsync(options);
+        var dic = context.Request.Query
+            .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object);
+        var model = dic.BuildModel<ClickCaptchaModel>();
+        var (points, image_Fonts, image_Board) = await model.GenerateAsync(options);
 
         await options.SerializeToResponseAsync(context.Response, new
         {
-            Code = code,
-            Image = image.Encode(model.Image.GenerateGif ? ImageFormat.Gif : ImageFormat.Png),
+            Points = points,
+            Image_Fonts = image_Fonts.Encode(ImageFormat.Png),
+            Image_Board = image_Board.Encode(ImageFormat.Png),
         });
     }
 }

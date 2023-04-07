@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class ArithmeticImageCaptchaModel
+public class ArithmeticCaptchaModel
 {
     /// <summary>
     /// 
