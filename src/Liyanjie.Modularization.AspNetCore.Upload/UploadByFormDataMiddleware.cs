@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Net;
 
 namespace Liyanjie.Modularization.AspNetCore;
 
@@ -26,9 +26,15 @@ public class UploadByFormDataMiddleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        if (_options.RequestConstrainAsync != null)
+        if (_options.RequestConstrainAsync is not null)
+        {
             if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var request = context.Request;
 

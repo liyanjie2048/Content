@@ -5,15 +5,20 @@
 /// </summary>
 public class ArithmeticCaptchaMiddleware : IMiddleware
 {
-    readonly IOptions<CaptchaModuleOptions> options;
+    readonly ILogger _logger;
+    readonly CaptchaModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="options"></param>
-    public ArithmeticCaptchaMiddleware(IOptions<CaptchaModuleOptions> options)
+    public ArithmeticCaptchaMiddleware(
+        ILogger<ArithmeticCaptchaMiddleware> logger,
+        IOptions<CaptchaModuleOptions> options)
     {
-        this.options = options ?? throw new ArgumentNullException(nameof(options));
+        _logger = logger;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -24,18 +29,22 @@ public class ArithmeticCaptchaMiddleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var options = this.options.Value;
-
-        if (options.RequestConstrainAsync != null)
-            if (!await options.RequestConstrainAsync(context))
+        if (_options.RequestConstrainAsync is not null)
+        {
+            if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var model = context.Request.Query
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
             .BuildModel<ArithmeticCaptchaModel>();
-        var (code, image) = await model.GenerateAsync(options);
+        var (code, image) = await model.GenerateAsync(_options);
 
-        await options.SerializeToResponseAsync(context.Response, new
+        await _options.SerializeToResponseAsync(context.Response, new
         {
             Code = code,
             Image = image.Encode(model.Image.GenerateGif ? ImageFormat.Gif : ImageFormat.Png),

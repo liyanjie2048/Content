@@ -10,4 +10,5 @@ global using Liyanjie.Content.Models;
 
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;

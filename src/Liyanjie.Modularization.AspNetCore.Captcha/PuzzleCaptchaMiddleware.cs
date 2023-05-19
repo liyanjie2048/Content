@@ -5,15 +5,20 @@
 /// </summary>
 public class PuzzleCaptchaMiddleware : IMiddleware
 {
-    readonly IOptions<CaptchaModuleOptions> options;
+    readonly ILogger _logger;
+    readonly CaptchaModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="options"></param>
-    public PuzzleCaptchaMiddleware(IOptions<CaptchaModuleOptions> options)
+    public PuzzleCaptchaMiddleware(
+        ILogger<PuzzleCaptchaMiddleware> logger,
+        IOptions<CaptchaModuleOptions> options)
     {
-        this.options = options ?? throw new ArgumentNullException(nameof(options));
+        _logger = logger;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -24,18 +29,22 @@ public class PuzzleCaptchaMiddleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var options = this.options.Value;
-
-        if (options.RequestConstrainAsync != null)
-            if (!await options.RequestConstrainAsync(context))
+        if (_options.RequestConstrainAsync is not null)
+        {
+            if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var model = context.Request.Query
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
             .BuildModel<PuzzleCaptchaModel>();
-        var (indexes, image_Origin, image_Blocks) = await model.GenerateAsync(options);
+        var (indexes, image_Origin, image_Blocks) = await model.GenerateAsync(_options);
 
-        await options.SerializeToResponseAsync(context.Response, new
+        await _options.SerializeToResponseAsync(context.Response, new
         {
             Indexes = indexes,
             Image_Origin = image_Origin.Encode(ImageFormat.Png),

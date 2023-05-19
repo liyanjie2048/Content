@@ -5,15 +5,20 @@
 /// </summary>
 public class ImageCropMiddleware : IMiddleware
 {
-    readonly IOptions<ImageModuleOptions> options;
+    readonly ILogger _logger;
+    readonly ImageModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="options"></param>
-    public ImageCropMiddleware(IOptions<ImageModuleOptions> options)
+    public ImageCropMiddleware(
+        ILogger<ImageCropMiddleware> logger,
+        IOptions<ImageModuleOptions> options)
     {
-        this.options = options ?? throw new ArgumentNullException(nameof(options));
+        _logger = logger;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -24,23 +29,27 @@ public class ImageCropMiddleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var options = this.options.Value;
-
-        if (options.RequestConstrainAsync is not null)
-            if (!await options.RequestConstrainAsync(context))
+        if (_options.RequestConstrainAsync is not null)
+        {
+            if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var request = context.Request;
 
-        var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCropModel))) as ImageCropModel;
+        var model = (await _options.DeserializeFromRequestAsync(request, typeof(ImageCropModel))) as ImageCropModel;
         if (model is not null)
         {
-            var imagePath = (await model.CropAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+            var imagePath = (await model.CropAsync(_options))?.Replace(Path.DirectorySeparatorChar, '/');
 
-            if (options.ReturnAbsolutePath)
+            if (_options.ReturnAbsolutePath)
                 imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
 
-            await options.SerializeToResponseAsync(context.Response, imagePath);
+            await _options.SerializeToResponseAsync(context.Response, imagePath);
         }
     }
 }

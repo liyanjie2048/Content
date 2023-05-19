@@ -5,15 +5,20 @@
 /// </summary>
 public class ImageCombineMiddleware : IMiddleware
 {
-    readonly IOptions<ImageModuleOptions> options;
+    readonly ILogger _logger;
+    readonly ImageModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="options"></param>
-    public ImageCombineMiddleware(IOptions<ImageModuleOptions> options)
+    public ImageCombineMiddleware(
+        ILogger<ImageCombineMiddleware> logger,
+        IOptions<ImageModuleOptions> options)
     {
-        this.options = options ?? throw new ArgumentNullException(nameof(options));
+        _logger = logger;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -24,23 +29,27 @@ public class ImageCombineMiddleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var options = this.options.Value;
-
-        if (options.RequestConstrainAsync is not null)
-            if (!await options.RequestConstrainAsync(context))
+        if (_options.RequestConstrainAsync is not null)
+        {
+            if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var request = context.Request;
 
-        var model = (await options.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
+        var model = (await _options.DeserializeFromRequestAsync(request, typeof(ImageCombineModel))) as ImageCombineModel;
         if (model is not null)
         {
-            var imagePath = (await model.CombineAsync(options))?.Replace(Path.DirectorySeparatorChar, '/');
+            var imagePath = (await model.CombineAsync(_options))?.Replace(Path.DirectorySeparatorChar, '/');
 
-            if (options.ReturnAbsolutePath)
+            if (_options.ReturnAbsolutePath)
                 imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
 
-            await options.SerializeToResponseAsync(context.Response, imagePath);
+            await _options.SerializeToResponseAsync(context.Response, imagePath);
         }
     }
 }

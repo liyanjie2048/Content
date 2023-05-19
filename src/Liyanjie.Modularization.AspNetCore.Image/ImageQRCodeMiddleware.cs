@@ -5,15 +5,20 @@
 /// </summary>
 public class ImageQRCodeMiddleware : IMiddleware
 {
-    readonly IOptions<ImageModuleOptions> options;
+    readonly ILogger _logger;
+    readonly ImageModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="options"></param>
-    public ImageQRCodeMiddleware(IOptions<ImageModuleOptions> options)
+    public ImageQRCodeMiddleware(
+        ILogger<ImageQRCodeMiddleware> logger,
+        IOptions<ImageModuleOptions> options)
     {
-        this.options = options ?? throw new ArgumentNullException(nameof(options));
+        _logger = logger;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -24,11 +29,15 @@ public class ImageQRCodeMiddleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var options = this.options.Value;
-
-        if (options.RequestConstrainAsync is not null)
-            if (!await options.RequestConstrainAsync(context))
+        if (_options.RequestConstrainAsync is not null)
+        {
+            if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var request = context.Request;
         var response = context.Response;
@@ -36,11 +45,11 @@ public class ImageQRCodeMiddleware : IMiddleware
         var model = request.Query
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
             .BuildModel<ImageQRCodeModel>();
-        var imagePath = await model.GenerateQRCodeAsync(options);
+        var imagePath = await model.GenerateQRCodeAsync(_options);
 
         response.StatusCode = 200;
         response.ContentType = "image/svg+xml";
-        using var stream = File.OpenRead(Path.Combine(options.RootDirectory, imagePath));
+        using var stream = File.OpenRead(Path.Combine(_options.RootDirectory, imagePath));
         await stream.CopyToAsync(response.Body);
     }
 }

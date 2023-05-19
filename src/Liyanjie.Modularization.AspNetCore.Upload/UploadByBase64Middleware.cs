@@ -1,4 +1,6 @@
-﻿namespace Liyanjie.Modularization.AspNetCore;
+﻿using System.Net;
+
+namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -6,15 +8,20 @@
 public class UploadByBase64Middleware : IMiddleware
 {
     readonly static Regex _regex_Base64 = new(@"^data\:(?<MIME>[\w-]+\/[\w-]+)\;base64\,(?<DATA>.+)");
+    readonly ILogger _logger;
     readonly UploadModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="options"></param>
-    public UploadByBase64Middleware(IOptions<UploadModuleOptions> options)
+    public UploadByBase64Middleware(
+        ILogger<UploadByBase64Middleware> logger,
+        IOptions<UploadModuleOptions> options)
     {
-        _options = options.Value ?? throw new ArgumentNullException(nameof(options));
+        _logger = logger;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -25,9 +32,15 @@ public class UploadByBase64Middleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        if (_options.RequestConstrainAsync != null)
+        if (_options.RequestConstrainAsync is not null)
+        {
             if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var request = context.Request;
 
@@ -37,6 +50,7 @@ public class UploadByBase64Middleware : IMiddleware
 
         using var reader = new StreamReader(request.Body);
         var json = await reader.ReadToEndAsync();
+
         var array = JsonSerializer.Deserialize<string[]>(json);
 
         var model = new UploadModel
@@ -71,6 +85,6 @@ public class UploadByBase64Middleware : IMiddleware
                 return (_.Success, Path: path);
             });
 
-        await _options.SerializeToResponseAsync(context.Response, paths.Select(_ => _.Success ? _.Path : default).ToArray());
+        await _options.SerializeToResponseAsync(context.Response, paths.Select(_ => _.Success ? _.Path : default));
     }
 }

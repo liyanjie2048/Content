@@ -5,15 +5,20 @@
 /// </summary>
 public class ImageResizeMiddleware : IMiddleware
 {
-    readonly IOptions<ImageModuleOptions> options;
+    readonly ILogger _logger;
+    readonly ImageModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="options"></param>
-    public ImageResizeMiddleware(IOptions<ImageModuleOptions> options)
+    public ImageResizeMiddleware(
+        ILogger<ImageResizeMiddleware> logger,
+        IOptions<ImageModuleOptions> options)
     {
-        this.options = options ?? throw new ArgumentNullException(nameof(options));
+        _logger = logger;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -24,16 +29,20 @@ public class ImageResizeMiddleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var options = this.options.Value;
-
-        if (options.RequestConstrainAsync is not null)
-            if (!await options.RequestConstrainAsync.Invoke(context))
+        if (_options.RequestConstrainAsync is not null)
+        {
+            if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var request = context.Request;
 
         var model = new ImageResizeModel { ImagePath = request.Path };
-        var imagePath = model.Resize(options)?.Replace(Path.DirectorySeparatorChar, '/');
+        var imagePath = model.Resize(_options)?.Replace(Path.DirectorySeparatorChar, '/');
         if (!string.IsNullOrEmpty(imagePath))
             context.Response.Redirect($"/{imagePath}");
 

@@ -5,15 +5,20 @@
 /// </summary>
 public class ExploreMiddleware : IMiddleware
 {
-    readonly IOptions<ExploreModuleOptions> options;
+    readonly ILogger _logger;
+    readonly ExploreModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="logger"></param>
     /// <param name="options"></param>
-    public ExploreMiddleware(IOptions<ExploreModuleOptions> options)
+    public ExploreMiddleware(
+        ILogger<ExploreMiddleware> logger,
+        IOptions<ExploreModuleOptions> options)
     {
-        this.options = options ?? throw new ArgumentNullException(nameof(options));
+        _logger = logger;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -24,16 +29,20 @@ public class ExploreMiddleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var options = this.options.Value;
-
-        if (options.RequestConstrainAsync != null)
-            if (!await options.RequestConstrainAsync(context))
+        if (_options.RequestConstrainAsync is not null)
+        {
+            if (!await _options.RequestConstrainAsync(context))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                await context.Response.CompleteAsync();
                 return;
+            }
+        }
 
         var request = context.Request;
 
-        var contents = ExploreHelper.GetContents(options);
-        if (options.ReturnAbsolutePath)
+        var contents = ExploreHelper.GetContents(_options);
+        if (_options.ReturnAbsolutePath)
         {
             var pathPrefix = $"{request.Scheme}://{request.Host}/";
             foreach (var item in contents)
@@ -55,6 +64,6 @@ public class ExploreMiddleware : IMiddleware
             }
         }
 
-        await options.SerializeToResponseAsync(context.Response, contents);
+        await _options.SerializeToResponseAsync(context.Response, contents);
     }
 }
