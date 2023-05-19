@@ -23,7 +23,7 @@
             <input type="file" id="file2" />
         </div>
         <div class="py-2">
-            <button id="base64upload">上传</button>
+            <button id="uploadByBase64">上传</button>
         </div>
         <div class="py-2" id="message2"></div>
     </section>
@@ -33,7 +33,7 @@
             <textarea id="fileDataUri"></textarea>
         </div>
         <div class="py-2">
-            <button id="base64upload2">上传</button>
+            <button id="uploadByBase642">上传</button>
         </div>
         <div class="py-2" id="message3"></div>
     </section>
@@ -76,7 +76,7 @@
                     xhr.send(form);
                 }
             });
-            $('#base64upload').click(function ()
+            $('#uploadByBase64').click(function ()
             {
                 let file = document.getElementById('file2').files[0];
                 if (file)
@@ -102,14 +102,14 @@
                         {
                             $('#message2').text(`上传取消！`);
                         }, false);
-                        xhr.open('POST', '/base64upload');
+                        xhr.open('POST', '/uploadByBase64');
                         xhr.setRequestHeader('content-type', 'application/json');
                         xhr.send(JSON.stringify([e.target.result]));
                     };
                     reader.readAsDataURL(file);
                 }
             });
-            $('#base64upload2').click(function ()
+            $('#uploadByBase642').click(function ()
             {
                 let fileDataUri = document.getElementById('fileDataUri').value;
                 console.log(fileDataUri);
@@ -133,7 +133,7 @@
                     {
                         $('#message3').text(`上传取消！`);
                     }, false);
-                    xhr.open('POST', '/base64upload');
+                    xhr.open('POST', '/uploadByBase64');
                     xhr.setRequestHeader('content-type', 'application/json');
                     xhr.send(JSON.stringify([fileDataUri]));
                 }
