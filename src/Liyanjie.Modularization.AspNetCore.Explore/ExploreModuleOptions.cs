@@ -5,6 +5,12 @@
 /// </summary>
 public class ExploreModuleOptions : ExploreOptions
 {
+    readonly static JsonSerializerOptions _jsonSerializerOptions = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
     /// <summary>
     /// 上传约束
     /// </summary>
@@ -18,7 +24,7 @@ public class ExploreModuleOptions : ExploreOptions
         {
             response.StatusCode = 200;
             response.ContentType = "application/json";
-            await response.WriteAsync(JsonSerializer.Serialize(obj));
+            await response.WriteAsync(JsonSerializer.Serialize(obj, _jsonSerializerOptions));
             await response.CompleteAsync();
         };
 

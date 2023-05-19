@@ -5,6 +5,12 @@
 /// </summary>
 public class CaptchaModuleOptions : CaptchaOptions
 {
+    readonly static JsonSerializerOptions _jsonSerializerOptions = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
     /// <summary>
     /// 生成验证码请求约束
     /// </summary>
@@ -18,7 +24,7 @@ public class CaptchaModuleOptions : CaptchaOptions
         {
             response.StatusCode = 200;
             response.ContentType = "application/json";
-            await response.WriteAsync(JsonSerializer.Serialize(obj));
+            await response.WriteAsync(JsonSerializer.Serialize(obj, _jsonSerializerOptions));
             await response.CompleteAsync();
         };
 

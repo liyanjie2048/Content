@@ -5,6 +5,12 @@
 /// </summary>
 public class ImageModuleOptions : ImageOptions
 {
+    readonly static JsonSerializerOptions _jsonSerializerOptions = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
+
     /// <summary>
     /// 请求约束
     /// </summary>
@@ -18,12 +24,7 @@ public class ImageModuleOptions : ImageOptions
         {
             using var streamReader = new StreamReader(request.Body);
             var str = await streamReader.ReadToEndAsync();
-            return JsonSerializer.Deserialize(str, type, new JsonSerializerOptions()
-            {
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                IgnoreReadOnlyProperties = true,
-                PropertyNameCaseInsensitive = true,
-            });
+            return JsonSerializer.Deserialize(str, type, _jsonSerializerOptions);
         };
 
     /// <summary>
@@ -34,7 +35,7 @@ public class ImageModuleOptions : ImageOptions
         {
             response.StatusCode = 200;
             response.ContentType = "application/json";
-            await response.WriteAsync(JsonSerializer.Serialize(obj));
+            await response.WriteAsync(JsonSerializer.Serialize(obj, _jsonSerializerOptions));
             await response.CompleteAsync();
         };
 
