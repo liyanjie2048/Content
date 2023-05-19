@@ -18,7 +18,7 @@
         <div class="py-2" id="message"></div>
     </section>
     <section class="col-6 py-4">
-        <h4>Base64 Json上传</h4>
+        <h4>Base64上传</h4>
         <div class="py-2">
             <input type="file" id="file2" />
         </div>
@@ -27,54 +27,79 @@
         </div>
         <div class="py-2" id="message2"></div>
     </section>
+    <section class="col-6 py-4">
+        <h4>Base64上传2</h4>
+        <div class="py-2">
+            <textarea id="fileDataUri"></textarea>
+        </div>
+        <div class="py-2">
+            <button id="base64upload2">上传</button>
+        </div>
+        <div class="py-2" id="message3"></div>
+    </section>
 </div>
 
 @section Scripts{
     <script type="text/javascript">
-        window.onload = function () {
-            $('#upload').click(function () {
+        window.onload = function ()
+        {
+            $('#upload').click(function ()
+            {
                 let file = document.getElementById('file').files[0];
-                if (file) {
+                if (file)
+                {
                     let form = new FormData();
                     let xhr = new XMLHttpRequest();
                     form.append("File", file);
-                    xhr.upload.addEventListener("progress", function (event) {
+                    xhr.upload.addEventListener("progress", function (event)
+                    {
                         $('#message').text(`正在上传：${event.lengthComputable ? Math.round(event.loaded * 100 / event.total) : 0}%`);
                     }, false);
-                    xhr.addEventListener('load', function (event) {
+                    xhr.addEventListener('load', function (event)
+                    {
                         $('#message').text(`上传成功：${event.target.responseText}`);
                         var paths = $.parseJSON(event.target.responseText);
-                        $.each(paths, (i, value) => {
+                        $.each(paths, (i, value) =>
+                        {
                             $('#message').append($(`<p><a target="_blank" href="${value}">${value}</a></p>`));
                         });
                     }, false);
-                    xhr.addEventListener('error', function (event) {
+                    xhr.addEventListener('error', function (event)
+                    {
                         $('#message').text(`上传失败！${event.target.responseText}`);
                     }, false);
-                    xhr.addEventListener('abort', function (event) {
+                    xhr.addEventListener('abort', function (event)
+                    {
                         $('#message').text(`上传取消！`);
                     }, false);
                     xhr.open('POST', '/upload');
                     xhr.send(form);
                 }
             });
-            $('#base64upload').click(function () {
+            $('#base64upload').click(function ()
+            {
                 let file = document.getElementById('file2').files[0];
-                if (file) {
+                if (file)
+                {
                     var reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e)
+                    {
                         let xhr = new XMLHttpRequest();
-                        xhr.addEventListener('load', function (event) {
+                        xhr.addEventListener('load', function (event)
+                        {
                             $('#message2').text(`上传成功：${event.target.responseText}`);
                             var paths = $.parseJSON(event.target.responseText);
-                            $.each(paths, (i, value) => {
+                            $.each(paths, (i, value) =>
+                            {
                                 $('#message2').append($(`<p><a target="_blank" href="${value}">${value}</a></p>`));
                             });
                         }, false);
-                        xhr.addEventListener('error', function (event) {
+                        xhr.addEventListener('error', function (event)
+                        {
                             $('#message2').text(`上传失败！${event.target.responseText}`);
                         }, false);
-                        xhr.addEventListener('abort', function (event) {
+                        xhr.addEventListener('abort', function (event)
+                        {
                             $('#message2').text(`上传取消！`);
                         }, false);
                         xhr.open('POST', '/base64upload');
@@ -82,6 +107,35 @@
                         xhr.send(JSON.stringify([e.target.result]));
                     };
                     reader.readAsDataURL(file);
+                }
+            });
+            $('#base64upload2').click(function ()
+            {
+                let fileDataUri = document.getElementById('fileDataUri').value;
+                console.log(fileDataUri);
+                if (fileDataUri)
+                {
+                    let xhr = new XMLHttpRequest();
+                    xhr.addEventListener('load', function (event)
+                    {
+                        $('#message3').text(`上传成功：${event.target.responseText}`);
+                        var paths = $.parseJSON(event.target.responseText);
+                        $.each(paths, (i, value) =>
+                        {
+                            $('#message3').append($(`<p><a target="_blank" href="${value}">${value}</a></p>`));
+                        });
+                    }, false);
+                    xhr.addEventListener('error', function (event)
+                    {
+                        $('#message3').text(`上传失败！${event.target.responseText}`);
+                    }, false);
+                    xhr.addEventListener('abort', function (event)
+                    {
+                        $('#message3').text(`上传取消！`);
+                    }, false);
+                    xhr.open('POST', '/base64upload');
+                    xhr.setRequestHeader('content-type', 'application/json');
+                    xhr.send(JSON.stringify([fileDataUri]));
                 }
             });
         };
