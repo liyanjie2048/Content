@@ -1,4 +1,6 @@
-﻿namespace Liyanjie.Modularization.AspNetCore;
+﻿using System.Drawing;
+
+namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -43,9 +45,9 @@ public class SliderCaptchaMiddleware : IMiddleware
         await _options.SerializeToResponseAsync(context.Response, new
         {
             Point = point,
-            Image_Origin = image_Origin.Encode(ImageFormat.Png),
-            Image_Board = image_Board.Encode(ImageFormat.Png),
-            Image_Block = image_Block.Encode(ImageFormat.Png),
+            Image_Origin = image_Origin.ToDataUrl(ImageFormat.Png),
+            Image_Board = image_Board.ToDataUrl(ImageFormat.Png),
+            Image_Block = image_Block.ToDataUrl(ImageFormat.Png),
         });
     }
 }

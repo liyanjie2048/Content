@@ -1,4 +1,6 @@
-﻿namespace Liyanjie.Modularization.AspNetCore;
+﻿using System.Drawing;
+
+namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -43,8 +45,8 @@ public class PuzzleCaptchaMiddleware : IMiddleware
         await _options.SerializeToResponseAsync(context.Response, new
         {
             Indexes = indexes,
-            Image_Origin = image_Origin.Encode(ImageFormat.Png),
-            Image_Blocks = image_Blocks.Select(_ => _.Encode(ImageFormat.Png)),
+            Image_Origin = image_Origin.ToDataUrl(ImageFormat.Png),
+            Image_Blocks = image_Blocks.Select(_ => _.ToDataUrl(ImageFormat.Png)),
         });
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Liyanjie.Modularization.AspNetCore;
+﻿using System.Drawing;
+
+namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -43,8 +45,8 @@ public class ClickCaptchaMiddleware : IMiddleware
         await _options.SerializeToResponseAsync(context.Response, new
         {
             Points = points,
-            Image_Fonts = image_Fonts.Encode(ImageFormat.Png),
-            Image_Board = image_Board.Encode(ImageFormat.Png),
+            Image_Fonts = image_Fonts.ToDataUrl(ImageFormat.Png),
+            Image_Board = image_Board.ToDataUrl(ImageFormat.Png),
         });
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Liyanjie.Modularization.AspNetCore;
+﻿using System.Drawing;
+
+namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -43,7 +45,7 @@ public class StringCaptchaMiddleware : IMiddleware
         await _options.SerializeToResponseAsync(context.Response, new
         {
             Code = code,
-            Image = image.Encode(model.Image.GenerateGif ? ImageFormat.Gif : ImageFormat.Png),
+            Image = image.ToDataUrl(model.Image.GenerateGif ? ImageFormat.Gif : ImageFormat.Png),
         });
     }
 }

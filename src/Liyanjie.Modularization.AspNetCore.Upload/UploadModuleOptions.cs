@@ -5,10 +5,13 @@
 /// </summary>
 public class UploadModuleOptions : UploadOptions
 {
-    readonly static JsonSerializerOptions _jsonSerializerOptions = new()
+    /// <summary>
+    /// 
+    /// </summary>
+    public static JsonSerializerOptions JsonSerializationOptions { get; set; } = new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
     /// <summary>
@@ -24,7 +27,7 @@ public class UploadModuleOptions : UploadOptions
         {
             response.StatusCode = 200;
             response.ContentType = "application/json";
-            await response.WriteAsync(JsonSerializer.Serialize(obj, _jsonSerializerOptions));
+            await response.WriteAsync(JsonSerializer.Serialize(obj, JsonSerializationOptions));
             await response.CompleteAsync();
         };
 

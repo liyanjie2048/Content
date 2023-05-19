@@ -13,7 +13,7 @@ public class StringModel
     /// <summary>
     /// 
     /// </summary>
-    public int Length { get; set; }
+    public int Length { get; set; } = 6;
 
     /// <summary>
     /// 
@@ -23,7 +23,7 @@ public class StringModel
     {
         if (string.IsNullOrWhiteSpace(Source))
             Source = "ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghijklmnpqrstuvwxyz1234567890";
-        if (Length == 0)
+        if (Length <= 0)
             Length = 6;
 
         return Source.Random(6);

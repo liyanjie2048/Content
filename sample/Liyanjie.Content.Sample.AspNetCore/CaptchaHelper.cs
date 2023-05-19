@@ -8,6 +8,12 @@ namespace Liyanjie.Content.Sample.AspNetCore
 {
     public class CaptchaHelper
     {
+        readonly static JsonSerializerOptions _jsonDeserializerOptions = new()
+        {
+            IgnoreReadOnlyProperties = true,
+            PropertyNameCaseInsensitive = true,
+        };
+
         public class Click
         {
             public Point[] Points { get; set; }
@@ -18,7 +24,8 @@ namespace Liyanjie.Content.Sample.AspNetCore
         {
             using var http = new HttpClient();
             var str = await http.GetStringAsync($"{urlbase}/captcha/click?width=200&height=200&fontsize=24&string={WebUtility.UrlEncode("风 花 雪 月")}");
-            return JsonSerializer.Deserialize<Click>(str);
+            System.Console.WriteLine(str);
+            return JsonSerializer.Deserialize<Click>(str, _jsonDeserializerOptions);
         }
 
         public class Puzzle
@@ -31,7 +38,8 @@ namespace Liyanjie.Content.Sample.AspNetCore
         {
             using var http = new HttpClient();
             var str = await http.GetStringAsync($"{urlbase}/captcha/puzzle?width=200&height=200&hcount=2&vcount=2");
-            return JsonSerializer.Deserialize<Puzzle>(str);
+            System.Console.WriteLine(str);
+            return JsonSerializer.Deserialize<Puzzle>(str, _jsonDeserializerOptions);
         }
 
         public class Slider
@@ -45,7 +53,8 @@ namespace Liyanjie.Content.Sample.AspNetCore
         {
             using var http = new HttpClient();
             var str = await http.GetStringAsync($"{urlbase}/captcha/slider?width=300&height=200");
-            return JsonSerializer.Deserialize<Slider>(str);
+            System.Console.WriteLine(str);
+            return JsonSerializer.Deserialize<Slider>(str, _jsonDeserializerOptions);
         }
 
         public class ArithmeticImage
@@ -57,7 +66,8 @@ namespace Liyanjie.Content.Sample.AspNetCore
         {
             using var http = new HttpClient();
             var str = await http.GetStringAsync($"{urlbase}/captcha/arithmeticImage?arithmetic.MaxWhenAddition=50&arithmetic.MaxWhenSubtraction=100&arithmetic.MaxWhenMultiplication=10&arithmetic.MaxWhenDivision=100&arithmetic.UseZhInsteadOfOperator=true&image.width=100&image.height=30&image.fontsize=16&image.GenerateGif=true");
-            return JsonSerializer.Deserialize<ArithmeticImage>(str);
+            System.Console.WriteLine(str);
+            return JsonSerializer.Deserialize<ArithmeticImage>(str, _jsonDeserializerOptions);
         }
 
         public class StringImage
@@ -69,7 +79,8 @@ namespace Liyanjie.Content.Sample.AspNetCore
         {
             using var http = new HttpClient();
             var str = await http.GetStringAsync($"{urlbase}/captcha/stringImage?string.Length=6&image.width=100&image.height=30&image.fontsize=16&image.GenerateGif=true");
-            return JsonSerializer.Deserialize<StringImage>(str);
+            System.Console.WriteLine(str);
+            return JsonSerializer.Deserialize<StringImage>(str, _jsonDeserializerOptions);
         }
     }
 }
