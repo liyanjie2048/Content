@@ -5,7 +5,7 @@ namespace Liyanjie.Modularization.AspNetCore;
 /// <summary>
 /// 
 /// </summary>
-public class FormUploadMiddleware : IMiddleware
+public class UploadByFormDataMiddleware : IMiddleware
 {
     readonly UploadModuleOptions _options;
 
@@ -13,7 +13,7 @@ public class FormUploadMiddleware : IMiddleware
     /// 
     /// </summary>
     /// <param name="options"></param>
-    public FormUploadMiddleware(IOptions<UploadModuleOptions> options)
+    public UploadByFormDataMiddleware(IOptions<UploadModuleOptions> options)
     {
         this._options = options?.Value ?? throw new ArgumentNullException(nameof(options));
     }

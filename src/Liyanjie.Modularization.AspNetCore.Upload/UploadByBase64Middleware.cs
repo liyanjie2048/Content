@@ -1,11 +1,9 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Liyanjie.Modularization.AspNetCore;
+﻿namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
 /// </summary>
-public class Base64UploadMiddleware : IMiddleware
+public class UploadByBase64Middleware : IMiddleware
 {
     readonly static Regex _regex_Base64 = new(@"^data\:(?<MIME>[\w-]+\/[\w-]+)\;base64\,(?<DATA>.+)");
     readonly UploadModuleOptions _options;
@@ -14,9 +12,9 @@ public class Base64UploadMiddleware : IMiddleware
     /// 
     /// </summary>
     /// <param name="options"></param>
-    public Base64UploadMiddleware(IOptions<UploadModuleOptions> options)
+    public UploadByBase64Middleware(IOptions<UploadModuleOptions> options)
     {
-        this._options = options.Value ?? throw new ArgumentNullException(nameof(options));
+        _options = options.Value ?? throw new ArgumentNullException(nameof(options));
     }
 
     /// <summary>
@@ -49,13 +47,13 @@ public class Base64UploadMiddleware : IMiddleware
                 if (match.Success)
                 {
                     var mime = match.Groups["MIME"].Value;
-                    if (this._options.AllowedMIMETypes.TryGetValue(mime, out var extension))
+                    if (_options.AllowedMIMETypes.TryGetValue(mime, out var extension))
                     {
                         var data = match.Groups["DATA"].Value;
                         var bytes = Convert.FromBase64String(data);
                         return new UploadModel.UploadFileModel
                         {
-                            FileName = $"{Guid.NewGuid():N}{extension}",
+                            FileName = _options.FileNameScheme(Guid.NewGuid().ToString("N"), extension),
                             FileBytes = bytes,
                             FileLength = bytes.Length,
                         };
@@ -64,11 +62,11 @@ public class Base64UploadMiddleware : IMiddleware
                 return new() { FileName = $"{Guid.NewGuid():N}.unknown" };
             }).ToArray(),
         };
-        var paths = (await model.SaveAsync(this._options, dir))
+        var paths = (await model.SaveAsync(_options, dir))
             .Select(_ =>
             {
                 var path = _.Success ? _.Path.Replace(Path.DirectorySeparatorChar, '/') : _.Path;
-                if (this._options.ReturnAbsolutePath)
+                if (_options.ReturnAbsolutePath)
                     path = _.Success ? $"{request.Scheme}://{request.Host}/{_.Path}" : _.Path;
                 return (_.Success, Path: path);
             });
