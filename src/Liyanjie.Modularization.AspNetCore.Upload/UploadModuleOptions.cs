@@ -8,7 +8,7 @@ public class UploadModuleOptions : UploadOptions
     /// <summary>
     /// 上传约束
     /// </summary>
-    public Func<HttpContext, Task<bool>> RequestConstrainAsync { get; set; }
+    public Func<HttpContext, Task<bool>> RestrictRequestAsync { get; set; }
 
     /// <summary>
     /// 序列化输出

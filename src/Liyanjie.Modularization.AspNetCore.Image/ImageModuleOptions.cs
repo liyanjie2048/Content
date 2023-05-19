@@ -8,7 +8,7 @@ public class ImageModuleOptions : ImageOptions
     /// <summary>
     /// 请求约束
     /// </summary>
-    public Func<HttpContext, Task<bool>> RequestConstrainAsync { get; set; }
+    public Func<HttpContext, Task<bool>> RestrictRequestAsync { get; set; }
 
     /// <summary>
     /// 反序列化

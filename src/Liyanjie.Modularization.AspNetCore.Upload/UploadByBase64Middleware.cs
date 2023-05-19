@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace Liyanjie.Modularization.AspNetCore;
+﻿namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -32,14 +30,10 @@ public class UploadByBase64Middleware : IMiddleware
     /// <returns></returns>
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        if (_options.RequestConstrainAsync is not null)
+        if (_options.RestrictRequestAsync is not null)
         {
-            if (!await _options.RequestConstrainAsync(context))
-            {
-                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                await context.Response.CompleteAsync();
+            if (!await _options.RestrictRequestAsync(context))
                 return;
-            }
         }
 
         var request = context.Request;

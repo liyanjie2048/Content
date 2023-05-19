@@ -3,7 +3,6 @@ global using System.Drawing;
 global using System.Drawing.Imaging;
 global using System.IO;
 global using System.Linq;
-global using System.Net;
 global using System.Reflection;
 global using System.Text.Json;
 global using System.Threading.Tasks;

@@ -8,7 +8,7 @@ public class CaptchaModuleOptions : CaptchaOptions
     /// <summary>
     /// 生成验证码请求约束
     /// </summary>
-    public Func<HttpContext, Task<bool>> RequestConstrainAsync { get; set; }
+    public Func<HttpContext, Task<bool>> RestrictRequestAsync { get; set; }
 
     /// <summary>
     /// 序列化输出
