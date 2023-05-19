@@ -43,7 +43,7 @@ public class ImageCropModel
     public async Task<string> CropAsync(ImageOptions options)
     {
         var fileName = options.CroppedImageFileNameScheme.Invoke(this);
-        var filePath = Path.Combine(options.CroppedImageDirectory, fileName);
+        var filePath = Path.Combine(options.CroppedImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
         Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 
@@ -72,8 +72,7 @@ public class ImageCropModel
                 }
             }
 
-            using (output)
-                output.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Png);
+            using (output) output.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Png);
         }
 
         return filePath;

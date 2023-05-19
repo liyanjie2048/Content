@@ -28,7 +28,7 @@ public class ImageConcatenateModel
     public async Task<string> ConcatenateAsync(ImageOptions options)
     {
         var fileName = options.ConcatenatedImageFileNameScheme.Invoke(this);
-        var filePath = Path.Combine(options.ConcatenatedImageDirectory, fileName);
+        var filePath = Path.Combine(options.ConcatenatedImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
         Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 
@@ -38,18 +38,17 @@ public class ImageConcatenateModel
                 .Where(_ => !string.IsNullOrWhiteSpace(_))
                 .Select(_ => _.PreProcess(options.RootDirectory))
                 .ToList();
-            var fileImage = (await ImageHelper.FromFileOrNetworkAsync(fileAbsolutePaths[0]))?.Resize(Width, Height);
+            var image = (await ImageHelper.FromFileOrNetworkAsync(fileAbsolutePaths[0]))?.Resize(Width, Height);
             foreach (var path in fileAbsolutePaths.Skip(1))
             {
-                using var image = await ImageHelper.FromFileOrNetworkAsync(path);
-                if (image == null)
+                using var image_ = await ImageHelper.FromFileOrNetworkAsync(path);
+                if (image_ is null)
                     continue;
 
-                fileImage = fileImage.Concatenate(image.Resize(Width, Height));
+                image = image.Concatenate(image_.Resize(Width, Height));
             }
 
-            using (fileImage)
-                fileImage.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
+            using (image) image.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
         }
 
         return filePath;

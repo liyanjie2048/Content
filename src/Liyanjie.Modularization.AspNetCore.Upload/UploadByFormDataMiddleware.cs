@@ -49,15 +49,22 @@ public class UploadByFormDataMiddleware : IMiddleware
                 };
             }).ToArray(),
         };
-        var paths = (await model.SaveAsync(_options, dir))
+        var result = await model.SaveAsync(_options, dir);
+
+        await _options.SerializeToResponseAsync(context.Response, result
             .Select(_ =>
             {
-                var path = _.Success ? _.Path.Replace(Path.DirectorySeparatorChar, '/') : _.Path;
-                if (_options.ReturnAbsolutePath)
-                    path = _.Success ? $"{request.Scheme}://{request.Host}/{_.Path}" : _.Path;
-                return (_.Success, Path: path);
-            });
-
-        await _options.SerializeToResponseAsync(context.Response, paths.Select(_ => _.Success ? _.Path : default).ToArray());
+                if (_.Success)
+                {
+                    var path = _.Path.Replace(Path.DirectorySeparatorChar, '/');
+                    if (_options.ReturnAbsolutePath)
+                        path = $"{request.Scheme}://{request.Host}/{path}";
+                    else
+                        path = $"/{path}";
+                    return path;
+                }
+                else
+                    return default;
+            }));
     }
 }

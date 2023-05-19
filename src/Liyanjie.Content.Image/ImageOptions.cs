@@ -5,6 +5,8 @@
 /// </summary>
 public class ImageOptions
 {
+    internal static char[] PathStarts = { '/', '\\' };
+
     /// <summary>
     /// 
     /// </summary>
@@ -73,7 +75,7 @@ public class ImageOptions
     /// <summary>
     /// 空文件路径
     /// </summary>
-    public string EmptyImagePath { get; set; } = @"images\empty.jpeg";
+    public string EmptyImagePath { get; set; } = @"images\empty.png";
 
     /// <summary>
     /// 1~100

@@ -35,7 +35,7 @@ public class ImageQRCodeModel
     public async Task<string> GenerateQRCodeAsync(ImageOptions options)
     {
         var fileName = options.QRCodeImageFileNameScheme.Invoke(this);
-        var filePath = Path.Combine(options.QRCodeImageDirectory, fileName);
+        var filePath = Path.Combine(options.QRCodeImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
         Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 

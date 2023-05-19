@@ -28,7 +28,7 @@ public class ImageCombineModel
     public async Task<string> CombineAsync(ImageOptions options)
     {
         var fileName = options.CombinedImageFileNameScheme.Invoke(this);
-        var filePath = Path.Combine(options.CombinedImageDirectory, fileName);
+        var filePath = Path.Combine(options.CombinedImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
         Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 
@@ -48,21 +48,19 @@ public class ImageCombineModel
             var images = new List<(Point, Size, Image)>();
             for (int i = 0; i < imageAbsolutePaths.Count; i++)
             {
-                var image = await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePaths[i]);
-                if (image == null)
+                var image_ = await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePaths[i]);
+                if (image_ == null)
                     continue;
 
                 var size = imageSizes[i];
                 var (x, y) = imagePoints[i];
 
-                images.Add((new Point(x, y), new Size(size.Width, size.Height), image));
+                images.Add((new Point(x, y), new Size(size.Width, size.Height), image_));
             }
 
-            var fileImage = new Bitmap(Width, Height);
-            fileImage.Combine(images.ToArray());
-
-            using (fileImage)
-                fileImage.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
+            using var image = new Bitmap(Width, Height);
+            image.Combine(images.ToArray());
+            image.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
         }
 
         return filePath;

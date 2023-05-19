@@ -38,7 +38,7 @@ public class ImageCombineToGIFModel
     public async Task<string> CombineToGIFAsync(ImageOptions options)
     {
         var fileName = options.CombinedGIFImageFileNameScheme.Invoke(this);
-        var filePath = Path.Combine(options.CombinedImageDirectory, fileName);
+        var filePath = Path.Combine(options.CombinedImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
         Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
 
@@ -47,18 +47,16 @@ public class ImageCombineToGIFModel
             var images = new List<(Point, Size, Image, int)>();
             foreach (var item in Items.Where(_ => !string.IsNullOrWhiteSpace(_.ImagePath)))
             {
-                var image = await ImageHelper.FromFileOrNetworkAsync(item.ImagePath.PreProcess(options.RootDirectory));
-                if (image == null)
+                var image_ = await ImageHelper.FromFileOrNetworkAsync(item.ImagePath.PreProcess(options.RootDirectory));
+                if (image_ is null)
                     continue;
 
-                images.Add((new Point(item.X ?? 0, item.Y ?? 0), new Size(item.Width ?? 0, item.Height ?? 0), image, item.Delay));
+                images.Add((new Point(item.X ?? 0, item.Y ?? 0), new Size(item.Width ?? 0, item.Height ?? 0), image_, item.Delay));
             }
 
-            var fileImage = new Bitmap(Width, Height);
-            fileImage.CombineToGif(Delay, Repeat, images.ToArray());
-
-            using (fileImage)
-                fileImage.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Gif);
+            using var image = new Bitmap(Width, Height);
+            image.CombineToGif(Delay, Repeat, images.ToArray());
+            image.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Gif);
         }
 
         return filePath;

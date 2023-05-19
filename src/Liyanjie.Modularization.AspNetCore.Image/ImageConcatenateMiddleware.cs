@@ -44,6 +44,8 @@ public class ImageConcatenateMiddleware : IMiddleware
 
             if (_options.ReturnAbsolutePath)
                 imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
+            else
+                imagePath = $"/{imagePath}";
 
             await _options.SerializeToResponseAsync(context.Response, imagePath);
         }
