@@ -45,7 +45,7 @@ public class SliderCaptchaModel
         var s4 = s * 4;
         var s5 = s * 5;
         var random = new Random();
-        var x = random.Next(s, largeWidth - s4);
+        var x = random.Next(s * 3, largeWidth - s4);
         var y = random.Next(s, largeHeight - s5);
 
         using var path = new GraphicsPath();

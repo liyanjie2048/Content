@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Liyanjie.Modularization.AspNetCore;
+﻿namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -41,13 +39,19 @@ public class SliderCaptchaMiddleware : IMiddleware
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
             .BuildModel<SliderCaptchaModel>();
         var (point, image_Origin, image_Board, image_Block) = await model.GenerateAsync(_options);
-
-        await _options.SerializeToResponseAsync(context.Response, new
+        var output = new
         {
             Point = point,
-            Image_Origin = image_Origin.ToDataUrl(ImageFormat.Png),
+            Image_Origin = image_Origin.ToDataUrl(ImageFormat.Jpeg),
             Image_Board = image_Board.ToDataUrl(ImageFormat.Png),
             Image_Block = image_Block.ToDataUrl(ImageFormat.Png),
-        });
+            Size_Origin = new { image_Origin.Width, image_Origin.Height },
+            Size_Board = new { image_Board.Width, image_Board.Height },
+            Size_Block = new { image_Block.Width, image_Block.Height },
+        };
+        image_Origin?.Dispose();
+        image_Board?.Dispose();
+        image_Block?.Dispose();
+        await _options.SerializeToResponseAsync(context.Response, output);
     }
 }

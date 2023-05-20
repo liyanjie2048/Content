@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Liyanjie.Modularization.AspNetCore;
+﻿namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -41,12 +39,16 @@ public class ClickCaptchaMiddleware : IMiddleware
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object);
         var model = dic.BuildModel<ClickCaptchaModel>();
         var (points, image_Fonts, image_Board) = await model.GenerateAsync(_options);
-
-        await _options.SerializeToResponseAsync(context.Response, new
+        var output = new
         {
             Points = points,
-            Image_Fonts = image_Fonts.ToDataUrl(ImageFormat.Png),
-            Image_Board = image_Board.ToDataUrl(ImageFormat.Png),
-        });
+            Image_Fonts = image_Fonts.ToDataUrl(ImageFormat.Jpeg),
+            Image_Board = image_Board.ToDataUrl(ImageFormat.Jpeg),
+            Size_Fonts = new { image_Fonts.Width, image_Fonts.Height },
+            Size_Board = new { image_Board.Width, image_Board.Height },
+        };
+        image_Fonts?.Dispose();
+        image_Board?.Dispose();
+        await _options.SerializeToResponseAsync(context.Response, output);
     }
 }

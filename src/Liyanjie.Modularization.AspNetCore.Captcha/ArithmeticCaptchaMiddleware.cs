@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Liyanjie.Modularization.AspNetCore;
+﻿namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -41,11 +39,13 @@ public class ArithmeticCaptchaMiddleware : IMiddleware
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
             .BuildModel<ArithmeticCaptchaModel>();
         var (code, image) = await model.GenerateAsync(_options);
-
-        await _options.SerializeToResponseAsync(context.Response, new
+        var output = new
         {
             Code = code,
-            Image = image.ToDataUrl(model.Image.GenerateGif ? ImageFormat.Gif : ImageFormat.Png),
-        });
+            Image = image.ToDataUrl(model.Image.GenerateGif ? ImageFormat.Gif : ImageFormat.Jpeg),
+            Size = new { image.Width, image.Height, },
+        };
+        image?.Dispose();
+        await _options.SerializeToResponseAsync(context.Response, output);
     }
 }

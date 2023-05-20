@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Liyanjie.Modularization.AspNetCore;
+﻿namespace Liyanjie.Modularization.AspNetCore;
 
 /// <summary>
 /// 
@@ -41,12 +39,19 @@ public class PuzzleCaptchaMiddleware : IMiddleware
             .ToDictionary(_ => _.Key.ToLower(), _ => _.Value.FirstOrDefault() as object)
             .BuildModel<PuzzleCaptchaModel>();
         var (indexes, image_Origin, image_Blocks) = await model.GenerateAsync(_options);
-
-        await _options.SerializeToResponseAsync(context.Response, new
+        var output = new
         {
             Indexes = indexes,
-            Image_Origin = image_Origin.ToDataUrl(ImageFormat.Png),
-            Image_Blocks = image_Blocks.Select(_ => _.ToDataUrl(ImageFormat.Png)),
-        });
+            Image_Origin = image_Origin.ToDataUrl(ImageFormat.Jpeg),
+            Image_Blocks = image_Blocks.Select(_ => _.ToDataUrl(ImageFormat.Jpeg)),
+            Size_Origin = new { image_Origin.Width, image_Origin.Height },
+            Size_Blocks = new { image_Origin.Width, image_Origin.Height },
+        };
+        image_Origin?.Dispose();
+        foreach (var image_Block in image_Blocks)
+        {
+            image_Block?.Dispose();
+        }
+        await _options.SerializeToResponseAsync(context.Response, output);
     }
 }
