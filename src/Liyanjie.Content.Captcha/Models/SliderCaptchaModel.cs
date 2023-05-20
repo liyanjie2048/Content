@@ -6,13 +6,19 @@
 public class SliderCaptchaModel
 {
     /// <summary>
-    /// 
+    /// 宽
     /// </summary>
     public int Width { get; set; }
+
     /// <summary>
-    /// 
+    /// 高
     /// </summary>
     public int Height { get; set; }
+
+    /// <summary>
+    /// 平滑度（值越大边缘越平滑，性能越底）
+    /// </summary>
+    public int Smooth { get; set; }
 
     /// <summary>
     /// 
@@ -23,20 +29,24 @@ public class SliderCaptchaModel
     {
         await Task.FromResult(0);
 
+        var smooth = Smooth < 1 ? 1 : Smooth;
+        var largeWidth = Width * smooth;
+        var largeHeight = Height * smooth;
+
         var image_File = Directory
             .GetFiles(Path.Combine(options.RootDirectory, options.SliderCodeImageDir))
             .RandomTake(1).SingleOrDefault();
-        using var image_Origin = (Bitmap)Image.FromFile(image_File).Resize(Width, Height, true, true);
+        using var image_Origin = (Bitmap)Image.FromFile(image_File).Resize(largeWidth, largeHeight, true, true);
 
-        var s = Math.Min(Width, Height) / 12;
+        var s = Math.Min(largeWidth, largeHeight) / 12;
         var s_ = s / 2;
         var s2 = s * 2;
         var s3 = s * 3;
         var s4 = s * 4;
         var s5 = s * 5;
         var random = new Random();
-        var x = random.Next(s, Width - s4);
-        var y = random.Next(s, Height - s5);
+        var x = random.Next(s, largeWidth - s4);
+        var y = random.Next(s, largeHeight - s5);
 
         using var path = new GraphicsPath();
         path.AddBezier(x + s, y + s, x + s_, y, x + s2 + s_, y, x + s2, y + s);
@@ -72,6 +82,9 @@ public class SliderCaptchaModel
             }
         }
 
-        return (new Point(x, y), (Image)image_Origin.Clone(), image_Board, image_Block);
+        return (new Point(x / smooth, y / smooth),
+            ((Image)image_Origin.Clone()).Resize(Width, Height),
+            image_Board.Resize(Width, Height),
+            image_Block.Resize(width / smooth, height / smooth));
     }
 }

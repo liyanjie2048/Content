@@ -78,7 +78,7 @@ public class ImageOptions
     public string EmptyImagePath { get; set; } = @"images\empty.png";
 
     /// <summary>
-    /// 1~100
+    /// 0~255
     /// </summary>
-    public long CompressFlag { get; set; } = 50;
+    public byte CompressFlag { get; set; } = 100;
 }
