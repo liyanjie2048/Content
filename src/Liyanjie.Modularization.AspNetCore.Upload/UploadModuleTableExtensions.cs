@@ -22,9 +22,16 @@ public static class UploadModuleTableExtensions
     {
         moduleTable.Services.AddSingleton<UploadByFormDataMiddleware>();
         moduleTable.Services.AddSingleton<UploadByBase64Middleware>();
+        moduleTable.Services.AddSingleton<UploadByDataUrlMiddleware>();
 
         moduleTable.AddModule("UploadModule", new[]
         {
+           new ModularizationModuleMiddleware
+           {
+               HttpMethods = new[]{ "POST" },
+               RouteTemplate = uploadByFormDataRouteTemplate,
+               HandlerType = typeof(UploadByFormDataMiddleware),
+           },
            new ModularizationModuleMiddleware
            {
                HttpMethods = new[]{ "POST" },
@@ -36,12 +43,6 @@ public static class UploadModuleTableExtensions
                HttpMethods = new[]{ "POST" },
                RouteTemplate = uploadByDataUrlRouteTemplate,
                HandlerType = typeof(UploadByDataUrlMiddleware),
-           },
-           new ModularizationModuleMiddleware
-           {
-               HttpMethods = new[]{ "POST" },
-               RouteTemplate = uploadByFormDataRouteTemplate,
-               HandlerType = typeof(UploadByFormDataMiddleware),
            },
         }, configureOptions);
 
