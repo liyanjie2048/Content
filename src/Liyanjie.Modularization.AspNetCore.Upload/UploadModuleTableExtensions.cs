@@ -12,11 +12,13 @@ public static class UploadModuleTableExtensions
     /// <param name="configureOptions"></param>
     /// <param name="uploadByFormDataRouteTemplate"></param>
     /// <param name="uploadByBase64RouteTemplate"></param>
+    /// <param name="uploadByDataUrlRouteTemplate"></param>
     /// <returns></returns>
     public static ModularizationModuleTable AddUpload(this ModularizationModuleTable moduleTable,
         Action<UploadModuleOptions> configureOptions,
         string uploadByFormDataRouteTemplate = "upload",
-        string uploadByBase64RouteTemplate = "uploadByBase64")
+        string uploadByBase64RouteTemplate = "uploadByBase64",
+        string uploadByDataUrlRouteTemplate = "uploadByDataUrl")
     {
         moduleTable.Services.AddSingleton<UploadByFormDataMiddleware>();
         moduleTable.Services.AddSingleton<UploadByBase64Middleware>();
@@ -26,14 +28,20 @@ public static class UploadModuleTableExtensions
            new ModularizationModuleMiddleware
            {
                HttpMethods = new[]{ "POST" },
-               RouteTemplate = uploadByFormDataRouteTemplate,
-               HandlerType = typeof(UploadByFormDataMiddleware),
+               RouteTemplate = uploadByBase64RouteTemplate,
+               HandlerType = typeof(UploadByBase64Middleware),
            },
            new ModularizationModuleMiddleware
            {
                HttpMethods = new[]{ "POST" },
-               RouteTemplate = uploadByBase64RouteTemplate,
-               HandlerType = typeof(UploadByBase64Middleware),
+               RouteTemplate = uploadByDataUrlRouteTemplate,
+               HandlerType = typeof(UploadByDataUrlMiddleware),
+           },
+           new ModularizationModuleMiddleware
+           {
+               HttpMethods = new[]{ "POST" },
+               RouteTemplate = uploadByFormDataRouteTemplate,
+               HandlerType = typeof(UploadByFormDataMiddleware),
            },
         }, configureOptions);
 

@@ -42,10 +42,12 @@ public class UploadByFormDataMiddleware : IMiddleware
             {
                 using var memory = new MemoryStream();
                 _.OpenReadStream().CopyTo(memory);
+                var bytes = memory.ToArray();
                 return new UploadModel.UploadFileModel()
                 {
                     FileName = Regex.Replace(_.FileName, @"\.jpg$", ".jpeg"),
-                    FileBytes = memory.ToArray(),
+                    FileBytes = bytes,
+                    FileLength = bytes.Length,
                 };
             }).ToArray(),
         };

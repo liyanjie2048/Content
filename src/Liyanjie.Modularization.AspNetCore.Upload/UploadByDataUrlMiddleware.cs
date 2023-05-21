@@ -3,8 +3,10 @@
 /// <summary>
 /// 
 /// </summary>
-public class UploadByBase64Middleware : IMiddleware
+public class UploadByDataUrlMiddleware : IMiddleware
 {
+    readonly static Regex _regex_DataUrl = new(@"^data\:(?<MIME>[\w-]+\/[\w-]+)\;base64\,(?<DATA>.+)");
+
     readonly ILogger _logger;
     readonly UploadModuleOptions _options;
 
@@ -13,8 +15,8 @@ public class UploadByBase64Middleware : IMiddleware
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="options"></param>
-    public UploadByBase64Middleware(
-        ILogger<UploadByBase64Middleware> logger,
+    public UploadByDataUrlMiddleware(
+        ILogger<UploadByDataUrlMiddleware> logger,
         IOptions<UploadModuleOptions> options)
     {
         _logger = logger;
@@ -43,19 +45,31 @@ public class UploadByBase64Middleware : IMiddleware
 
         using var reader = new StreamReader(request.Body);
         var json = await reader.ReadToEndAsync();
-        var files = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+        var dataUrls = JsonSerializer.Deserialize<string[]>(json);
 
         var model = new UploadModel
         {
-            Files = files.Select(_ =>
+            Files = dataUrls.Select(_ =>
             {
-                var bytes = Convert.FromBase64String(_.Value);
-                return new UploadModel.UploadFileModel
+                var match = _regex_DataUrl.Match(_);
+                if (match.Success)
                 {
-                    FileName = _.Key,
-                    FileBytes = bytes,
-                    FileLength = bytes.Length,
-                };
+                    try
+                    {
+                        if (_options.AllowedMIMETypes.TryGetValue(match.Groups["MIME"].Value, out var extension))
+                        {
+                            var bytes = Convert.FromBase64String(match.Groups["DATA"].Value);
+                            return new UploadModel.UploadFileModel
+                            {
+                                FileName = $"{Guid.NewGuid():N}.{extension}",
+                                FileBytes = bytes,
+                                FileLength = bytes.Length,
+                            };
+                        }
+                    }
+                    catch (Exception) { }
+                }
+                return new() { FileName = $"{Guid.NewGuid():N}.unknown" };
             }).ToArray(),
         };
         var result = await model.SaveAsync(_options, dir);
