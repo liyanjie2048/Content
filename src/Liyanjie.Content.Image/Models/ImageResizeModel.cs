@@ -62,7 +62,7 @@ public class ImageResizeModel
             image = image.Resize(width, null);
 
         var imageDestinationPath = Path.Combine(options.RootDirectory, path.Replace('/', Path.DirectorySeparatorChar));
-        using (image) image.CompressSave(imageDestinationPath, options.CompressFlag);
+        using (image) image.CompressSave(imageDestinationPath, options.ImageQuality);
 
         return path;
     }

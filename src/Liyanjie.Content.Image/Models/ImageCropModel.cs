@@ -72,7 +72,7 @@ public class ImageCropModel
                 }
             }
 
-            using (output) output.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Png);
+            using (output) output.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Png);
         }
 
         return filePath;

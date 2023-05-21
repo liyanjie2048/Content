@@ -56,7 +56,7 @@ public class ImageCombineToGIFModel
 
             using var image = new Bitmap(Width, Height);
             image.CombineToGif(Delay, Repeat, images.ToArray());
-            image.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Gif);
+            image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Gif);
         }
 
         return filePath;

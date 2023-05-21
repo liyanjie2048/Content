@@ -5,7 +5,7 @@
 /// </summary>
 public class ImageOptions
 {
-    internal static char[] PathStarts = { '/', '\\' };
+    internal readonly static char[] PathStarts = { '/', '\\' };
 
     /// <summary>
     /// 
@@ -78,7 +78,12 @@ public class ImageOptions
     public string EmptyImagePath { get; set; } = @"images\empty.png";
 
     /// <summary>
-    /// 0~255
+    /// 0~100，default is 75.
     /// </summary>
-    public byte CompressFlag { get; set; } = 100;
+    public int ImageQuality
+    {
+        get { return _imageQuality; }
+        set { _imageQuality = value < 0 ? 0 : _imageQuality > 100 ? 100 : _imageQuality; }
+    }
+    private int _imageQuality = 75;
 }

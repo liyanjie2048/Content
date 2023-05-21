@@ -60,7 +60,7 @@ public class ImageCombineModel
 
             using var image = new Bitmap(Width, Height);
             image.Combine(images.ToArray());
-            image.CompressSave(filePhysicalPath, options.CompressFlag, ImageFormat.Jpeg);
+            image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Jpeg);
         }
 
         return filePath;
