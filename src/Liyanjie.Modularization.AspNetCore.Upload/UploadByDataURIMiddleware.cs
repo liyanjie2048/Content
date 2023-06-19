@@ -47,47 +47,34 @@ public class UploadByDataUrlMiddleware : IMiddleware
         var json = await reader.ReadToEndAsync();
         var dataUrls = JsonSerializer.Deserialize<string[]>(json);
 
-        var model = new UploadModel
+        var result = dataUrls.Select(_ =>
         {
-            Files = dataUrls.Select(_ =>
+            var match = _regex_DataUrl.Match(_);
+            if (match.Success && _options.AllowedMIMETypes.TryGetValue(match.Groups["MIME"].Value, out var extension))
             {
-                var match = _regex_DataUrl.Match(_);
-                if (match.Success)
+                var bytes = default(byte[]);
+                try
                 {
-                    try
-                    {
-                        if (_options.AllowedMIMETypes.TryGetValue(match.Groups["MIME"].Value, out var extension))
-                        {
-                            var bytes = Convert.FromBase64String(match.Groups["DATA"].Value);
-                            return new UploadModel.UploadFileModel
-                            {
-                                FileName = $"{Guid.NewGuid():N}.{extension}",
-                                FileBytes = bytes,
-                                FileLength = bytes.Length,
-                            };
-                        }
-                    }
-                    catch (Exception) { }
+                    bytes = Convert.FromBase64String(match.Groups["DATA"].Value);
                 }
-                return new() { FileName = $"{Guid.NewGuid():N}.unknown" };
-            }).ToArray(),
-        };
-        var result = await model.SaveAsync(_options, dir);
-
-        await _options.SerializeToResponseAsync(context.Response, result
-            .Select(_ =>
-            {
-                if (_.Success)
+                catch (Exception)
                 {
-                    var path = _.Path.Replace(Path.DirectorySeparatorChar, '/');
-                    if (_options.ReturnAbsolutePath)
-                        path = $"{request.Scheme}://{request.Host}/{path}";
-                    else
-                        path = $"/{path}";
-                    return path;
-                }
-                else
                     return default;
-            }));
+                }
+
+                var model = new UploadModel
+                {
+                    FileName = $"{Guid.NewGuid():N}.{extension}",
+                    FileLength = bytes.Length,
+                    FileData = bytes,
+                };
+                if (model.TrySave(_options, dir, out var path))
+                    return _options.PathToWebPath(path, request);
+            }
+
+            return default;
+        });
+
+        await _options.SerializeToResponseAsync(context.Response, result);
     }
 }

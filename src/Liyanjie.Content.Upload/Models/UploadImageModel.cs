@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class UploadModel
+public class UploadImageModel
 {
     /// <summary>
     /// 
@@ -18,7 +18,17 @@ public class UploadModel
     /// <summary>
     /// 
     /// </summary>
-    public byte[] FileData { get; set; }
+    public Image Image { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Width { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int Height { get; set; }
 
     /// <summary>
     /// 
@@ -27,7 +37,7 @@ public class UploadModel
     /// <param name="dir"></param>
     /// <param name="filePath"></param>
     /// <returns></returns>
-    public bool TrySave(UploadOptions options, string dir, out string filePath)
+    public bool TrySave(UploadImageOptions options, string dir, out string filePath)
     {
         dir = options.Regex_PathIllegalChars.Replace(dir, string.Empty);
         dir = dir.TrimStart(new[] { '/', '\\' });
@@ -38,32 +48,33 @@ public class UploadModel
         var fileExtension = Path.GetExtension(FileName).ToLower();
         if (!Regex.IsMatch(fileExtension, options.AllowedExtensionsPattern))
         {
-            filePath = $"File \"{FileName}\" is not allowed.";
+            filePath = $"Image \"{FileName}\" is not allowed.";
             return false;
         }
 
         if (FileLength == 0)
         {
-            filePath = $"File data is empty.";
+            filePath = $"Image data is empty.";
             return false;
         }
 
         if (FileLength > options.AllowedMaximumSize)
         {
-            filePath = $"File \"{FileName}\" is too large.";
+            filePath = $"Image \"{FileName}\" is too large.";
             return false;
         }
 
-        var fileName = options.FileNameScheme(FileName, fileExtension);
         try
         {
-            File.WriteAllBytes(Path.Combine(directory, fileName), FileData);
+            var fileName = options.FileNameScheme(FileName, fileExtension);
+            Image.Save(Path.Combine(directory, fileName));
+            Image.Dispose();
             filePath = Path.Combine(dir, fileName);
             return true;
         }
         catch (Exception ex)
         {
-            filePath = $"File \"{FileName}\" write failed: {ex.Message}.";
+            filePath = $"Image \"{FileName}\" write failed: {ex.Message}.";
             return false;
         }
     }

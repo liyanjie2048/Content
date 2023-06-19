@@ -142,12 +142,12 @@
     <script type="text/javascript">
         window.onload = function () {
             $('#confirmConcatenate').click(function () {
-                let data = {
+                const data = {
                     imagePaths: [$('#inputConcatenate0').val(), $('#inputConcatenate1').val(), $('#inputConcatenate2').val()],
                     width: parseInt($('#widthConcatenate').val()),
                     height: parseInt($('#heightConcatenate').val())
                 };
-                var dat = JSON.stringify(data);
+                const dat = JSON.stringify(data);
                 console.log(dat);
                 $.ajax('/Image/Concatenate', {
                     method: 'POST',
@@ -164,7 +164,7 @@
                 });
             });
             $('#confirmCombine').click(function () {
-                let data = {
+                const data = {
                     items: [{
                         imagePath: $('#inputCombine0').val(),
                         x: parseInt($('#xCombine0').val()),
@@ -182,7 +182,7 @@
                     width: parseInt($('#widthCombine').val()),
                     height: parseInt($('#heightCombine').val())
                 };
-                var dat = JSON.stringify(data);
+                const dat = JSON.stringify(data);
                 console.log(dat);
                 $.ajax('/Image/Combine', {
                     method: 'POST',
@@ -199,7 +199,7 @@
                 });
             });
             $('#confirmCrop').click(() => {
-                let data = {
+                const data = {
                     imagePath: $('#inputCrop').val(),
                     left: parseInt($('#leftCrop').val()),
                     top: parseInt($('#topCrop').val()),
@@ -207,7 +207,7 @@
                     height: parseInt($('#heightCrop').val()),
                     radius: parseInt($('#radiusCrop').val()),
                 };
-                var dat = JSON.stringify(data);
+                const dat = JSON.stringify(data);
                 console.log(dat);
                 $.ajax('/Image/Crop', {
                     method: 'POST',
@@ -224,10 +224,10 @@
                 });
             });
             $('#confirmQRCode').click(function () {
-                let content = encodeURI($('#inputQRCode').val());
-                let margin = parseInt($('#marginQRCode').val());
-                let width = parseInt($('#widthQRCode').val());
-                let height = parseInt($('#heightQRCode').val());
+                const content = encodeURI($('#inputQRCode').val());
+                const margin = parseInt($('#marginQRCode').val());
+                const width = parseInt($('#widthQRCode').val());
+                const height = parseInt($('#heightQRCode').val());
                 $('#messageQRCode').html($(`<img width="100" height="100" src="/Image/QRCode?content=${content}&margin=${margin}&width=${width}&height=${height}" style="box-shadow:rgba(0,0,0,.5) 0 0 5px" />`));
             });
         };

@@ -3,19 +3,19 @@
 /// <summary>
 /// 
 /// </summary>
-public class UploadByBase64Middleware : IMiddleware
+public class UploadImageByBase64Middleware : IMiddleware
 {
     readonly ILogger _logger;
-    readonly UploadModuleOptions _options;
+    readonly UploadImageModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="options"></param>
-    public UploadByBase64Middleware(
-        ILogger<UploadByBase64Middleware> logger,
-        IOptions<UploadModuleOptions> options)
+    public UploadImageByBase64Middleware(
+        ILogger<UploadImageByBase64Middleware> logger,
+        IOptions<UploadImageModuleOptions> options)
     {
         _logger = logger;
         _options = options.Value;
@@ -45,21 +45,31 @@ public class UploadByBase64Middleware : IMiddleware
         var json = await reader.ReadToEndAsync();
         var files = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
 
-        var result = files
-            .Select(_ =>
+        var result = files.Select(_ =>
+        {
+            var image = default(Image);
+            try
             {
-                var bytes = Convert.FromBase64String(_.Value);
-                var model = new UploadModel
-                {
-                    FileName = _.Key,
-                    FileLength = bytes.Length,
-                    FileData = bytes,
-                };
-                if (model.TrySave(_options, dir, out var path))
-                    return _options.PathToWebPath(path, request);
-
+                image = image.FromBase64String(_.Value);
+            }
+            catch (Exception)
+            {
                 return default;
-            });
+            }
+
+            var model = new UploadImageModel
+            {
+                FileName = _.Key,
+                FileLength = 4,
+                Image = image,
+                Width = image.Width,
+                Height = image.Height,
+            };
+            if (model.TrySave(_options, dir, out var path))
+                return new { model.Width, model.Height, Path = _options.PathToWebPath(path, request) };
+
+            return default;
+        });
 
         await _options.SerializeToResponseAsync(context.Response, result);
     }

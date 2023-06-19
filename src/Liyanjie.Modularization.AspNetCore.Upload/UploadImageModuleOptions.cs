@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public class UploadModuleOptions : UploadOptions
+public class UploadImageModuleOptions : UploadImageOptions
 {
     /// <summary>
     /// 

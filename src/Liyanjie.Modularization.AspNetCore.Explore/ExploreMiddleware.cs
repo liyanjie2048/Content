@@ -38,28 +38,24 @@ public class ExploreMiddleware : IMiddleware
         var request = context.Request;
 
         var contents = ExploreHelper.GetContents(_options);
-        if (_options.ReturnAbsolutePath)
+        foreach (var item in contents)
         {
-            var pathPrefix = $"{request.Scheme}://{request.Host}/";
-            foreach (var item in contents)
-            {
-                fixPath(item, pathPrefix);
-            }
-
-            static void fixPath(ContentModel.Directory dir, string pathPrefix)
-            {
-                dir.Path = pathPrefix + dir.Path;
-                foreach (var item in dir.Files)
-                {
-                    item.Path = pathPrefix + item.Path;
-                }
-                foreach (var item in dir.SubDirs)
-                {
-                    fixPath(item, pathPrefix);
-                }
-            }
+            PathToWebPath(item, request);
         }
 
         await _options.SerializeToResponseAsync(context.Response, contents);
+    }
+
+    void PathToWebPath(ContentModel.Directory dir, HttpRequest request)
+    {
+        dir.Path = _options.PathToWebPath(dir.Path, request);
+        foreach (var item in dir.Files)
+        {
+            item.Path = _options.PathToWebPath(item.Path, request);
+        }
+        foreach (var item in dir.SubDirs)
+        {
+            PathToWebPath(item, request);
+        }
     }
 }

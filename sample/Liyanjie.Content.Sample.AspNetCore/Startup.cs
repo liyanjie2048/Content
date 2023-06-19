@@ -25,6 +25,7 @@ namespace Liyanjie.Content.Sample.AspNetCore
                     options.ReturnAbsolutePath = true;
                 })
                 .AddUpload(options => options.RootDirectory = Env.WebRootPath)
+                .AddUploadImage(options => options.RootDirectory = Env.WebRootPath)
                 .AddImage(options => options.RootDirectory = Env.WebRootPath, resizeRouteTemplates: new[]
                 {
                     "images/{filename}_{resize}.{extension}",

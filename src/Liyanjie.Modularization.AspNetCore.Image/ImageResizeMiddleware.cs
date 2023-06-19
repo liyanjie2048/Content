@@ -35,13 +35,13 @@ public class ImageResizeMiddleware : IMiddleware
                 return;
         }
 
-        var request = context.Request;
-
-        var model = new ImageResizeModel { ImagePath = request.Path };
-        var imagePath = model.Resize(_options)?.Replace(Path.DirectorySeparatorChar, '/');
-        if (!string.IsNullOrEmpty(imagePath))
-            context.Response.Redirect($"/{imagePath}");
-
-        await Task.CompletedTask;
+        var model = new ImageResizeModel { ImagePath = context.Request.Path };
+        if (model.TryResize(_options, out var path))
+        {
+            context.Response.Redirect($"/{path.Replace(Path.DirectorySeparatorChar, '/')}");
+            await context.Response.CompleteAsync();
+        }
+        else
+            await next(context);
     }
 }

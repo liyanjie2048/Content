@@ -35,4 +35,13 @@ public class ExploreModuleOptions : ExploreOptions
     /// 返回文件绝对路径，默认：false
     /// </summary>
     public bool ReturnAbsolutePath { get; set; } = false;
+
+    internal string PathToWebPath(string path, HttpRequest request)
+    {
+        path = path.Replace(Path.DirectorySeparatorChar, '/');
+        path = ReturnAbsolutePath
+            ? $"{request.Scheme}://{request.Host}/{path}"
+            : $"/{path}";
+        return path;
+    }
 }

@@ -3,19 +3,19 @@
 /// <summary>
 /// 
 /// </summary>
-public class UploadByFormDataMiddleware : IMiddleware
+public class UploadImageByFormDataMiddleware : IMiddleware
 {
     readonly ILogger _logger;
-    readonly UploadModuleOptions _options;
+    readonly UploadImageModuleOptions _options;
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="options"></param>
-    public UploadByFormDataMiddleware(
+    public UploadImageByFormDataMiddleware(
         ILogger<UploadImageByFormDataMiddleware> logger,
-        IOptions<UploadModuleOptions> options)
+        IOptions<UploadImageModuleOptions> options)
     {
         this._logger = logger;
         this._options = options?.Value ?? throw new ArgumentNullException(nameof(options));
@@ -41,23 +41,23 @@ public class UploadByFormDataMiddleware : IMiddleware
             ? dir_.FirstOrDefault()
             : "temps";
 
-        var result = request.Form.Files.Select(_ =>
+        var images = request.Form.Files.Select(_ =>
         {
-            using var memory = new MemoryStream();
-            _.OpenReadStream().CopyTo(memory);
-            var bytes = memory.ToArray();
-            var model = new UploadModel
+            var image = Image.FromStream(_.OpenReadStream());
+            var model = new UploadImageModel()
             {
                 FileName = Regex.Replace(_.FileName, @"\.jpg$", ".jpeg"),
-                FileData = bytes,
-                FileLength = bytes.Length,
+                FileLength = _.Length,
+                Image = image,
+                Width = image.Width,
+                Height = image.Height,
             };
             if (model.TrySave(_options, dir, out var path))
-                return _options.PathToWebPath(path, request);
+                return new { model.Width, model.Height, Path = _options.PathToWebPath(path, request) };
 
             return default;
         });
 
-        await _options.SerializeToResponseAsync(context.Response, result);
+        await _options.SerializeToResponseAsync(context.Response, images);
     }
 }

@@ -31,6 +31,7 @@
 
     <ItemGroup>
         <PackageReference Include="Liyanjie.Utilities" />
+		<PackageReference Include="Liyanjie.Drawing.Extensions" />
     </ItemGroup>
 
 </Project>

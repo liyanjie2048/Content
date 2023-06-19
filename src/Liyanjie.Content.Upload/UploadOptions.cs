@@ -24,7 +24,7 @@ public class UploadOptions
     /// <summary>
     /// 允许的文件扩展名正则表达式。默认：\.(jpeg|png|gif)
     /// </summary>
-    public string AllowedExtensionsPattern { get; set; } = @"^\.(jpeg|png|gif)$";
+    public string AllowedExtensionsPattern { get; set; } = @"^\.(jpeg|jpg|png|gif|tiff|tif)$";
 
     /// <summary>
     /// 允许的Base64 MIME Types
@@ -34,6 +34,7 @@ public class UploadOptions
         ["image/jpeg"] = ".jpeg",
         ["image/png"] = ".png",
         ["image/gif"] = ".gif",
+        ["image/tiff"] = ".tiff",
     };
 
     /// <summary>

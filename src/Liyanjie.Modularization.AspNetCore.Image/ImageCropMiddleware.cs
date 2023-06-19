@@ -40,14 +40,9 @@ public class ImageCropMiddleware : IMiddleware
         var model = (await _options.DeserializeFromRequestAsync(request, typeof(ImageCropModel))) as ImageCropModel;
         if (model is not null)
         {
-            var imagePath = (await model.CropAsync(_options))?.Replace(Path.DirectorySeparatorChar, '/');
+            var imagePath = await model.CropAsync(_options);
 
-            if (_options.ReturnAbsolutePath)
-                imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
-            else
-                imagePath = $"/{imagePath}";
-
-            await _options.SerializeToResponseAsync(context.Response, imagePath);
+            await _options.SerializeToResponseAsync(context.Response, _options.PathToWebPath(imagePath, request));
         }
     }
 }

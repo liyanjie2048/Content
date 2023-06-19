@@ -40,14 +40,9 @@ public class ImageCombineToGIFMiddleware : IMiddleware
         var model = (await _options.DeserializeFromRequestAsync(request, typeof(ImageCombineToGIFModel))) as ImageCombineToGIFModel;
         if (model is not null)
         {
-            var imagePath = (await model.CombineToGIFAsync(_options))?.Replace(Path.DirectorySeparatorChar, '/');
+            var imagePath = await model.CombineToGIFAsync(_options);
 
-            if (_options.ReturnAbsolutePath)
-                imagePath = $"{request.Scheme}://{request.Host}/{imagePath}";
-            else
-                imagePath = $"/{imagePath}";
-
-            await _options.SerializeToResponseAsync(context.Response, imagePath);
+            await _options.SerializeToResponseAsync(context.Response, _options.PathToWebPath(imagePath, request));
         }
     }
 }

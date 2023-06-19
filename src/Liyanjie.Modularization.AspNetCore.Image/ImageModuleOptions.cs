@@ -55,4 +55,13 @@ public class ImageModuleOptions : ImageOptions
     /// 
     /// </summary>
     public bool ReturnAbsolutePath { get; set; } = false;
+
+    internal string PathToWebPath(string path, HttpRequest request)
+    {
+        path = path.Replace(Path.DirectorySeparatorChar, '/');
+        path = ReturnAbsolutePath
+            ? $"{request.Scheme}://{request.Host}/{path}"
+            : $"/{path}";
+        return path;
+    }
 }
