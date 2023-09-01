@@ -62,9 +62,17 @@ public class ImageResizeModel
             image = image.Resize(width, null);
 
         var imageDestinationPath = Path.Combine(options.RootDirectory, path.Replace('/', Path.DirectorySeparatorChar));
-        using (image)
-            image.CompressSave(imageDestinationPath, options.ImageQuality);
+        if (File.Exists(imageDestinationPath))
+            goto RETURN;
 
+        try
+        {
+            image.CompressSave(imageDestinationPath, options.ImageQuality);
+        }
+        catch (Exception) { }
+        finally { image.Dispose(); }
+
+    RETURN:
         result = path;
         return true;
     }

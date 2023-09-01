@@ -54,9 +54,14 @@ public class ImageCombineToGIFModel
                 images.Add((new Point(item.X ?? 0, item.Y ?? 0), new Size(item.Width ?? 0, item.Height ?? 0), image_, item.Delay));
             }
 
-            using var image = new Bitmap(Width, Height);
-            image.CombineToGif(Delay, Repeat, images.ToArray());
-            image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Gif);
+            var image = new Bitmap(Width, Height);
+            try
+            {
+                image.CombineToGif(Delay, Repeat, images.ToArray());
+                image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Gif);
+            }
+            catch (Exception) { }
+            finally { image.Dispose(); }
         }
 
         return filePath;

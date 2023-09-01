@@ -48,8 +48,12 @@ public class ImageConcatenateModel
                 image = image.Concatenate(image_.Resize(Width, Height));
             }
 
-            using (image)
+            try
+            {
                 image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Jpeg);
+            }
+            catch (Exception) { }
+            finally { image.Dispose(); }
         }
 
         return filePath;

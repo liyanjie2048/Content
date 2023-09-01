@@ -50,7 +50,7 @@ public class ImageCropModel
         if (!File.Exists(filePhysicalPath))
         {
             var imageAbsolutePath = ImagePath.PreProcess(options.RootDirectory);
-            if (await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePath) is not Bitmap image)
+            if (await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePath) is not Bitmap bitmap)
                 return string.Empty;
 
             using var path = new GraphicsPath();
@@ -63,16 +63,21 @@ public class ImageCropModel
             path.AddLine(new Point(Left, Top + Height - Radius), new Point(Left, Top + Radius));
             path.AddArc(new Rectangle(Left, Top, Radius * 2, Radius * 2), 180, 90);
 
-            var output = new Bitmap(Width, Height);
+            var image = new Bitmap(Width, Height);
             for (int i = Left; i < Left + Width; i++)
             {
                 for (int j = Top; j < Top + Height; j++)
                 {
-                    output.SetPixel(i - Left, j - Top, path.IsVisible(i, j) ? image.GetPixel(i, j) : Color.Transparent);
+                    image.SetPixel(i - Left, j - Top, path.IsVisible(i, j) ? bitmap.GetPixel(i, j) : Color.Transparent);
                 }
             }
 
-            using (output) output.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Png);
+            try
+            {
+                image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Png);
+            }
+            catch (Exception) { }
+            finally { image.Dispose(); }
         }
 
         return filePath;

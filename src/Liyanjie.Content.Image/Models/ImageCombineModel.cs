@@ -58,9 +58,14 @@ public class ImageCombineModel
                 images.Add((new Point(x, y), new Size(size.Width, size.Height), image_));
             }
 
-            using var image = new Bitmap(Width, Height);
-            image.Combine(images.ToArray());
-            image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Jpeg);
+            var image = new Bitmap(Width, Height);
+            try
+            {
+                image.Combine(images.ToArray());
+                image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Jpeg);
+            }
+            catch (Exception) { }
+            finally { image.Dispose(); }
         }
 
         return filePath;
