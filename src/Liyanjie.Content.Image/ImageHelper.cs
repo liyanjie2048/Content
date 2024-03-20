@@ -3,14 +3,14 @@
 /// <summary>
 /// 
 /// </summary>
-internal static class ImageHelper
+static class ImageHelper
 {
     /// <summary>
     /// 
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    public static async Task<Image> FromFileOrNetworkAsync(string path)
+    public static async Task<Image?> FromFileOrNetworkAsync(string path)
     {
         try
         {

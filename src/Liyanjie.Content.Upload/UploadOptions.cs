@@ -8,7 +8,7 @@ public class UploadOptions
     /// <summary>
     /// 根目录
     /// </summary>
-    public string RootDirectory { get; set; }
+    public string RootDirectory { get; set; } = default!;
 
     /// <summary>
     /// 文件名生成方案。默认：Guid

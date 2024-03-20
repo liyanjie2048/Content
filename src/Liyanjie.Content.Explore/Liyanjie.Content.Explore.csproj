@@ -1,13 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFrameworks>netstandard2.1;</TargetFrameworks>
+	  <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0;</TargetFrameworks>
+	  <Nullable>enable</Nullable>
+	  <ImplicitUsings>true</ImplicitUsings>
+	  <VersionSuffix>240320</VersionSuffix>
 	  <Description>Liyanjie.Content.Explore</Description>
 	  <Copyright>© Liyanjie.net</Copyright>
-	  <Authors>liyanjie8712@outlook.com</Authors>
+	  <Authors>liyanjie2048@outlook.com</Authors>
 	  <Company>Liyanjie.net</Company>
-	  <RepositoryUrl>https://github.com/liyanjie8712/Contents</RepositoryUrl>
-	  <PackageProjectUrl>https://github.com/liyanjie8712/Contents</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/liyanjie2048/Content</RepositoryUrl>
+	  <PackageProjectUrl>https://github.com/liyanjie2048/Content</PackageProjectUrl>
 	  <RepositoryType>Git</RepositoryType>
 	  <RootNamespace>Liyanjie.Content</RootNamespace>
       <PackageIcon>liyanjie.net.256.png</PackageIcon>
@@ -25,8 +28,10 @@
         </None>
     </ItemGroup>
 
-    <Target Name="MovePackage" AfterTargets="Pack">
-		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_Packages\" />
+	<Import Project="..\Pollyfill\Pollyfill.projitems" Label="Shared" />
+
+	<Target Name="MovePackage" AfterTargets="Pack">
+		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionPath)\..\dist\" />
 	</Target>
 
 </Project>

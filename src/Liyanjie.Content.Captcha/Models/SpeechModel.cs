@@ -1,4 +1,5 @@
 ﻿#if NETFRAMEWORK
+
 using System.IO;
 using System.Speech.Synthesis;
 using System.Threading.Tasks;
@@ -53,4 +54,5 @@ public class SpeechModel
 
     static readonly SpeechSynthesizer reader = new SpeechSynthesizer();
 }
+
 #endif

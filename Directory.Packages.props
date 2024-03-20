@@ -1,13 +1,19 @@
 <Project>
-  <PropertyGroup>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageVersion Include="Liyanjie.Drawing.Extensions" Version="1.0.0" />
-    <PackageVersion Include="Liyanjie.Utilities" Version="1.0.0" />
-    <PackageVersion Include="Liyanjie.Modularization.AspNetCore" Version="1.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="6.0.0" />
-    <PackageVersion Include="ZXing.Net" Version="0.16.9" />
-  </ItemGroup>
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageVersion Include="Liyanjie.Drawing.Extensions" Version="1.0.0-240320" />
+		<PackageVersion Include="Liyanjie.Modularize.AspNetCore" Version="1.0.0-240320" />
+		<PackageVersion Include="Liyanjie.Utilities" Version="1.0.0-240320" />
+		<PackageVersion Include="ZXing.Net" Version="0.16.9" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Options" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0' or '$(TargetFramework)'=='netstandard2.1' or '$(TargetFramework)'=='net8.0'">
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.0" />
+	</ItemGroup>
 </Project>

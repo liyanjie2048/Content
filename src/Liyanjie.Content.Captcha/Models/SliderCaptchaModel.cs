@@ -33,10 +33,14 @@ public class SliderCaptchaModel
         var largeWidth = Width * smooth;
         var largeHeight = Height * smooth;
 
-        var image_File = Directory
+        var imageFile = Directory
             .GetFiles(Path.Combine(options.RootDirectory, options.SliderCodeImageDir))
-            .RandomTake(1).SingleOrDefault();
-        using var image_Origin = (Bitmap)Image.FromFile(image_File).Resize(largeWidth, largeHeight, true, true);
+            .RandomTake(1)
+            .SingleOrDefault();
+        if (imageFile is null || !File.Exists(imageFile))
+            throw new Exception($"No image file found in {options.SliderCodeImageDir}");
+
+        using var image_Origin = (Bitmap)Image.FromFile(imageFile).Resize(largeWidth, largeHeight, true, true);
 
         var s = Math.Min(largeWidth, largeHeight) / 12;
         var s_ = s / 2;

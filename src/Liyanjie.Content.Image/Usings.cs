@@ -13,3 +13,5 @@ global using System.Threading.Tasks;
 global using Liyanjie.Content.Models;
 
 global using ZXing;
+global using ZXing.Rendering;
+

@@ -1,4 +1,4 @@
-using Liyanjie.Modularization.AspNetCore;
+using Liyanjie.Modularize.AspNetCore;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,7 +17,7 @@ namespace Liyanjie.Content.Sample.AspNetCore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddModularization()
+            services.AddModularize()
                 .AddExplore(options =>
                 {
                     options.RootDirectory = Env.WebRootPath;
@@ -48,7 +48,7 @@ namespace Liyanjie.Content.Sample.AspNetCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapModularization();
+                endpoints.MapModularize();
             });
         }
     }

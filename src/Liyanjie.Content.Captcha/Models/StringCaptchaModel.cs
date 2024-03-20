@@ -8,12 +8,12 @@ public class StringCaptchaModel
     /// <summary>
     /// 
     /// </summary>
-    public StringModel String { get; set; }
+    public StringModel String { get; set; } = default!;
 
     /// <summary>
     /// 
     /// </summary>
-    public ImageModel Image { get; set; }
+    public ImageModel Image { get; set; } = default!;
 
     /// <summary>
     /// 

@@ -33,7 +33,11 @@ public class PuzzleCaptchaModel
 
         var imageFile = Directory
             .GetFiles(Path.Combine(options.RootDirectory, options.PuzzleCodeImageDir))
-            .RandomTake(1).SingleOrDefault();
+            .RandomTake(1)
+            .SingleOrDefault();
+        if (imageFile is null || !File.Exists(imageFile))
+            throw new Exception($"No image file found in {options.PuzzleCodeImageDir}");
+
         using var imageOrigin = Image.FromFile(imageFile).Resize(Width, Height, true, true);
 
         var width = imageOrigin.Width / HCount;

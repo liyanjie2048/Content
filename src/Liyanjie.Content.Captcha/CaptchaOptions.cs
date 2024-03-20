@@ -8,7 +8,7 @@ public class CaptchaOptions
     /// <summary>
     /// 
     /// </summary>
-    public string RootDirectory { get; set; }
+    public string RootDirectory { get; set; } = default!;
 
     /// <summary>
     /// 
@@ -28,12 +28,12 @@ public class CaptchaOptions
     /// <summary>
     /// 
     /// </summary>
-    public string[] FontFamilies { get; set; } = { "Verdana", "Tahoma", "Arial", "Helvetica Neue", "Helvetica", "Sans - Serif" };
+    public string[] FontFamilies { get; set; } = ["Verdana", "Tahoma", "Arial", "Helvetica Neue", "Helvetica", "Sans - Serif"];
 
     /// <summary>
     /// 
     /// </summary>
-    public FontStyle[] FontStyles { get; set; } = { FontStyle.Bold, FontStyle.Italic, FontStyle.Regular };
+    public FontStyle[] FontStyles { get; set; } = [FontStyle.Bold, FontStyle.Italic, FontStyle.Regular];
 
     /// <summary>
     /// 

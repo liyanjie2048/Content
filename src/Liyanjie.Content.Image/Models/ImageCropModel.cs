@@ -8,7 +8,7 @@ public class ImageCropModel
     /// <summary>
     /// 
     /// </summary>
-    public string ImagePath { get; set; }
+    public string ImagePath { get; set; } = default!;
 
     /// <summary>
     /// 
@@ -45,7 +45,7 @@ public class ImageCropModel
         var fileName = options.CroppedImageFileNameScheme.Invoke(this);
         var filePath = Path.Combine(options.CroppedImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
-        Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
+        Path.GetDirectoryName(filePhysicalPath)?.CreateDirectory();
 
         if (!File.Exists(filePhysicalPath))
         {

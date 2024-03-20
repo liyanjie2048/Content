@@ -3,43 +3,45 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{88C738CC-6EE9-4405-AD29-5288AEB50F3D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{B938768B-24F1-4A2C-9A18-EAE0E0584E8D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Upload", "src\Liyanjie.Content.Upload\Liyanjie.Content.Upload.csproj", "{8C378E87-B43E-4E88-8615-E9FD44FFA052}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Image", "src\Liyanjie.Content.Image\Liyanjie.Content.Image.csproj", "{DE5DA372-EF06-4135-9086-2A611E241BC9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.Content.Sample.AspNet", "sample\Liyanjie.Content.Sample.AspNet\Liyanjie.Content.Sample.AspNet.csproj", "{D79A7CD0-39A6-43D9-9349-C45A1F0DBCEB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore.Image", "src\Liyanjie.Modularization.AspNetCore.Image\Liyanjie.Modularization.AspNetCore.Image.csproj", "{864B2DA7-8E39-4754-9F73-EF4E8547C441}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore.Upload", "src\Liyanjie.Modularization.AspNetCore.Upload\Liyanjie.Modularization.AspNetCore.Upload.csproj", "{3828415B-AA22-4246-B247-7666ED612A34}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Explore", "src\Liyanjie.Content.Explore\Liyanjie.Content.Explore.csproj", "{7E43846C-7483-4884-8AAA-26FD6C4B36D7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore.Explore", "src\Liyanjie.Modularization.AspNetCore.Explore\Liyanjie.Modularization.AspNetCore.Explore.csproj", "{FC29CA0B-11DF-4064-A8F2-74786452EC45}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Captcha", "src\Liyanjie.Content.Captcha\Liyanjie.Content.Captcha.csproj", "{61470433-EE16-4FDB-80C5-AC1C9BE008E7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{046F81DF-049B-4866-B559-98052CE248A8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore.Captcha", "src\Liyanjie.Modularization.AspNetCore.Captcha\Liyanjie.Modularization.AspNetCore.Captcha.csproj", "{43A4CCD6-9FB7-4A41-B2C6-81803A6D7A19}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "test\ConsoleApp\ConsoleApp.csproj", "{163F34F7-53DE-4A79-ADF2-DEE437620B1B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{DAAC7821-BB92-4F8B-986F-9537F6C1E6A5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DAAC7821-BB92-4F8B-986F-9537F6C1E6A5}"
 	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		LICENSE = LICENSE
 		liyanjie.net.256.png = liyanjie.net.256.png
-		NuGet.config = NuGet.config
+		Publish.bat = Publish.bat
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{B938768B-24F1-4A2C-9A18-EAE0E0584E8D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{88C738CC-6EE9-4405-AD29-5288AEB50F3D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Upload", "src\Liyanjie.Content.Upload\Liyanjie.Content.Upload.csproj", "{8C378E87-B43E-4E88-8615-E9FD44FFA052}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Image", "src\Liyanjie.Content.Image\Liyanjie.Content.Image.csproj", "{DE5DA372-EF06-4135-9086-2A611E241BC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Explore", "src\Liyanjie.Content.Explore\Liyanjie.Content.Explore.csproj", "{7E43846C-7483-4884-8AAA-26FD6C4B36D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Captcha", "src\Liyanjie.Content.Captcha\Liyanjie.Content.Captcha.csproj", "{61470433-EE16-4FDB-80C5-AC1C9BE008E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularize.AspNetCore.Captcha", "src\Liyanjie.Modularize.AspNetCore.Captcha\Liyanjie.Modularize.AspNetCore.Captcha.csproj", "{1A275ED7-C3D3-4FC8-B1BD-70AEE68D27BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularize.AspNetCore.Explore", "src\Liyanjie.Modularize.AspNetCore.Explore\Liyanjie.Modularize.AspNetCore.Explore.csproj", "{D6258842-879C-4606-AC3C-109A49E8BEDF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularize.AspNetCore.Image", "src\Liyanjie.Modularize.AspNetCore.Image\Liyanjie.Modularize.AspNetCore.Image.csproj", "{86F98156-478A-4F07-B1D1-5937241C6458}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularize.AspNetCore.Upload", "src\Liyanjie.Modularize.AspNetCore.Upload\Liyanjie.Modularize.AspNetCore.Upload.csproj", "{68009EEC-55A5-4762-BD0C-E034DC245FA6}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Pollyfill", "src\Pollyfill\Pollyfill.shproj", "{064236F8-6F18-4CF1-898D-AA295FC26FCC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{046F81DF-049B-4866-B559-98052CE248A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "test\ConsoleApp\ConsoleApp.csproj", "{163F34F7-53DE-4A79-ADF2-DEE437620B1B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Content.Sample.AspNetCore", "sample\Liyanjie.Content.Sample.AspNetCore\Liyanjie.Content.Sample.AspNetCore.csproj", "{07353BA2-A25A-4AE7-87F5-4226B39BFF73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,38 +57,38 @@ Global
 		{DE5DA372-EF06-4135-9086-2A611E241BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE5DA372-EF06-4135-9086-2A611E241BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE5DA372-EF06-4135-9086-2A611E241BC9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D79A7CD0-39A6-43D9-9349-C45A1F0DBCEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D79A7CD0-39A6-43D9-9349-C45A1F0DBCEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D79A7CD0-39A6-43D9-9349-C45A1F0DBCEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D79A7CD0-39A6-43D9-9349-C45A1F0DBCEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{864B2DA7-8E39-4754-9F73-EF4E8547C441}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{864B2DA7-8E39-4754-9F73-EF4E8547C441}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{864B2DA7-8E39-4754-9F73-EF4E8547C441}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{864B2DA7-8E39-4754-9F73-EF4E8547C441}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3828415B-AA22-4246-B247-7666ED612A34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3828415B-AA22-4246-B247-7666ED612A34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3828415B-AA22-4246-B247-7666ED612A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3828415B-AA22-4246-B247-7666ED612A34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E43846C-7483-4884-8AAA-26FD6C4B36D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E43846C-7483-4884-8AAA-26FD6C4B36D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E43846C-7483-4884-8AAA-26FD6C4B36D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E43846C-7483-4884-8AAA-26FD6C4B36D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC29CA0B-11DF-4064-A8F2-74786452EC45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC29CA0B-11DF-4064-A8F2-74786452EC45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC29CA0B-11DF-4064-A8F2-74786452EC45}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC29CA0B-11DF-4064-A8F2-74786452EC45}.Release|Any CPU.Build.0 = Release|Any CPU
 		{61470433-EE16-4FDB-80C5-AC1C9BE008E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{61470433-EE16-4FDB-80C5-AC1C9BE008E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61470433-EE16-4FDB-80C5-AC1C9BE008E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61470433-EE16-4FDB-80C5-AC1C9BE008E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43A4CCD6-9FB7-4A41-B2C6-81803A6D7A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43A4CCD6-9FB7-4A41-B2C6-81803A6D7A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43A4CCD6-9FB7-4A41-B2C6-81803A6D7A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43A4CCD6-9FB7-4A41-B2C6-81803A6D7A19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A275ED7-C3D3-4FC8-B1BD-70AEE68D27BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A275ED7-C3D3-4FC8-B1BD-70AEE68D27BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A275ED7-C3D3-4FC8-B1BD-70AEE68D27BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A275ED7-C3D3-4FC8-B1BD-70AEE68D27BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6258842-879C-4606-AC3C-109A49E8BEDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6258842-879C-4606-AC3C-109A49E8BEDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6258842-879C-4606-AC3C-109A49E8BEDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6258842-879C-4606-AC3C-109A49E8BEDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86F98156-478A-4F07-B1D1-5937241C6458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F98156-478A-4F07-B1D1-5937241C6458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86F98156-478A-4F07-B1D1-5937241C6458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86F98156-478A-4F07-B1D1-5937241C6458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68009EEC-55A5-4762-BD0C-E034DC245FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68009EEC-55A5-4762-BD0C-E034DC245FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68009EEC-55A5-4762-BD0C-E034DC245FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68009EEC-55A5-4762-BD0C-E034DC245FA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{163F34F7-53DE-4A79-ADF2-DEE437620B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{163F34F7-53DE-4A79-ADF2-DEE437620B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{163F34F7-53DE-4A79-ADF2-DEE437620B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{163F34F7-53DE-4A79-ADF2-DEE437620B1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07353BA2-A25A-4AE7-87F5-4226B39BFF73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07353BA2-A25A-4AE7-87F5-4226B39BFF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07353BA2-A25A-4AE7-87F5-4226B39BFF73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07353BA2-A25A-4AE7-87F5-4226B39BFF73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,16 +96,22 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8C378E87-B43E-4E88-8615-E9FD44FFA052} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
 		{DE5DA372-EF06-4135-9086-2A611E241BC9} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
-		{D79A7CD0-39A6-43D9-9349-C45A1F0DBCEB} = {B938768B-24F1-4A2C-9A18-EAE0E0584E8D}
-		{864B2DA7-8E39-4754-9F73-EF4E8547C441} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
-		{3828415B-AA22-4246-B247-7666ED612A34} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
 		{7E43846C-7483-4884-8AAA-26FD6C4B36D7} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
-		{FC29CA0B-11DF-4064-A8F2-74786452EC45} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
 		{61470433-EE16-4FDB-80C5-AC1C9BE008E7} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
-		{43A4CCD6-9FB7-4A41-B2C6-81803A6D7A19} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
+		{1A275ED7-C3D3-4FC8-B1BD-70AEE68D27BF} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
+		{D6258842-879C-4606-AC3C-109A49E8BEDF} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
+		{86F98156-478A-4F07-B1D1-5937241C6458} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
+		{68009EEC-55A5-4762-BD0C-E034DC245FA6} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
+		{064236F8-6F18-4CF1-898D-AA295FC26FCC} = {88C738CC-6EE9-4405-AD29-5288AEB50F3D}
 		{163F34F7-53DE-4A79-ADF2-DEE437620B1B} = {046F81DF-049B-4866-B559-98052CE248A8}
+		{07353BA2-A25A-4AE7-87F5-4226B39BFF73} = {B938768B-24F1-4A2C-9A18-EAE0E0584E8D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {390CDAB2-13FE-4A94-A33C-9F319A3E6B22}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Pollyfill\Pollyfill.projitems*{064236f8-6f18-4cf1-898d-aa295fc26fcc}*SharedItemsImports = 13
+		src\Pollyfill\Pollyfill.projitems*{7e43846c-7483-4884-8aaa-26fd6c4b36d7}*SharedItemsImports = 5
+		src\Pollyfill\Pollyfill.projitems*{de5da372-ef06-4135-9086-2a611e241bc9}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

@@ -33,7 +33,11 @@ public class ClickCaptchaModel
 
         var imageFile = Directory
             .GetFiles(Path.Combine(options.RootDirectory, options.ClickCodeImageDir))
-            .RandomTake(1).SingleOrDefault();
+            .RandomTake(1)
+            .SingleOrDefault();
+        if (imageFile is null || !File.Exists(imageFile))
+            throw new Exception($"No image file found in {options.ClickCodeImageDir}");
+
         using var imageOrigin = Image.FromFile(imageFile).Resize(Width, Height, true, true);
 
         var strs = String.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);

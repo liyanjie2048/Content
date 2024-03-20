@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-      <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Captcha\Liyanjie.Modularization.AspNetCore.Captcha.csproj" />
-      <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Explore\Liyanjie.Modularization.AspNetCore.Explore.csproj" />
-      <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Image\Liyanjie.Modularization.AspNetCore.Image.csproj" />
-      <ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore.Upload\Liyanjie.Modularization.AspNetCore.Upload.csproj" />
+      <ProjectReference Include="..\..\src\Liyanjie.Modularize.AspNetCore.Captcha\Liyanjie.Modularize.AspNetCore.Captcha.csproj" />
+      <ProjectReference Include="..\..\src\Liyanjie.Modularize.AspNetCore.Explore\Liyanjie.Modularize.AspNetCore.Explore.csproj" />
+      <ProjectReference Include="..\..\src\Liyanjie.Modularize.AspNetCore.Image\Liyanjie.Modularize.AspNetCore.Image.csproj" />
+      <ProjectReference Include="..\..\src\Liyanjie.Modularize.AspNetCore.Upload\Liyanjie.Modularize.AspNetCore.Upload.csproj" />
   </ItemGroup>
 
 </Project>

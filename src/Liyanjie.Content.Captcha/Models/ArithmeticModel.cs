@@ -35,7 +35,7 @@ public class ArithmeticModel
     /// </summary>
     public bool EndWithQuestion { get; set; }
 
-    readonly string[] operators = { "+", "-", "×", "÷" };
+    readonly string[] operators = ["+", "-", "×", "÷"];
 
     /// <summary>
     /// 
@@ -84,7 +84,7 @@ public class ArithmeticModel
             x.ToString(),
             UseZhInsteadOfOperator ? options.ArithmeticOperatorsText[@operator] : @operator.ToString(),
             y.ToString(),
-            UseZhInsteadOfOperator ? "等于" : "="
+            UseZhInsteadOfOperator ? options.ArithmeticOperatorsText["="] : "="
         };
         if (EndWithQuestion)
             equation.Add("?");

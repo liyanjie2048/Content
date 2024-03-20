@@ -8,12 +8,12 @@ public class ArithmeticCaptchaModel
     /// <summary>
     /// 
     /// </summary>
-    public ArithmeticModel Arithmetic { get; set; }
+    public ArithmeticModel Arithmetic { get; set; } = default!;
 
     /// <summary>
     /// 
     /// </summary>
-    public ImageModel Image { get; set; }
+    public ImageModel Image { get; set; } = default!;
 
     /// <summary>
     /// 

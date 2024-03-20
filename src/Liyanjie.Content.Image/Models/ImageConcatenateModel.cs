@@ -8,7 +8,7 @@ public class ImageConcatenateModel
     /// <summary>
     /// 
     /// </summary>
-    public string[] ImagePaths { get; set; }
+    public string[] ImagePaths { get; set; } = [];
 
     /// <summary>
     /// 
@@ -30,7 +30,7 @@ public class ImageConcatenateModel
         var fileName = options.ConcatenatedImageFileNameScheme.Invoke(this);
         var filePath = Path.Combine(options.ConcatenatedImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
-        Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
+        Path.GetDirectoryName(filePhysicalPath)?.CreateDirectory();
 
         if (!File.Exists(filePhysicalPath))
         {
@@ -38,22 +38,32 @@ public class ImageConcatenateModel
                 .Where(_ => !string.IsNullOrWhiteSpace(_))
                 .Select(_ => _.PreProcess(options.RootDirectory))
                 .ToList();
-            var image = (await ImageHelper.FromFileOrNetworkAsync(fileAbsolutePaths[0]))?.Resize(Width, Height);
-            foreach (var path in fileAbsolutePaths.Skip(1))
-            {
-                using var image_ = await ImageHelper.FromFileOrNetworkAsync(path);
-                if (image_ is null)
-                    continue;
 
-                image = image.Concatenate(image_.Resize(Width, Height));
-            }
-
-            try
+            var image = default(Image);
+            var i = 0;
+            do
             {
-                image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Jpeg);
+                image = (await ImageHelper.FromFileOrNetworkAsync(fileAbsolutePaths[i]))?.Resize(Width, Height);
+            } while (image is null && i < fileAbsolutePaths.Count);
+
+            if (image is not null)
+            {
+                foreach (var path in fileAbsolutePaths.Skip(i))
+                {
+                    using var image_ = await ImageHelper.FromFileOrNetworkAsync(path);
+                    if (image_ is null)
+                        continue;
+
+                    image = image.Concatenate(image_.Resize(Width, Height));
+                }
+
+                try
+                {
+                    image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Jpeg);
+                }
+                catch (Exception) { }
+                finally { image.Dispose(); }
             }
-            catch (Exception) { }
-            finally { image.Dispose(); }
         }
 
         return filePath;

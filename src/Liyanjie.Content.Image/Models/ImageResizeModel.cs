@@ -8,7 +8,7 @@ public class ImageResizeModel
     /// <summary>
     /// 
     /// </summary>
-    public string ImagePath { private get; set; }
+    public string ImagePath { private get; set; } = default!;
 
     /// <summary>
     /// 
@@ -20,7 +20,7 @@ public class ImageResizeModel
     {
         result = options.EmptyImagePath;
 
-        var path = ImagePath.TrimStart(new[] { '/', '\\' });
+        var path = ImagePath.TrimStart(ImageOptions.PathStarts);
         var match = path.Match(options.ResizePathPattern, RegexOptions.IgnoreCase);
         if (!match.Success)
             return false;
@@ -52,7 +52,7 @@ public class ImageResizeModel
                 var b = _color[4..].FromRadix16();
                 var tmp = new Bitmap(width, height);
                 tmp.Clear(Color.FromArgb(r, g, b));
-                tmp.Combine((new Point((width - image.Width) / 2, (height - image.Height) / 2), new Size(image.Width, image.Height), image));
+                tmp.Combine(image, new Point((width - image.Width) / 2, (height - image.Height) / 2), new Size(image.Width, image.Height));
                 image = tmp;
             }
         }

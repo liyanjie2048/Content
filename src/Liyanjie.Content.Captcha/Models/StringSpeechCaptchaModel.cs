@@ -1,4 +1,5 @@
 ﻿#if NETFRAMEWORK
+
 using System.Threading.Tasks;
 
 namespace Liyanjie.Content.Models;
@@ -32,4 +33,5 @@ public class StringSpeechCaptchaModel
         return (str, audio);
     }
 }
+
 #endif

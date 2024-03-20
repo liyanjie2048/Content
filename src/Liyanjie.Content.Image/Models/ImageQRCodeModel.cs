@@ -1,6 +1,4 @@
-﻿using ZXing.Rendering;
-
-namespace Liyanjie.Content.Models;
+﻿namespace Liyanjie.Content.Models;
 
 /// <summary>
 /// 
@@ -10,7 +8,7 @@ public class ImageQRCodeModel
     /// <summary>
     /// 
     /// </summary>
-    public string Content { get; set; }
+    public string Content { get; set; } = default!;
 
     /// <summary>
     /// 
@@ -37,7 +35,7 @@ public class ImageQRCodeModel
         var fileName = options.QRCodeImageFileNameScheme.Invoke(this);
         var filePath = Path.Combine(options.QRCodeImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
-        Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
+        Path.GetDirectoryName(filePhysicalPath)?.CreateDirectory();
 
         if (!File.Exists(filePhysicalPath))
         {
@@ -54,7 +52,12 @@ public class ImageQRCodeModel
             };
 
             var image = writer.Write(Content);
+#if NETSTANDARD2_0
+            await Task.CompletedTask;
+            File.WriteAllText(filePhysicalPath, image.Content);
+#else
             await File.WriteAllTextAsync(filePhysicalPath, image.Content);
+#endif
         }
 
         return filePath;

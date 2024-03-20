@@ -13,19 +13,19 @@ public class ContentModel
         /// <summary>
         /// 
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
         /// <summary>
         /// 
         /// </summary>
-        public string Path { get; set; }
+        public string Path { get; set; } = default!;
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<File> Files { get; set; }
+        public IEnumerable<File> Files { get; set; } = [];
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<Directory> SubDirs { get; set; }
+        public IEnumerable<Directory> SubDirs { get; set; } = [];
     }
     /// <summary>
     /// 
@@ -35,10 +35,10 @@ public class ContentModel
         /// <summary>
         /// 
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
         /// <summary>
         /// 
         /// </summary>
-        public string Path { get; set; }
+        public string Path { get; set; } = default!;
     }
 }

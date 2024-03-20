@@ -5,12 +5,12 @@
 /// </summary>
 public class ImageOptions
 {
-    internal readonly static char[] PathStarts = { '/', '\\' };
+    internal readonly static char[] PathStarts = ['/', '\\'];
 
     /// <summary>
     /// 
     /// </summary>
-    public string RootDirectory { get; set; }
+    public string RootDirectory { get; set; } = default!;
 
     /// <summary>
     /// 合并图片目录
@@ -20,18 +20,18 @@ public class ImageOptions
     /// <summary>
     /// 合并图片文件名生成方案
     /// </summary>
-    public Func<ImageCombineModel, string> CombinedImageFileNameScheme { get; set; }
+    public Func<ImageCombineModel, string> CombineImageFileNameScheme { get; set; }
         = model => $"{model.Items.ToString(",").MD5Encode()}_combined-{model.Width}x{model.Height}.jpeg";
 
     /// <summary>
     /// 合并GIF图片目录
     /// </summary>
-    public string CombinedGIFImageDirectory { get; set; } = @"images\combinedGIF";
+    public string CombinedGIFImageDirectory { get; set; } = @"images\combinedGif";
 
     /// <summary>
     /// 合并GIF图片文件名生成方案
     /// </summary>
-    public Func<ImageCombineToGIFModel, string> CombinedGIFImageFileNameScheme { get; set; }
+    public Func<ImageCombineGifModel, string> CombinedGifImageFileNameScheme { get; set; }
         = model => $"{model.Items.ToString(",").MD5Encode()}_combined-{model.Width}x{model.Height}.gif";
 
     /// <summary>
@@ -48,7 +48,7 @@ public class ImageOptions
     /// <summary>
     /// 二维码图片文件目录
     /// </summary>
-    public string QRCodeImageDirectory { get; set; } = @"images\qrcodes";
+    public string QRCodeImageDirectory { get; set; } = @"images\qrcode";
 
     /// <summary>
     /// 二维码图片文件名生成方案

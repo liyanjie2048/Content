@@ -8,7 +8,7 @@ public class UploadModel
     /// <summary>
     /// 
     /// </summary>
-    public string FileName { get; set; }
+    public string FileName { get; set; } = default!;
 
     /// <summary>
     /// 
@@ -18,7 +18,7 @@ public class UploadModel
     /// <summary>
     /// 
     /// </summary>
-    public byte[] FileData { get; set; }
+    public byte[] FileData { get; set; } = default!;
 
     /// <summary>
     /// 
@@ -30,7 +30,7 @@ public class UploadModel
     public bool TrySave(UploadOptions options, string dir, out string filePath)
     {
         dir = options.Regex_PathIllegalChars.Replace(dir, string.Empty);
-        dir = dir.TrimStart(new[] { '/', '\\' });
+        dir = dir.TrimStart(['/', '\\']);
 
         var directory = Path.Combine(options.RootDirectory, dir).Replace('/', Path.DirectorySeparatorChar);
         Directory.CreateDirectory(directory);

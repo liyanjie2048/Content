@@ -8,7 +8,7 @@ public class StringModel
     /// <summary>
     /// 
     /// </summary>
-    public string Source { get; set; }
+    public string Source { get; set; } = default!;
 
     /// <summary>
     /// 

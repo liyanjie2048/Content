@@ -1,6 +1,6 @@
 ﻿namespace Liyanjie.Content;
 
-internal class CaptchaHelper
+class CaptchaHelper
 {
     /// <summary>
     /// 随机的背景色前景色

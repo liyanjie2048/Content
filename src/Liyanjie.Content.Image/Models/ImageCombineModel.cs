@@ -8,7 +8,7 @@ public class ImageCombineModel
     /// <summary>
     /// 
     /// </summary>
-    public ImageCombineToItemModel[] Items { get; set; }
+    public ItemModel[] Items { get; set; } = [];
 
     /// <summary>
     /// 
@@ -27,10 +27,10 @@ public class ImageCombineModel
     /// <returns></returns>
     public async Task<string> CombineAsync(ImageOptions options)
     {
-        var fileName = options.CombinedImageFileNameScheme.Invoke(this);
+        var fileName = options.CombineImageFileNameScheme.Invoke(this);
         var filePath = Path.Combine(options.CombinedImageDirectory, fileName).TrimStart(ImageOptions.PathStarts);
         var filePhysicalPath = Path.Combine(options.RootDirectory, filePath).Replace('/', Path.DirectorySeparatorChar);
-        Path.GetDirectoryName(filePhysicalPath).CreateDirectory();
+        Path.GetDirectoryName(filePhysicalPath)?.CreateDirectory();
 
         if (!File.Exists(filePhysicalPath))
         {
@@ -49,7 +49,7 @@ public class ImageCombineModel
             for (int i = 0; i < imageAbsolutePaths.Count; i++)
             {
                 var image_ = await ImageHelper.FromFileOrNetworkAsync(imageAbsolutePaths[i]);
-                if (image_ == null)
+                if (image_ is null)
                     continue;
 
                 var size = imageSizes[i];
@@ -58,10 +58,11 @@ public class ImageCombineModel
                 images.Add((new Point(x, y), new Size(size.Width, size.Height), image_));
             }
 
-            var image = new Bitmap(Width, Height);
+            Image image = new Bitmap(Width, Height);
             try
             {
-                image.Combine(images.ToArray());
+                foreach (var (point, size, image2) in images)
+                    image = image.Combine(image2, point, size);
                 image.CompressSave(filePhysicalPath, options.ImageQuality, ImageFormat.Jpeg);
             }
             catch (Exception) { }
@@ -70,40 +71,41 @@ public class ImageCombineModel
 
         return filePath;
     }
-}
-/// <summary>
-/// 
-/// </summary>
-public class ImageCombineToItemModel
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    public string ImagePath { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
-    public int? X { get; set; }
+    public class ItemModel
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ImagePath { get; set; } = default!;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public int? Y { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? X { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public int? Width { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? Y { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public int? Height { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? Width { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public override string ToString() => $"{ImagePath}|{X},{Y}|{Width}x{Height}";
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? Height { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => $"{ImagePath}|{X},{Y}|{Width}x{Height}";
+    }
 }

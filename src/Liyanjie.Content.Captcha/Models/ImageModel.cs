@@ -39,8 +39,8 @@ public class ImageModel
         var image = new Bitmap(Width, Height);
 
         using var graphics = Graphics.FromImage(image);
-        graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;//设置高质量插值法
-        graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;//设置高质量,低速度呈现平滑程度
+        graphics.InterpolationMode = InterpolationMode.High;//设置高质量插值法
+        graphics.SmoothingMode = SmoothingMode.HighQuality;//设置高质量,低速度呈现平滑程度
         graphics.Clear(bgColor);//设置背景
 
         //绘制字符
@@ -79,7 +79,7 @@ public class ImageModel
         else
         {
             using var memory = new MemoryStream();
-            using var gif = new GIFWriter(memory, 500, 0);
+            using var gif = new GifWriter(memory, 500, 0);
             gif.WriteFrame(image);
 
             foreach (var str in strings)
